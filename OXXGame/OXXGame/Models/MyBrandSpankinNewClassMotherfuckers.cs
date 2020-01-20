@@ -7,5 +7,7 @@ namespace OXXGame.Models
 {
     public class MyBrandSpankinNewClassMotherfuckers
     {
+        int motherfucker = 69;
+        double yeeb = 420.0;
     }
 }
