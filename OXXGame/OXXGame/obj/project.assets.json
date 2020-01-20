@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\testor\\source\\repos\\OXXGame\\OXXGame\\OXXGame.csproj",
+      "projectUniqueName": "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
       "projectName": "OXXGame",
-      "projectPath": "C:\\Users\\testor\\source\\repos\\OXXGame\\OXXGame\\OXXGame.csproj",
+      "projectPath": "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
       "packagesPath": "C:\\Users\\testor\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\testor\\source\\repos\\OXXGame\\OXXGame\\obj\\",
+      "outputPath": "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
