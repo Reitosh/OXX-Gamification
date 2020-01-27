@@ -6,3 +6,11 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+@*
+    Legg inn ActionLink her knyttet til f.eks. en knapp for sidebytte. Linken kaller ActionResult-metode i controller. 
+    Ett av de to første parametrene gir vist navn på link, hvorav det andre sier hvilket view/hvilken ActionResult som kalles. 
+    Eks:
+        <@Html.ActionLink("Eksempel","Eksempel", "", new { @class = "btn btn-success" })>;
+    *@
+
