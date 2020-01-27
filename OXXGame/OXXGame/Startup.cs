@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OXXGame.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace OXXGame
 {
@@ -24,6 +26,10 @@ namespace OXXGame
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<OXXGameDBContext>(options => {
+                options.UseSqlServer(Configuration.GetConnectionString("DBConnection"));
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
