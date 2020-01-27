@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 
 namespace OXXGame.Models
 {
-    public class MyBrandSpankinNewClassMotherfuckers
+    public class Kandidat
     {
-        int motherfucker = 69;
-        double yeeb = 420.0;
     }
 }
