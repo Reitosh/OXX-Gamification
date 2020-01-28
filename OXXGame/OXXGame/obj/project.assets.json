@@ -8680,27 +8680,23 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 3.1.1",
       "Microsoft.Extensions.Logging.Debug >= 3.1.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 3.1.0",
-      "Pomelo.EntityFrameworkCore.MySql"
+      "Pomelo.EntityFrameworkCore.MySql >= 3.1.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\testor\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\siver\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
+      "projectUniqueName": "C:\\Users\\siver\\OneDrive\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
       "projectName": "OXXGame",
-      "projectPath": "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
-      "packagesPath": "C:\\Users\\testor\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\obj\\",
+      "projectPath": "C:\\Users\\siver\\OneDrive\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
+      "packagesPath": "C:\\Users\\siver\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\siver\\OneDrive\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\testor\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\siver\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8746,7 +8742,7 @@
           },
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
-            "version": "(, )"
+            "version": "[3.1.0, )"
           }
         },
         "imports": [

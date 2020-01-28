@@ -21,7 +21,7 @@ namespace OXXGame.Models
 
         public string lastname { get; set; }
 
-        public string adress { get; set; }
+        public string address { get; set; }
 
         public int zipCode { get; set; }
 
@@ -50,8 +50,6 @@ namespace OXXGame.Models
         public Boolean knowReact { get; set; }
 
         public Boolean knowAngular { get; set; }
-
-        public int resultId { get; set; }
     }
 
 }
