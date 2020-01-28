@@ -8684,19 +8684,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\siver\\.nuget\\packages\\": {}
+    "C:\\Users\\Djembla\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\siver\\OneDrive\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
+      "projectUniqueName": "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
       "projectName": "OXXGame",
-      "projectPath": "C:\\Users\\siver\\OneDrive\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
-      "packagesPath": "C:\\Users\\siver\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\siver\\OneDrive\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\obj\\",
+      "projectPath": "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
+      "packagesPath": "C:\\Users\\Djembla\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\siver\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Djembla\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
