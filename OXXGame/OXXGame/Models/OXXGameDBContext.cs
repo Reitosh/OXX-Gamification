@@ -6,15 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace OXXGame.Models
 {
-    //Opprette klasser her, hvorav navnet representerer en tabellrad og variabler samsvarer med tabellkolonner. Eksempel:
-    /* 
-        public class Entitet
-        {
-            public int tall { get; set; }
-            public string ord { get; set; }
-        }
-    */
-
     public class OXXGameDBContext : DbContext
     {
         public OXXGameDBContext(DbContextOptions<OXXGameDBContext> options)
@@ -26,8 +17,10 @@ namespace OXXGame.Models
 
         }
 
-        // Opprette DbSet her hvorav navn samsvarer med tabellnavn i databasen. Eksempel:
-        // public DbSet<Entitetsnavn> Tabellnavn { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Task> Tests { get; set; }
+        public DbSet<SingleTestResult> SingleTestResult { get; set; }
+        public DbSet<Result> Results { get; set; }
 
     }
 }
