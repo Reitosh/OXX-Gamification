@@ -37,18 +37,25 @@ namespace OXXGame.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        // Lager ActionResult-metoder her knyttet til sidebytte. Data hentes ut fra/legges til i databasen her.
-        // Metodenavnet skal samsvare med navnet til viewet (.cshtml filen). Eks:
-        /*
-            public ActionResult Eksempel()
+        [HttpPost]
+        public ActionResult Index(User inUser)
+        {
+            DB db = new DB(dbContext);
+
+            User user = db.getUser(inUser.email);
+
+            if (user != null)
             {
-                Entitet e = new Entitet();
-                e.tall = 5;
-                e.ord = "pest";
-                dbContext.Add(hallo);
-                dbContext.SaveChanges();
-                return View();
+                Debug.WriteLine("mangler linje fra getuser? hvis ikke funker den");
+                if (inUser.password == user.password)
+                {
+                    Debug.WriteLine("login bra");
+                    return View("YeBoiLoggedIn");
+                }
             }
-        */
+
+            Debug.WriteLine("login møk");
+            return RedirectToAction("Index");
+        }
     }
 }
