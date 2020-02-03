@@ -3,25 +3,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using OXXGame.Models;
+using System.Diagnostics;
 
 namespace OXXGame
 {
     public class DB
     {
-        OXXGameDBContext db;
+        private OXXGameDBContext db;
 
         public DB(OXXGameDBContext db)
         {
             this.db = db;
         }
 
+        /* ------------------------- Add metoder ------------------------- */
         public bool addUser(User user)
         {
             using (db)
             {
+                var userRow = new Users()
+                {
+                    Password = user.password,
+                    LoginCounter = user.loginCounter,
+                    Firstname = user.firstname,
+                    Lastname = user.lastname,
+                    Email = user.email/*,
+                    IsAdmin = user.isAdmin,
+                    KnowHtml = user.knowHtml,
+                    KnowCss = user.knowCss,
+                    KnowJavascript = user.knowJavascript,
+                    KnowCsharp = user.knowCsharp,
+                    KnowMvc = user.knowMvc,
+                    KnowNetframework = user.knowNetframework,
+                    KnowTypescript = user.knowTypescript,
+                    KnowVue = user.knowVue,
+                    KnowReact = user.knowReact,
+                    KnowAngular = user.knowAngular*/
+                };
+
                 try
                 {
-                    db.Add(user);
+                    db.Add(userRow);
+                    db.SaveChanges();
                     return true;
                 } 
                 
@@ -36,9 +59,18 @@ namespace OXXGame
         {
             using (db)
             {
+                var taskRow = new Tasks()
+                {
+                    id = task.testId,
+                    Test = task.test,
+                    Difficulty = task.difficulty,
+                    Category = task.category
+                };
+
                 try
                 {
-                    db.Add(task);
+                    db.Add(taskRow);
+                    db.SaveChanges();
                     return true;
                 }
 
@@ -49,38 +81,67 @@ namespace OXXGame
             }
         }
 
-        // Metode for å hente navn/epost/id for alle brukere
+        public bool addSingleResult(SingleTestResult result)
+        {
+            using (db)
+            {
+                var singleResultRow = new SingleTestResults()
+                {
+                    Passed = result.passed,
+                    Tries = result.tries,
+                    TimeSpent = result.timeSpent,
+                    UserId = result.userId,
+                    TestId = result.testId,
+                    Submitted = result.submitted
+                };
+
+                try
+                {
+                    db.Add(singleResultRow);
+                    db.SaveChanges();
+                    return true;
+                }
+
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool addTotResult(Result result)
+        {
+            using (db)
+            {
+                var resultRow = new Results()
+                {
+                    id = result.userId,
+                    TimeUsed = result.timeUsed,
+                    TestsPassed = result.testsPassed,
+                    TestsFailed = result.testsFailed,
+                    Tests = result.tests
+                };
+
+                try
+                {
+                    db.Add(resultRow);
+                    db.SaveChanges();
+                    return true;
+                }
+
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
+        /* ------------------------- List metoder ------------------------- */
         public List<User> allUsers()
         {
             using(db)
             {
-                List<User> users = db.Users.ToList();
-
-                /*List<User> users = db.Users.Select(user => new User
-                {
-                    userId = user.userId,
-                    uname = user.uname,
-                    password = user.password,
-                    loginCounter = user.loginCounter,
-                    firstname = user.firstname,
-                    lastname = user.lastname,
-                    address = user.address,
-                    zipCode = user.zipCode,
-                    city = user.city,
-                    email = user.email,
-                    isAdmin = user.isAdmin,
-                    knowHtml = user.knowHtml,
-                    knowCss = user.knowCss,
-                    knowJavascript = user.knowJavascript,
-                    knowCsharp = user.knowCsharp,
-                    knowMvc = user.knowMvc,
-                    knowNetframework = user.knowNetframework,
-                    knowTypescript = user.knowTypescript,
-                    knowVue = user.knowVue,
-                    knowReact = user.knowReact,
-                    knowAngular = user.knowAngular
-                }).ToList();*/
-
+                List<User> users = db.Users.Select(user => getUserData(user)).ToList();
                 return users;
             }
         }
@@ -88,13 +149,13 @@ namespace OXXGame
         public List<Models.Task> allTasks()
         {
             using (db)
-            {
+            {   
                 List<Models.Task> tasks = db.Tests.Select(task => new Models.Task
                 {
-                    testId = task.testId,
-                    test = task.test,
-                    difficulty = task.difficulty,
-                    category = task.category
+                    testId = task.id,
+                    test = task.Test,
+                    difficulty = task.Difficulty,
+                    category = task.Category
                 }).ToList();
 
                 return tasks;
@@ -109,15 +170,18 @@ namespace OXXGame
             {
                 try
                 {
-                    User user = db.Users.SingleOrDefault(u => u.uname == uname);
-                    return user;
+                    Users user = db.Users.SingleOrDefault(u => u.Email == uname);
+                    Debug.WriteLine("Hentet objekt fra databasen");
+                    User validUser = getUserData(user);
+
+                    return validUser;
                 }
 
                 catch (InvalidOperationException e)
                 {
+                    Debug.Write(e.Message);
                     return null;
                 }
-                
             }
         }
 
@@ -128,7 +192,15 @@ namespace OXXGame
             {
                 try
                 {
-                    Result result = db.Results.SingleOrDefault(r => r.userId == uid);
+                    Results resultRow = db.Results.SingleOrDefault(r => r.id == uid);
+                    Result result = new Result()
+                    {
+                        userId = resultRow.id,
+                        timeUsed = resultRow.TimeUsed,
+                        testsPassed = resultRow.TestsPassed,
+                        testsFailed = resultRow.TestsFailed,
+                        tests = resultRow.Tests
+                    };
                     return result;
                 }
 
@@ -145,8 +217,115 @@ namespace OXXGame
         {
             using (db)
             {
-                List<SingleTestResult> results = db.SingleTestResult.Where(r => r.userId == uId).ToList();
+                List<SingleTestResults> results = db.SingleTestResults.Where(r => r.UserId == uId).ToList();
+                List<SingleTestResult> result = new List<SingleTestResult>();
+                foreach (SingleTestResults res in results)
+                {
+                    result.Add(new SingleTestResult()
+                    {
+                        passed = res.Passed,
+                        tries = res.Tries,
+                        timeSpent = res.TimeSpent,
+                        userId = res.UserId,
+                        testId = res.TestId,
+                        submitted = res.Submitted
+                    });
+                }
+
+                return result;
             }
+        }
+
+        /* ------------------------- Update metoder ------------------------- */
+        public bool updateTask(int taskId, Models.Task uTask)
+        {
+            using (db)
+            {
+                var task = db.Tests.SingleOrDefault(t => t.id == taskId);
+                
+                if (task != null)
+                {
+                    task.Test = uTask.test;
+                    task.Difficulty = uTask.difficulty;
+                    task.Category = uTask.category;
+                } 
+                
+                else
+                {
+                    return false;
+                }
+                
+                try
+                {
+                    db.Tests.Update(task);
+                    db.SaveChanges();
+                    return true;
+                }
+
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool updateSingleTestResult(int uId, int tId, SingleTestResult uSingleResult)
+        {
+            using (db)
+            {
+                var singleResult = db.SingleTestResults.SingleOrDefault(t => (t.UserId == uId && t.TestId == tId));
+
+                if (singleResult != null)
+                {
+                    singleResult.Passed = uSingleResult.passed;
+                    singleResult.Tries++;
+                    singleResult.TimeSpent += uSingleResult.timeSpent;
+                    singleResult.Submitted = uSingleResult.submitted;
+                }
+                
+                else
+                {
+                    return false;
+                }
+
+                try
+                {
+                    db.SingleTestResults.Update(singleResult);
+                    db.SaveChanges();
+                    return true;
+                }
+
+                catch (Exception e)
+                {
+                    return false;
+                }
+            }
+        }
+
+        /* -------------------------------------------------------------------------------------------------------------------------------- */
+        // Hjelpemetode for opprettelse av ny bruker basert på tabellrad (Users)
+        private User getUserData(Users user)
+        {
+            return new User()
+            {
+                userId = user.id,
+                password = user.Password,
+                loginCounter = user.LoginCounter,
+                firstname = user.Firstname,
+                lastname = user.Lastname,
+                email = user.Email/*,
+                isAdmin = user.IsAdmin,
+                knowHtml = user.KnowHtml,
+                knowCss = user.KnowCss,
+                knowJavascript = user.KnowJavascript,
+                knowCsharp = user.KnowCsharp,
+                knowMvc = user.KnowMvc,
+                knowNetframework = user.KnowNetframework,
+                knowTypescript = user.KnowTypescript,
+                knowVue = user.KnowVue,
+                knowReact = user.KnowReact,
+                knowAngular = user.KnowAngular*/
+            };
         }
     }
 }

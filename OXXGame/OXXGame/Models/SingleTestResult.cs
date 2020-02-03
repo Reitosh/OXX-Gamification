@@ -12,6 +12,7 @@ namespace OXXGame.Models
         public int tries { get; set; }
         public string timeSpent { get; set; }
         public int userId { get; set; }
-        public int test_id { get; set; }
+        public int testId { get; set; }
+        public bool submitted { get; set; }
     }
 }
