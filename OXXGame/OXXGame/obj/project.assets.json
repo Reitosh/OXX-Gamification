@@ -8696,9 +8696,6 @@
       "packagesPath": "C:\\Users\\Djembla\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
         "C:\\Users\\Djembla\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
