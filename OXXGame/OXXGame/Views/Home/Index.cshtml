@@ -1,4 +1,5 @@
-﻿@{
+﻿@model User
+@{
     ViewData["Title"] = "Brukerinnlogging";
     Layout = null;
 }
@@ -31,15 +32,24 @@
 
                 <!-- Login form -->
                 <form action="" method="post">
-                    <input type="text" name="uname" placeholder="Brukernavn" /><br />
-                    <input type="password" name="passwd" placeholder="Passord" /><br />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="email"></label>
+                        <input asp-for="email" class="form-control" />
+                        <span asp-validation-for="email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="password"></label>
+                        <input asp-for="password" class="form-control" />
+                        <span asp-validation-for="password" class="text-danger"></span>
+                    </div>
                     <a class="login-box-content" href="#">
                         <p id="login-content-1">Glemt innloggingsdetaljer?</p>
                     </a>
 
                     <input id="btn-login" type="submit" name="login" value="Logg inn" />
                     <a class="login-box-content" href="#">
-                        <p id="login-content-2">Registrer ny bruker</pid="login-content-1">
+                        <p id="login-content-2">Registrer ny bruker</p id="login-content-1">
                     </a>
                 </form>
             </div>
