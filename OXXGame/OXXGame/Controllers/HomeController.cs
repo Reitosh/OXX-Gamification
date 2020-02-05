@@ -38,7 +38,7 @@ namespace OXXGame.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(User inUser)
+        public ActionResult Login(User inUser)
         {
             DB db = new DB(dbContext);
 
@@ -46,16 +46,31 @@ namespace OXXGame.Controllers
 
             if (user != null)
             {
-                Debug.WriteLine("mangler linje fra getuser? hvis ikke funker den");
-                if (inUser.password == user.password)
+                if (Enumerable.SequenceEqual(inUser.pwdHash,user.pwdHash))
                 {
-                    Debug.WriteLine("login bra");
                     return View("YeBoiLoggedIn");
                 }
             }
 
-            Debug.WriteLine("login møk");
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Register()
+        {
+            return View("RegisterUser");
+        }
+
+        [HttpPost]
+        public ActionResult RegisterUser(User user)
+        {
+            DB db = new DB(dbContext);
+            if (db.addUser(user))
+            {
+                user = null;
+                return View("Index");
+            }
+
+            return RedirectToAction("Register");
         }
     }
 }
