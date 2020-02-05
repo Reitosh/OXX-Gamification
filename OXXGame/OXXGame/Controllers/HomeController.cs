@@ -26,6 +26,11 @@ namespace OXXGame.Controllers
             return View();
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
@@ -49,12 +54,12 @@ namespace OXXGame.Controllers
                 Debug.WriteLine("mangler linje fra getuser? hvis ikke funker den");
                 if (inUser.password == user.password)
                 {
-                    Debug.WriteLine("login bra");
-                    return View("YeBoiLoggedIn");
+                    Debug.WriteLine("Successful login!");
+                    return View("TestInfo");
                 }
             }
 
-            Debug.WriteLine("login møk");
+            Debug.WriteLine("Login failed..");
             return RedirectToAction("Index");
         }
     }

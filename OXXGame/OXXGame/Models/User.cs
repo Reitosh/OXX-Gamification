@@ -10,10 +10,14 @@ namespace OXXGame.Models
     public class User
     {
         public int userId { get; set; }
+
+        [Required(ErrorMessage ="Vennligst skriv inn passord")]
         public string password { get; set; }
         public int loginCounter { get; set; }
         public string firstname { get; set; }
         public string lastname { get; set; }
+
+        [Required(ErrorMessage ="Vennligst skriv inn epostadresse")]
         public string email { get; set; }
         /*public Boolean isAdmin { get; set; }
         public Boolean knowHtml { get; set; }
