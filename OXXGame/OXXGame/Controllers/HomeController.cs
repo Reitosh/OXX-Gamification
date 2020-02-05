@@ -28,7 +28,7 @@ namespace OXXGame.Controllers
 
         public IActionResult Register()
         {
-            return View();
+            return View("RegisterUser");
         }
 
         public IActionResult Privacy()
@@ -62,10 +62,6 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Register()
-        {
-            return View("RegisterUser");
-        }
 
         [HttpPost]
         public ActionResult RegisterUser(User user)
@@ -78,6 +74,17 @@ namespace OXXGame.Controllers
             }
 
             return RedirectToAction("Register");
+        }
+
+        public ActionResult StartTest()
+        {
+            return View("TestView");
+        }
+
+        public ActionResult Avbryt()
+        {
+            //Session["LoggetInn"] = false;
+            return RedirectToAction("Index");
         }
     }
 }
