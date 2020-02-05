@@ -12,6 +12,8 @@ namespace OXXGame.Models
         public byte[] _pwdHash;
 
         public int userId { get; set; }
+
+        [Required(ErrorMessage ="Vennligst skriv inn passord")]
         public string password { get; set; }
         public byte[] pwdHash {
             get 
@@ -35,6 +37,8 @@ namespace OXXGame.Models
         public int loginCounter { get; set; }
         public string firstname { get; set; }
         public string lastname { get; set; }
+
+        [Required(ErrorMessage ="Vennligst skriv inn epostadresse")]
         public string email { get; set; }
         public bool isAdmin { get; set; }
         public bool knowHtml { get; set; }

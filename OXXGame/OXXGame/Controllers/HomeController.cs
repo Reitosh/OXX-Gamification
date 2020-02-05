@@ -26,6 +26,11 @@ namespace OXXGame.Controllers
             return View();
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
@@ -48,10 +53,12 @@ namespace OXXGame.Controllers
             {
                 if (Enumerable.SequenceEqual(inUser.pwdHash,user.pwdHash))
                 {
-                    return View("YeBoiLoggedIn");
+                    Debug.WriteLine("Successful login!");
+                    return View("TestInfo");
                 }
             }
 
+            Debug.WriteLine("Login failed..");
             return RedirectToAction("Index");
         }
 
