@@ -29,16 +29,27 @@
         <h2 class="info-header">Velkommen til OXX sin evnetest</h2>
         <div class="container">
             <div class="info-box">
-                <h4 class="info-text">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                <h4 class="info-text">
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
                 </h4>
             </div>
         </div>
-        <form action="" method="post">
-            <input id="btn-neste" type="submit" name="neste" value="Smell i gang!" />
-        </form>
+        @using (Html.BeginForm("Avbryt", "Home", FormMethod.Get))
+        {
+            <div class="info-avbryt">
+                <input type="submit" name="avbryt" value="Avbryt" />
+            </div>
+        }
+
+        @using (Html.BeginForm("StartTest", "Home", FormMethod.Get))
+        {
+            <div class="info-neste">
+                <input id="btn-login" type="submit" name="neste" value="Start test!" />
+            </div>
+        }
     </div>
     
 </body>
