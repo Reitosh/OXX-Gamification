@@ -1,22 +1,25 @@
 {
   "format": 1,
   "restore": {
-    
-    "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj": {}
+    "C:\\Users\\marku\\OneDrive\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj": {
+    "C:\\Users\\marku\\OneDrive\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
+        "projectUniqueName": "C:\\Users\\marku\\OneDrive\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
         "projectName": "OXXGame",
-        "projectPath": "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
-        "packagesPath": "C:\\Users\\Djembla\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\obj\\",
+        "projectPath": "C:\\Users\\marku\\OneDrive\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
+        "packagesPath": "C:\\Users\\marku\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\marku\\OneDrive\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Djembla\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\marku\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -62,6 +65,14 @@
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[3.1.0, )"
+            },
+            "SSH.NET": {
+              "target": "Package",
+              "version": "[2016.1.0, )"
+            },
+            "WinSCP": {
+              "target": "Package",
+              "version": "[5.15.9, )"
             }
           },
           "imports": [
@@ -82,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
