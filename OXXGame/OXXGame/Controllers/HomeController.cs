@@ -88,6 +88,17 @@ namespace OXXGame.Controllers
 
             return RedirectToAction("Register");
         }
+        
+        public ActionResult StartTest()
+        {
+            return View("TestView");
+        }
+
+        public ActionResult Avbryt()
+        {
+            //Session["LoggetInn"] = false;
+            return RedirectToAction("Index");
+        }
 
         private bool isLoggedIn()
         {
