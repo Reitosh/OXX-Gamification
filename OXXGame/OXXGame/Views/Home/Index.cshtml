@@ -1,4 +1,4 @@
-﻿@model User
+@model User
 @{
     ViewData["Title"] = "Brukerinnlogging";
     Layout = null;
@@ -31,7 +31,8 @@
                 <img src="../images/brand/logo_hvit.png" alt="logo" />
 
                 <!-- Login form -->
-                <form action="" method="post">
+                @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                {
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="email">Email</label>
@@ -49,9 +50,14 @@
 
                     <input id="btn-login" type="submit" name="login" value="Logg inn" />
                     <a class="login-box-content" href="#">
-                        @Html.ActionLink("Registrer bruker", "Register")
+
+                        <!-- <p id="login-content-2">Registrer ny bruker</p id="login-content-1"> -->
+                        @Html.ActionLink("Registrer ny bruker", "Register")
+
+                        
+
                     </a>
-                </form>
+                }
             </div>
         </div>
     </div>

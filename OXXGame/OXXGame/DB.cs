@@ -23,12 +23,12 @@ namespace OXXGame
             {
                 var userRow = new Users()
                 {
-                    Password = user.password,
-                    LoginCounter = user.loginCounter,
+                    Password = user.pwdHash,
+                    LoginCounter = 1,
                     Firstname = user.firstname,
                     Lastname = user.lastname,
-                    Email = user.email/*,
-                    IsAdmin = user.isAdmin,
+                    Email = user.email,
+                    IsAdmin = false,
                     KnowHtml = user.knowHtml,
                     KnowCss = user.knowCss,
                     KnowJavascript = user.knowJavascript,
@@ -38,7 +38,7 @@ namespace OXXGame
                     KnowTypescript = user.knowTypescript,
                     KnowVue = user.knowVue,
                     KnowReact = user.knowReact,
-                    KnowAngular = user.knowAngular*/
+                    KnowAngular = user.knowAngular
                 };
 
                 try
@@ -88,8 +88,8 @@ namespace OXXGame
                 var singleResultRow = new SingleTestResults()
                 {
                     Passed = result.passed,
-                    Tries = result.tries,
-                    TimeSpent = result.timeSpent,
+                    Attempts = result.tries,
+                    TimeUsed = result.timeSpent,
                     UserId = result.userId,
                     TestId = result.testId,
                     Submitted = result.submitted
@@ -115,7 +115,7 @@ namespace OXXGame
             {
                 var resultRow = new Results()
                 {
-                    id = result.userId,
+                    UserId = result.userId,
                     TimeUsed = result.timeUsed,
                     TestsPassed = result.testsPassed,
                     TestsFailed = result.testsFailed,
@@ -171,7 +171,6 @@ namespace OXXGame
                 try
                 {
                     Users user = db.Users.SingleOrDefault(u => u.Email == uname);
-                    Debug.WriteLine("Hentet objekt fra databasen");
                     User validUser = getUserData(user);
 
                     return validUser;
@@ -192,10 +191,10 @@ namespace OXXGame
             {
                 try
                 {
-                    Results resultRow = db.Results.SingleOrDefault(r => r.id == uid);
+                    Results resultRow = db.Results.SingleOrDefault(r => r.UserId == uid);
                     Result result = new Result()
                     {
-                        userId = resultRow.id,
+                        userId = resultRow.UserId,
                         timeUsed = resultRow.TimeUsed,
                         testsPassed = resultRow.TestsPassed,
                         testsFailed = resultRow.TestsFailed,
@@ -224,8 +223,8 @@ namespace OXXGame
                     result.Add(new SingleTestResult()
                     {
                         passed = res.Passed,
-                        tries = res.Tries,
-                        timeSpent = res.TimeSpent,
+                        tries = res.Attempts,
+                        timeSpent = res.TimeUsed,
                         userId = res.UserId,
                         testId = res.TestId,
                         submitted = res.Submitted
@@ -278,8 +277,8 @@ namespace OXXGame
                 if (singleResult != null)
                 {
                     singleResult.Passed = uSingleResult.passed;
-                    singleResult.Tries++;
-                    singleResult.TimeSpent += uSingleResult.timeSpent;
+                    singleResult.Attempts = uSingleResult.tries;
+                    singleResult.TimeUsed += uSingleResult.timeSpent;
                     singleResult.Submitted = uSingleResult.submitted;
                 }
                 
@@ -303,17 +302,17 @@ namespace OXXGame
         }
 
         /* -------------------------------------------------------------------------------------------------------------------------------- */
-        // Hjelpemetode for opprettelse av ny bruker basert på tabellrad (Users)
+        // Hjelpemetode for opprettelse av ny brukermodellobjekt basert på tabellrad (Users)
         private User getUserData(Users user)
         {
             return new User()
             {
                 userId = user.id,
-                password = user.Password,
+                pwdHash = user.Password,
                 loginCounter = user.LoginCounter,
                 firstname = user.Firstname,
                 lastname = user.Lastname,
-                email = user.Email/*,
+                email = user.Email,
                 isAdmin = user.IsAdmin,
                 knowHtml = user.KnowHtml,
                 knowCss = user.KnowCss,
@@ -324,7 +323,7 @@ namespace OXXGame
                 knowTypescript = user.KnowTypescript,
                 knowVue = user.KnowVue,
                 knowReact = user.KnowReact,
-                knowAngular = user.KnowAngular*/
+                knowAngular = user.KnowAngular
             };
         }
     }
