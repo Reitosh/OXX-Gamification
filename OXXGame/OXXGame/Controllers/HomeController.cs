@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OXXGame.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace OXXGame.Controllers
 {
@@ -14,6 +15,10 @@ namespace OXXGame.Controllers
         private readonly ILogger<HomeController> _logger;
         private OXXGameDBContext dbContext; //DbContext-objektet som brukes til database-aksess
 
+        public readonly string LoggedIn = "login_key";
+        public readonly int TRUE = 1;
+        public readonly int FALSE = 0;
+
         public HomeController(ILogger<HomeController> logger, OXXGameDBContext context)
         {
             _logger = logger;
@@ -21,8 +26,19 @@ namespace OXXGame.Controllers
         }
 
 
-        public IActionResult Index()
+        public ActionResult Index()
         {
+            if (HttpContext.Session.Get(LoggedIn) != null)
+            {
+                if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
+                {
+                    return RedirectToAction("");
+                }
+            }
+            else
+            {
+                HttpContext.Session.SetInt32(LoggedIn, FALSE);
+            }
             return View();
         }
 
@@ -66,11 +82,27 @@ namespace OXXGame.Controllers
             DB db = new DB(dbContext);
             if (db.addUser(user))
             {
-                user = null;
+                ModelState.Clear();
                 return View("Index");
             }
 
             return RedirectToAction("Register");
+        }
+        
+        public ActionResult StartTest()
+        {
+            return View("TestView");
+        }
+
+        public ActionResult Avbryt()
+        {
+            //Session["LoggetInn"] = false;
+            return RedirectToAction("Index");
+        }
+
+        private bool isLoggedIn()
+        {
+            if ()
         }
     }
 }
