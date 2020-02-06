@@ -40,9 +40,6 @@ namespace OXXGame.Controllers
         [HttpPost]
         public ActionResult Login(User inUser)
         {
-            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
-            ssh.ConnectToVM();
-
             DB db = new DB(dbContext);
 
             User user = db.getUser(inUser.email);
