@@ -32,12 +32,13 @@ namespace OXXGame.Controllers
             {
                 if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
                 {
-                    return RedirectToAction("");
+                    return RedirectToAction("TestInfo");
                 }
             }
             else
             {
                 HttpContext.Session.SetInt32(LoggedIn, FALSE);
+                Debug.WriteLine("LoggedIn satt til FALSE (" + HttpContext.Session.GetInt32(LoggedIn) + ")");
             }
             return View();
         }
@@ -64,7 +65,8 @@ namespace OXXGame.Controllers
             {
                 if (Enumerable.SequenceEqual(inUser.pwdHash,user.pwdHash))
                 {
-                    return View("YeBoiLoggedIn");
+                    HttpContext.Session.SetInt32(LoggedIn, TRUE);
+                    return View("TestInfo");
                 }
             }
 
@@ -98,11 +100,6 @@ namespace OXXGame.Controllers
         {
             //Session["LoggetInn"] = false;
             return RedirectToAction("Index");
-        }
-
-        private bool isLoggedIn()
-        {
-            if ()
         }
     }
 }

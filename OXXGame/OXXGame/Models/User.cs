@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations; 
 using System.Linq;
 using System.Web;
+using System.Diagnostics;
 
 namespace OXXGame.Models
 {
@@ -18,7 +19,7 @@ namespace OXXGame.Models
         public byte[] pwdHash {
             get 
             {
-                if (_pwdHash != null)
+                /*if (_pwdHash != null)
                 {
                     password = null;
                     return _pwdHash;
@@ -29,6 +30,16 @@ namespace OXXGame.Models
                     string temp = password;
                     password = null;
                     return createHash(temp);
+                }*/
+
+                if (password == null)
+                {
+                    return _pwdHash;
+                }
+
+                else
+                {
+                    return createHash(password);
                 }
             }
 
