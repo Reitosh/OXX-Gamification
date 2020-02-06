@@ -64,7 +64,7 @@ namespace OXXGame.Controllers
             {
                 if (Enumerable.SequenceEqual(inUser.pwdHash,user.pwdHash))
                 {
-                    return View("YeBoiLoggedIn");
+                    return View("TestInfo");
                 }
             }
 
@@ -100,9 +100,9 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index");
         }
 
-        private bool isLoggedIn()
+        /*private bool isLoggedIn()
         {
             if ()
-        }
+        }*/
     }
 }
