@@ -18,17 +18,14 @@ namespace OXXGame.Models
         public byte[] pwdHash {
             get 
             {
-                if (_pwdHash != null)
+                if (password == null)
                 {
-                    password = null;
                     return _pwdHash;
-                } 
-                
+                }
+
                 else
                 {
-                    string temp = password;
-                    password = null;
-                    return createHash(temp);
+                    return createHash(password);
                 }
             }
 
