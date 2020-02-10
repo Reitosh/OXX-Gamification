@@ -99,6 +99,7 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index");
         }
 
+
         public bool loggedIn(bool loggetInn)
         {
             
@@ -117,5 +118,6 @@ namespace OXXGame.Controllers
 
             return loggetInn;
         }
+
     }
 }
