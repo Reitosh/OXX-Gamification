@@ -28,6 +28,7 @@ namespace OXXGame.Controllers
 
         public ActionResult Index()
         {
+            HttpContext.Session.SetInt32(LoggedIn, FALSE);
             return View();
         }
 
@@ -62,11 +63,38 @@ namespace OXXGame.Controllers
                     }
                     else
                     {
+
                         return View("TestInfo");
                     }
                 }
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult TestInfo()
+        {
+            if (loggedIn())
+            {
+                return View();
+            }
+            else
+            {
+                Debug.WriteLine("Ikke logget inn");
+                return RedirectToAction("Register");
+            }
+        }
+
+        public ActionResult TestView()
+        {
+            if (loggedIn())
+            {
+                return View();
+            }
+            else
+            {
+                Debug.WriteLine("Ikke logget inn");
+                return RedirectToAction("Register");
+            }
         }
 
         public ActionResult Register()
@@ -89,7 +117,7 @@ namespace OXXGame.Controllers
         
         public ActionResult StartTest()
         {
-            if (loggedIn(true))
+            if (loggedIn())
             {
                 return View("TestView");
             }
@@ -102,25 +130,23 @@ namespace OXXGame.Controllers
         public ActionResult Avbryt()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
-
+            Debug.WriteLine("Logger ut...");
             return RedirectToAction("Index");
         }
 
 
-        public bool loggedIn(bool loggetInn)
+        public bool loggedIn()
         {
-            
-            if (HttpContext.Session.Get(LoggedIn) != null)
+            bool loggetInn;
+
+            if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
             {
-                if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
-                {
-                    return true;
-                }
+                loggetInn = true;
             }
             else
             {
                 HttpContext.Session.SetInt32(LoggedIn, FALSE);
-                return false;
+                loggetInn = false;
             }
 
             return loggetInn;
