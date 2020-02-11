@@ -33,7 +33,12 @@
                     <input id="btn-login" type="submit" value="Kjør da"><br><br><br>
                 </form>
 
-
+                @using (Html.BeginForm("Avbryt", "Home", FormMethod.Get))
+                {
+                    <button id="btn-login" new { onclick="return confirm('Er du sikker på at du vil kaste inn håndklet? Du vil bli logget ut og tatt tilbake til innlogging.');" })>
+                        Gi opp
+                    </button>
+                }
 
 
 

@@ -28,20 +28,9 @@ namespace OXXGame.Controllers
 
         public ActionResult Index()
         {
-            if (HttpContext.Session.Get(LoggedIn) != null)
-            {
-                if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
-                {
-                    return RedirectToAction("TestInfo");
-                }
-            }
-            else
-            {
-                HttpContext.Session.SetInt32(LoggedIn, FALSE);
-                Debug.WriteLine("LoggedIn satt til FALSE (" + HttpContext.Session.GetInt32(LoggedIn) + ")");
-            }
             return View();
         }
+
 
         public IActionResult Privacy()
         {
@@ -100,13 +89,42 @@ namespace OXXGame.Controllers
         
         public ActionResult StartTest()
         {
-            return View("TestView");
+            if (loggedIn(true))
+            {
+                return View("TestView");
+            }
+            else
+            {
+                return View("Index");
+            }
         }
 
         public ActionResult Avbryt()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
+
             return RedirectToAction("Index");
         }
+
+
+        public bool loggedIn(bool loggetInn)
+        {
+            
+            if (HttpContext.Session.Get(LoggedIn) != null)
+            {
+                if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                HttpContext.Session.SetInt32(LoggedIn, FALSE);
+                return false;
+            }
+
+            return loggetInn;
+        }
+
     }
 }
