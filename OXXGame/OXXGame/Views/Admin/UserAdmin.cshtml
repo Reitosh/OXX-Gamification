@@ -1,0 +1,33 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "UserAdmin";
+}
+
+<h1>UserAdmin</h1>
+
+@{ 
+    var users = (List<User>) ViewData["Users"];
+    var results = (List<Result>) ViewData["Results"];
+}
+
+<table class="table">
+    <thread>
+        <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+        </tr>
+    </thread>
+    <tbody>
+        @foreach (User user in users)
+        {
+            <tr>
+                <th>@user.firstname</th>
+                <th>@user.lastname</th>
+                <th>@user.email</th>
+            </tr>
+        }
+    </tbody>
+</table>
+
