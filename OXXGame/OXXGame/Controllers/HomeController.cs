@@ -56,6 +56,7 @@ namespace OXXGame.Controllers
         [HttpPost]
         public ActionResult Login(User inUser)
         {
+
             DB db = new DB(dbContext);
 
             User user = db.getUser(inUser.email);
@@ -79,6 +80,7 @@ namespace OXXGame.Controllers
         [HttpPost]
         public ActionResult RegisterUser(User user)
         {
+
             DB db = new DB(dbContext);
             if (db.addUser(user))
             {
@@ -92,6 +94,14 @@ namespace OXXGame.Controllers
         public ActionResult StartTest()
         {
             return View("TestView");
+        }
+
+        public ActionResult KjorKode(Submission Submission)
+        {
+            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
+            ssh.ConnectToVM(Submission.Code);
+            
+            return RedirectToAction("TestView");
         }
 
         public ActionResult Avbryt()

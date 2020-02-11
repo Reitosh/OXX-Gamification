@@ -1,4 +1,4 @@
-﻿
+﻿@model Submission
 @{
     ViewData["Title"] = "Evnetest";
 }
@@ -23,15 +23,19 @@
     <body>
         <div class="main">
             <div class="form-group">
-                <form action="" name="editor" method="post">
+                @using (Html.BeginForm("KjorKode", "Home", FormMethod.Post))
+                {
                     <label class="test-text">Kategori:</label><br />
                     <label class="test-text">Vanskelighetsgrad:</label><br />
 
                     <label class="test-text">Oppgave:</label><br />
 
-                    <textarea class="form-control" name="code" rows="10"></textarea>
-                    <input id="btn-login" type="submit" value="Kjør da"><br><br><br>
-                </form>
+
+                    <textarea class="form-control" asp-for="Code" id="code" placeholder="Kode her" name="code" rows="10"></textarea>
+                    <input type="submit" value="Kjør kode" />
+                    <textarea class="form-control"  id="code" placeholder="Output her" name="code" rows="5"></textarea>
+                }
+
 
 
 
