@@ -54,12 +54,18 @@ namespace OXXGame.Controllers
             {
                 if (Enumerable.SequenceEqual(inUser.pwdHash,user.pwdHash))
                 {
-                    loggedIn(true);
-                    return View("TestInfo");
+                    HttpContext.Session.SetInt32(LoggedIn, TRUE);
+
+                    if (user.isAdmin)
+                    {
+                        return RedirectToAction("AdminPortal", "Admin");
+                    }
+                    else
+                    {
+                        return View("TestInfo");
+                    }
                 }
             }
-
-
             return RedirectToAction("Index");
         }
 
@@ -78,7 +84,7 @@ namespace OXXGame.Controllers
                 return View("Index");
             }
 
-            return RedirectToAction("Register");
+            return View("Register");
         }
         
         public ActionResult StartTest()
@@ -95,7 +101,8 @@ namespace OXXGame.Controllers
 
         public ActionResult Avbryt()
         {
-            loggedIn(false);
+            HttpContext.Session.SetInt32(LoggedIn, FALSE);
+
             return RedirectToAction("Index");
         }
 
