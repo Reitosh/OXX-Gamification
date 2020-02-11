@@ -28,19 +28,10 @@ namespace OXXGame.Controllers
 
         public ActionResult Index()
         {
-            if (HttpContext.Session.Get(LoggedIn) != null)
-            {
-                if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
-                {
-                    return RedirectToAction("");
-                }
-            }
-            else
-            {
-                HttpContext.Session.SetInt32(LoggedIn, FALSE);
-            }
+            HttpContext.Session.SetInt32(LoggedIn, FALSE);
             return View();
         }
+
 
         public IActionResult Privacy()
         {
@@ -65,11 +56,47 @@ namespace OXXGame.Controllers
             {
                 if (Enumerable.SequenceEqual(inUser.pwdHash,user.pwdHash))
                 {
-                    return View("TestInfo");
+                    HttpContext.Session.SetInt32(LoggedIn, TRUE);
+
+                    if (user.isAdmin)
+                    {
+                        return RedirectToAction("AdminPortal", "Admin");
+                    }
+                    else
+                    {
+
+                        return View("TestInfo");
+                    }
+
                 }
             }
-
             return RedirectToAction("Index");
+        }
+
+        public ActionResult TestInfo()
+        {
+            if (loggedIn())
+            {
+                return View();
+            }
+            else
+            {
+                Debug.WriteLine("Ikke logget inn");
+                return RedirectToAction("Register");
+            }
+        }
+
+        public ActionResult TestView()
+        {
+            if (loggedIn())
+            {
+                return View();
+            }
+            else
+            {
+                Debug.WriteLine("Ikke logget inn");
+                return RedirectToAction("Register");
+            }
         }
 
         public ActionResult Register()
@@ -88,12 +115,19 @@ namespace OXXGame.Controllers
                 return View("Index");
             }
 
-            return RedirectToAction("Register");
+            return View("Register");
         }
         
         public ActionResult StartTest()
         {
-            return View("TestView");
+            if (loggedIn())
+            {
+                return View("TestView");
+            }
+            else
+            {
+                return View("Index");
+            }
         }
 
         public ActionResult KjorKode(Submission Submission)
@@ -106,13 +140,28 @@ namespace OXXGame.Controllers
 
         public ActionResult Avbryt()
         {
-            //Session["LoggetInn"] = false;
+            HttpContext.Session.SetInt32(LoggedIn, FALSE);
+            Debug.WriteLine("Logger ut...");
             return RedirectToAction("Index");
         }
 
-        /*private bool isLoggedIn()
+
+        public bool loggedIn()
         {
-            if ()
-        }*/
+            bool loggetInn;
+
+            if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
+            {
+                loggetInn = true;
+            }
+            else
+            {
+                HttpContext.Session.SetInt32(LoggedIn, FALSE);
+                loggetInn = false;
+            }
+
+            return loggetInn;
+        }
+
     }
 }

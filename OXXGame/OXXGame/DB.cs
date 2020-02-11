@@ -19,194 +19,184 @@ namespace OXXGame
         /* ------------------------- Add metoder ------------------------- */
         public bool addUser(User user)
         {
-            using (db)
+            var userRow = new Users()
             {
-                var userRow = new Users()
-                {
-                    Password = user.pwdHash,
-                    LoginCounter = 1,
-                    Firstname = user.firstname,
-                    Lastname = user.lastname,
-                    Email = user.email,
-                    IsAdmin = false,
-                    KnowHtml = user.knowHtml,
-                    KnowCss = user.knowCss,
-                    KnowJavascript = user.knowJavascript,
-                    KnowCsharp = user.knowCsharp,
-                    KnowMvc = user.knowMvc,
-                    KnowNetframework = user.knowNetframework,
-                    KnowTypescript = user.knowTypescript,
-                    KnowVue = user.knowVue,
-                    KnowReact = user.knowReact,
-                    KnowAngular = user.knowAngular
-                };
-
-                try
-                {
-                    db.Add(userRow);
-                    db.SaveChanges();
-                    return true;
-                } 
-                
-                catch (Exception e)
-                {
-                    return false;
-                }
+                Password = user.pwdHash,
+                LoginCounter = 1,
+                Firstname = user.firstname,
+                Lastname = user.lastname,
+                Email = user.email,
+                IsAdmin = false,
+                KnowHtml = user.knowHtml,
+                KnowCss = user.knowCss,
+                KnowJavascript = user.knowJavascript,
+                KnowCsharp = user.knowCsharp,
+                KnowMvc = user.knowMvc,
+                KnowNetframework = user.knowNetframework,
+                KnowTypescript = user.knowTypescript,
+                KnowVue = user.knowVue,
+                KnowReact = user.knowReact,
+                KnowAngular = user.knowAngular
+            };
+            
+            try
+            {
+                db.Add(userRow);
+                db.SaveChanges();
+                return true;
+            } 
+            catch (Exception e)
+            {
+                return false;
             }
         }
 
         public bool addTask(Models.Task task)
         {
-            using (db)
+            var taskRow = new Tasks()
             {
-                var taskRow = new Tasks()
-                {
-                    id = task.testId,
-                    Test = task.test,
-                    Difficulty = task.difficulty,
-                    Category = task.category
-                };
-
-                try
-                {
-                    db.Add(taskRow);
-                    db.SaveChanges();
-                    return true;
-                }
-
-                catch (Exception e)
-                {
-                    return false;
-                }
+                id = task.testId,
+                Test = task.test,
+                Difficulty = task.difficulty,
+                Category = task.category
+            };
+            
+            try
+            {
+                db.Add(taskRow);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
             }
         }
 
         public bool addSingleResult(SingleTestResult result)
         {
-            using (db)
+            var singleResultRow = new SingleTestResults()
             {
-                var singleResultRow = new SingleTestResults()
-                {
-                    Passed = result.passed,
-                    Attempts = result.tries,
-                    TimeUsed = result.timeSpent,
-                    UserId = result.userId,
-                    TestId = result.testId,
-                    Submitted = result.submitted
-                };
-
-                try
-                {
-                    db.Add(singleResultRow);
-                    db.SaveChanges();
-                    return true;
-                }
-
-                catch (Exception e)
-                {
-                    return false;
-                }
+                Passed = result.passed,
+                Attempts = result.tries,
+                TimeUsed = result.timeSpent,
+                UserId = result.userId,
+                TestId = result.testId,
+                Submitted = result.submitted
+            };
+            
+            try
+            {
+                db.Add(singleResultRow);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
             }
         }
 
         public bool addTotResult(Result result)
         {
-            using (db)
+            var resultRow = new Results()
             {
-                var resultRow = new Results()
-                {
-                    UserId = result.userId,
-                    TimeUsed = result.timeUsed,
-                    TestsPassed = result.testsPassed,
-                    TestsFailed = result.testsFailed,
-                    Tests = result.tests
-                };
-
-                try
-                {
-                    db.Add(resultRow);
-                    db.SaveChanges();
-                    return true;
-                }
-
-                catch (Exception e)
-                {
-                    return false;
-                }
+                UserId = result.userId,
+                TimeUsed = result.timeUsed,
+                TestsPassed = result.testsPassed,
+                TestsFailed = result.testsFailed,
+                Tests = result.tests
+            };
+            
+            try
+            {
+                db.Add(resultRow);
+                db.SaveChanges();
+                return true;
             }
+            catch (Exception e)
+            {
+                return false;
+            }
+            
         }
 
         /* ------------------------- List metoder ------------------------- */
         public List<User> allUsers()
         {
-            using(db)
-            {
-                List<User> users = db.Users.Select(user => getUserData(user)).ToList();
-                return users;
-            }
+            List<User> users = db.Users.Select(user => getUserData(user)).ToList();
+            return users;
         }
 
         public List<Models.Task> allTasks()
         {
-            using (db)
-            {   
-                List<Models.Task> tasks = db.Tests.Select(task => new Models.Task
-                {
-                    testId = task.id,
-                    test = task.Test,
-                    difficulty = task.Difficulty,
-                    category = task.Category
-                }).ToList();
+            List<Models.Task> tasks = db.Tests.Select(task => new Models.Task
+            {
+                testId = task.id,
+                test = task.Test,
+                difficulty = task.Difficulty,
+                category = task.Category
+            }).ToList();
 
                 return tasks;
-            }
+        }
+
+        public List<Result> allResults()
+        {
+            List<Result> results = db.Results.Select(result => getResultData(result)).ToList();
+            return results;
+        }
+
+        private static Result getResultData(Results result)
+        {
+            return new Result()
+            {
+                userId = result.UserId,
+                timeUsed = result.TimeUsed,
+                testsPassed = result.TestsPassed,
+                testsFailed = result.TestsFailed,
+                tests = result.Tests
+            };
         }
 
         // Henter ut bruker ved brukernavn. Metoden returnerer null hvis man ikke finner nøyaktig 1 bruker.
         // Denne er i utgangspunktet ment til innloggingsvalidering. 
         public User getUser(string uname)
         {
-            using (db)
+            try
             {
-                try
-                {
-                    Users user = db.Users.SingleOrDefault(u => u.Email == uname);
-                    User validUser = getUserData(user);
-
-                    return validUser;
-                }
-
-                catch (InvalidOperationException e)
-                {
-                    Debug.Write(e.Message);
-                    return null;
-                }
+                Users user = db.Users.SingleOrDefault(u => u.Email == uname);
+                User validUser = getUserData(user);
+                
+                return validUser;
+            }
+            catch (InvalidOperationException e)
+            {
+                return null;
             }
         }
+
+
 
         // Henter totalresultat ved bruker-id. Har ikke brukeren noen oppføring i resultattabellen (bruker har ikke utført test) returneres null
         public Result resultTot(int uid)
         {
-            using (db)
+            try
             {
-                try
+                Results resultRow = db.Results.SingleOrDefault(r => r.UserId == uid);
+                Result result = new Result()
                 {
-                    Results resultRow = db.Results.SingleOrDefault(r => r.UserId == uid);
-                    Result result = new Result()
-                    {
-                        userId = resultRow.UserId,
-                        timeUsed = resultRow.TimeUsed,
-                        testsPassed = resultRow.TestsPassed,
-                        testsFailed = resultRow.TestsFailed,
-                        tests = resultRow.Tests
-                    };
-                    return result;
-                }
-
-                catch (InvalidOperationException e)
-                {
-                    return null;
-                }
+                    userId = resultRow.UserId,
+                    timeUsed = resultRow.TimeUsed,
+                    testsPassed = resultRow.TestsPassed,
+                    testsFailed = resultRow.TestsFailed,
+                    tests = resultRow.Tests
+                };
+                return result;
+            }
+            catch (InvalidOperationException e)
+            {
+                return null;
             }
         }
 
@@ -214,96 +204,84 @@ namespace OXXGame
         // Har ikke brukeren noen oppføring i singelresultat-tabellen (bruker har ikke utført noen tasks) returneres en tom liste
         public List<SingleTestResult> resultPerTask(int uId)
         {
-            using (db)
+            List<SingleTestResults> results = db.SingleTestResults.Where(r => r.UserId == uId).ToList();
+            List<SingleTestResult> result = new List<SingleTestResult>();
+            foreach (SingleTestResults res in results)
             {
-                List<SingleTestResults> results = db.SingleTestResults.Where(r => r.UserId == uId).ToList();
-                List<SingleTestResult> result = new List<SingleTestResult>();
-                foreach (SingleTestResults res in results)
+                result.Add(new SingleTestResult()
                 {
-                    result.Add(new SingleTestResult()
-                    {
-                        passed = res.Passed,
-                        tries = res.Attempts,
-                        timeSpent = res.TimeUsed,
-                        userId = res.UserId,
-                        testId = res.TestId,
-                        submitted = res.Submitted
-                    });
-                }
-
-                return result;
+                    passed = res.Passed,
+                    tries = res.Attempts,
+                    timeSpent = res.TimeUsed,
+                    userId = res.UserId,
+                    testId = res.TestId,
+                    submitted = res.Submitted
+                });
             }
+            
+            return result;
         }
 
         /* ------------------------- Update metoder ------------------------- */
         public bool updateTask(int taskId, Models.Task uTask)
         {
-            using (db)
+            var task = db.Tests.SingleOrDefault(t => t.id == taskId);
+            
+            if (task != null)
             {
-                var task = db.Tests.SingleOrDefault(t => t.id == taskId);
+                task.Test = uTask.test;
+                task.Difficulty = uTask.difficulty;
+                task.Category = uTask.category;
+            } 
                 
-                if (task != null)
-                {
-                    task.Test = uTask.test;
-                    task.Difficulty = uTask.difficulty;
-                    task.Category = uTask.category;
-                } 
+            else
+            {
+                return false;
+            }
                 
-                else
-                {
-                    return false;
-                }
-                
-                try
-                {
-                    db.Tests.Update(task);
-                    db.SaveChanges();
-                    return true;
-                }
-
-                catch (Exception e)
-                {
-                    return false;
-                }
+            try
+            {
+                db.Tests.Update(task);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            { 
+                return false;
             }
         }
 
         public bool updateSingleTestResult(int uId, int tId, SingleTestResult uSingleResult)
         {
-            using (db)
+            var singleResult = db.SingleTestResults.SingleOrDefault(t => (t.UserId == uId && t.TestId == tId));
+
+            if (singleResult != null)
             {
-                var singleResult = db.SingleTestResults.SingleOrDefault(t => (t.UserId == uId && t.TestId == tId));
-
-                if (singleResult != null)
-                {
-                    singleResult.Passed = uSingleResult.passed;
-                    singleResult.Attempts = uSingleResult.tries;
-                    singleResult.TimeUsed += uSingleResult.timeSpent;
-                    singleResult.Submitted = uSingleResult.submitted;
-                }
-                
-                else
-                {
-                    return false;
-                }
-
-                try
-                {
+                singleResult.Passed = uSingleResult.passed;
+                singleResult.Attempts = uSingleResult.tries;
+                singleResult.TimeUsed += uSingleResult.timeSpent;
+                singleResult.Submitted = uSingleResult.submitted;
+            }
+            else
+            {
+                return false;
+            }
+            
+            try
+            {
                     db.SingleTestResults.Update(singleResult);
                     db.SaveChanges();
                     return true;
-                }
-
-                catch (Exception e)
-                {
-                    return false;
-                }
+            }
+            catch (Exception e)
+            {
+                return false;
             }
         }
 
         /* -------------------------------------------------------------------------------------------------------------------------------- */
         // Hjelpemetode for opprettelse av ny brukermodellobjekt basert på tabellrad (Users)
-        private User getUserData(Users user)
+        private static User getUserData(Users user)
         {
             return new User()
             {
