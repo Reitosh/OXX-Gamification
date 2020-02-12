@@ -28,6 +28,7 @@ namespace OXXGame.Controllers
 
         public ActionResult Index()
         {
+            HttpContext.Session.SetInt32(LoggedIn, FALSE);
             return View();
         }
 
@@ -46,6 +47,7 @@ namespace OXXGame.Controllers
         [HttpPost]
         public ActionResult Login(User inUser)
         {
+
             DB db = new DB(dbContext);
 
             User user = db.getUser(inUser.email);
@@ -62,11 +64,39 @@ namespace OXXGame.Controllers
                     }
                     else
                     {
+
                         return View("TestInfo");
                     }
+
                 }
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult TestInfo()
+        {
+            if (loggedIn())
+            {
+                return View();
+            }
+            else
+            {
+                Debug.WriteLine("Ikke logget inn");
+                return RedirectToAction("Register");
+            }
+        }
+
+        public ActionResult TestView()
+        {
+            if (loggedIn())
+            {
+                return View();
+            }
+            else
+            {
+                Debug.WriteLine("Ikke logget inn");
+                return RedirectToAction("Register");
+            }
         }
 
         public ActionResult Register()
@@ -77,6 +107,7 @@ namespace OXXGame.Controllers
         [HttpPost]
         public ActionResult RegisterUser(User user)
         {
+
             DB db = new DB(dbContext);
             if (db.addUser(user))
             {
@@ -89,7 +120,7 @@ namespace OXXGame.Controllers
         
         public ActionResult StartTest()
         {
-            if (loggedIn(true))
+            if (loggedIn())
             {
                 return View("TestView");
             }
@@ -99,28 +130,34 @@ namespace OXXGame.Controllers
             }
         }
 
+        public ActionResult KjorKode(Submission Submission)
+        {
+            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
+            ssh.ConnectToVM(Submission.Code);
+            
+            return RedirectToAction("TestView");
+        }
+
         public ActionResult Avbryt()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
-
+            Debug.WriteLine("Logger ut...");
             return RedirectToAction("Index");
         }
 
 
-        public bool loggedIn(bool loggetInn)
+        public bool loggedIn()
         {
-            
-            if (HttpContext.Session.Get(LoggedIn) != null)
+            bool loggetInn;
+
+            if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
             {
-                if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
-                {
-                    return true;
-                }
+                loggetInn = true;
             }
             else
             {
                 HttpContext.Session.SetInt32(LoggedIn, FALSE);
-                return false;
+                loggetInn = false;
             }
 
             return loggetInn;

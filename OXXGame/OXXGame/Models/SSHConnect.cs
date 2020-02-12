@@ -11,37 +11,30 @@ namespace OXXGame.Models
 
     public class SSHConnect
     {
-
-        string user;
-        string password;
-        string host;
-
-
+        private string user;
+        private string password;
+        private string host;
 
         public SSHConnect(string user, string password, string host)
         {
             this.user = user;
             this.password = password;
             this.host = host;
-
         }
-
-        public void ConnectToVM()
+        public string ConnectToVM(string Code)
         {
-            string code = "'using System; namespace HelloWorld { public class HelloWorld { public static void Main(string[] args) { Console.WriteLine(\"Hva skjer da\"); } } }'";
+             
 
-            using (var client = new SshClient(new ConnectionInfo("51.140.218.174", "Markus", new PasswordAuthenticationMethod("Markus", "Plainsmuchj0urney"))))
+            using (var client = new SshClient(new ConnectionInfo(
+                "51.140.218.174", "Markus", new PasswordAuthenticationMethod("Markus", "Plainsmuchj0urney"))))
             {
+
                 client.Connect();
-                client.RunCommand("rm HelloWorld.exe");
-                client.RunCommand("rm HelloWorld.cs");
-                client.RunCommand("sudo touch HelloWorld.cs");
-                client.RunCommand("sudo chmod 777 HelloWorld.cs");
-                client.RunCommand("echo " + code + ">> HelloWorld.cs");
-                client.RunCommand("mcs HelloWorld.cs");
-                var output = client.RunCommand("mono HelloWorld.exe");
-                Debug.WriteLine(output.Result);
+                var command = client.RunCommand("sudo sh /home/Markus/CSharp.sh '" + Code + "'");
+                string result = command.Result;
                 client.Disconnect();
+               
+                return result;
             }
         }
 

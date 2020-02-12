@@ -14,5 +14,8 @@ namespace OXXGame.Models
         public int userId { get; set; }
         public int testId { get; set; }
         public bool submitted { get; set; }
+
+        public string Code { get; set; }
+        
     }
 }
