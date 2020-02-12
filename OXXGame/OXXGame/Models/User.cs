@@ -29,7 +29,6 @@ namespace OXXGame.Models
                     return createHash(password);
                 }
             }
-
             set 
             {
                 _pwdHash = value;
