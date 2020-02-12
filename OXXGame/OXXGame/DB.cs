@@ -47,6 +47,8 @@ namespace OXXGame
             } 
             catch (Exception e)
             {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
                 return false;
             }
         }
@@ -69,6 +71,8 @@ namespace OXXGame
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
                 return false;
             }
         }
@@ -93,6 +97,8 @@ namespace OXXGame
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
                 return false;
             }
         }
@@ -116,6 +122,8 @@ namespace OXXGame
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
                 return false;
             }
             
@@ -147,18 +155,6 @@ namespace OXXGame
             return results;
         }
 
-        private static Result getResultData(Results result)
-        {
-            return new Result()
-            {
-                userId = result.UserId,
-                timeUsed = result.TimeUsed,
-                testsPassed = result.TestsPassed,
-                testsFailed = result.TestsFailed,
-                tests = result.Tests
-            };
-        }
-
         // Henter ut bruker ved brukernavn. Metoden returnerer null hvis man ikke finner nøyaktig 1 bruker.
         // Denne er i utgangspunktet ment til innloggingsvalidering. 
         public User getUser(string uname)
@@ -170,13 +166,13 @@ namespace OXXGame
                 
                 return validUser;
             }
-            catch (InvalidOperationException e)
+            catch (Exception e)
             {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
                 return null;
             }
         }
-
-
 
         // Henter totalresultat ved bruker-id. Har ikke brukeren noen oppføring i resultattabellen (bruker har ikke utført test) returneres null
         public Result resultTot(int uid)
@@ -184,42 +180,36 @@ namespace OXXGame
             try
             {
                 Results resultRow = db.Results.SingleOrDefault(r => r.UserId == uid);
-                Result result = new Result()
-                {
-                    userId = resultRow.UserId,
-                    timeUsed = resultRow.TimeUsed,
-                    testsPassed = resultRow.TestsPassed,
-                    testsFailed = resultRow.TestsFailed,
-                    tests = resultRow.Tests
-                };
+                Result result = getResultData(resultRow);
+
                 return result;
             }
             catch (InvalidOperationException e)
             {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
                 return null;
             }
         }
 
         // Henter resultater fra alle enkelt-tasks brukeren har utført ved bruker-id.
         // Har ikke brukeren noen oppføring i singelresultat-tabellen (bruker har ikke utført noen tasks) returneres en tom liste
-        public List<SingleTestResult> resultPerTask(int uId)
+        public List<SingleTestResult> allSingleTestResults(int uId)
         {
             List<SingleTestResults> results = db.SingleTestResults.Where(r => r.UserId == uId).ToList();
             List<SingleTestResult> result = new List<SingleTestResult>();
             foreach (SingleTestResults res in results)
             {
-                result.Add(new SingleTestResult()
-                {
-                    passed = res.Passed,
-                    tries = res.Attempts,
-                    timeSpent = res.TimeUsed,
-                    userId = res.UserId,
-                    testId = res.TestId,
-                    submitted = res.Submitted
-                });
+                result.Add(getSResultData(res));
             }
             
             return result;
+        }
+
+        public List<SingleTestResult> allSingleTestResults()
+        {
+            List<SingleTestResult> results = db.SingleTestResults.Select(r => getSResultData(r)).ToList();
+            return results;
         }
 
         /* ------------------------- Update metoder ------------------------- */
@@ -246,7 +236,9 @@ namespace OXXGame
                 return true;
             }
             catch (Exception e)
-            { 
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
                 return false;
             }
         }
@@ -275,6 +267,8 @@ namespace OXXGame
             }
             catch (Exception e)
             {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
                 return false;
             }
         }
@@ -302,6 +296,31 @@ namespace OXXGame
                 knowVue = user.KnowVue,
                 knowReact = user.KnowReact,
                 knowAngular = user.KnowAngular
+            };
+        }
+
+        private static Result getResultData(Results result)
+        {
+            return new Result()
+            {
+                userId = result.UserId,
+                timeUsed = result.TimeUsed,
+                testsPassed = result.TestsPassed,
+                testsFailed = result.TestsFailed,
+                tests = result.Tests
+            };
+        }
+
+        private static SingleTestResult getSResultData(SingleTestResults sResult)
+        {
+            return new SingleTestResult()
+            {
+                passed = sResult.Passed,
+                tries = sResult.Attempts,
+                timeSpent = sResult.TimeUsed,
+                userId = sResult.UserId,
+                testId = sResult.TestId,
+                submitted = sResult.Submitted
             };
         }
     }
