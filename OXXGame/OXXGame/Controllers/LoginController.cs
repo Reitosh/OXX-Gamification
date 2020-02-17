@@ -10,16 +10,16 @@ using Microsoft.AspNetCore.Http;
 
 namespace OXXGame.Controllers
 {
-    public class HomeController : Controller
+    public class LoginController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<LoginController> _logger;
         private OXXGameDBContext dbContext; //DbContext-objektet som brukes til database-aksess
 
         public readonly string LoggedIn = "login_key";
         public readonly int TRUE = 1;
         public readonly int FALSE = 0;
 
-        public HomeController(ILogger<HomeController> logger, OXXGameDBContext context)
+        public LoginController(ILogger<LoginController> logger, OXXGameDBContext context)
         {
             _logger = logger;
             dbContext = context;
