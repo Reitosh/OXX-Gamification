@@ -10,31 +10,27 @@ using Microsoft.AspNetCore.Http;
 
 namespace OXXGame.Controllers
 {
-    public class HomeController : Controller
+    public class LoginController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<LoginController> _logger;
         private OXXGameDBContext dbContext; //DbContext-objektet som brukes til database-aksess
 
         public readonly string LoggedIn = "login_key";
         public readonly int TRUE = 1;
         public readonly int FALSE = 0;
 
-        public HomeController(ILogger<HomeController> logger, OXXGameDBContext context)
+        public LoginController(ILogger<LoginController> logger, OXXGameDBContext context)
         {
             _logger = logger;
             dbContext = context;
         }
 
 
+        //  Index, kjøres når programmet starter. Sørger for at egen Session variabel blir FALSE
+        //  slik at en bruker ikke er logget inn fra start. 
         public ActionResult Index()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
-            return View();
-        }
-
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 
@@ -65,38 +61,12 @@ namespace OXXGame.Controllers
                     else
                     {
 
-                        return View("TestInfo");
+                        return RedirectToAction("TestInfo", "Test");
                     }
 
                 }
             }
             return RedirectToAction("Index");
-        }
-
-        public ActionResult TestInfo()
-        {
-            if (loggedIn())
-            {
-                return View();
-            }
-            else
-            {
-                Debug.WriteLine("Ikke logget inn");
-                return RedirectToAction("Register");
-            }
-        }
-
-        public ActionResult TestView()
-        {
-            if (loggedIn())
-            {
-                return View();
-            }
-            else
-            {
-                Debug.WriteLine("Ikke logget inn");
-                return RedirectToAction("Register");
-            }
         }
 
         public ActionResult Register()
@@ -115,36 +85,16 @@ namespace OXXGame.Controllers
                 return View("Index");
             }
 
-            return View("Register");
-        }
-        
-        public ActionResult StartTest()
-        {
-            if (loggedIn())
-            {
-                return View("TestView");
-            }
-            else
-            {
-                return View("Index");
-            }
+            return View("RegisterUser");
         }
 
-        public ActionResult KjorKode(Submission Submission)
-        {
-            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
-            ssh.ConnectToVM(Submission.Code);
-            
-            return RedirectToAction("TestView");
-        }
-
-        public ActionResult Avbryt()
+/*        public ActionResult Avbryt()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
             Debug.WriteLine("Logger ut...");
             return RedirectToAction("Index");
         }
-
+*/
 
         public bool loggedIn()
         {
