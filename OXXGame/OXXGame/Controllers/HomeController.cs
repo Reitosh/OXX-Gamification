@@ -28,10 +28,19 @@ namespace OXXGame.Controllers
 
         public ActionResult Index()
         {
-            HttpContext.Session.SetInt32(LoggedIn, FALSE);
+            if (HttpContext.Session.Get(LoggedIn) != null)
+            {
+                if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
+                {
+                    return RedirectToAction("");
+                }
+            }
+            else
+            {
+                HttpContext.Session.SetInt32(LoggedIn, FALSE);
+            }
             return View();
         }
-
 
         public IActionResult Privacy()
         {
@@ -56,47 +65,12 @@ namespace OXXGame.Controllers
             {
                 if (Enumerable.SequenceEqual(inUser.pwdHash,user.pwdHash))
                 {
-                    HttpContext.Session.SetInt32(LoggedIn, TRUE);
-
-                    if (user.isAdmin)
-                    {
-                        return RedirectToAction("AdminPortal", "Admin");
-                    }
-                    else
-                    {
-
-                        return View("TestInfo");
-                    }
-
+                    HttpContext.Session.SetInt32("uId", user.userId);
+                    return View("TestInfo");
                 }
             }
+
             return RedirectToAction("Index");
-        }
-
-        public ActionResult TestInfo()
-        {
-            if (loggedIn())
-            {
-                return View();
-            }
-            else
-            {
-                Debug.WriteLine("Ikke logget inn");
-                return RedirectToAction("Register");
-            }
-        }
-
-        public ActionResult TestView()
-        {
-            if (loggedIn())
-            {
-                return View();
-            }
-            else
-            {
-                Debug.WriteLine("Ikke logget inn");
-                return RedirectToAction("Register");
-            }
         }
 
         public ActionResult Register()
@@ -115,53 +89,32 @@ namespace OXXGame.Controllers
                 return View("Index");
             }
 
-            return View("Register");
+            return RedirectToAction("Register");
         }
         
         public ActionResult StartTest()
         {
-            if (loggedIn())
-            {
-                return View("TestView");
-            }
-            else
-            {
-                return View("Index");
-            }
+            return View("TestView");
         }
 
-        public ActionResult KjorKode(Submission Submission)
+        public ActionResult RunCSharpCode(Submission Submission)
         {
             SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
-            ssh.ConnectToVM(Submission.Code);
+            ssh.CompileCSharp(Submission.Code, HttpContext.Session.GetInt32("uId"));
             
-            return RedirectToAction("TestView");
+            
+            return View("TestView");
         }
 
         public ActionResult Avbryt()
         {
-            HttpContext.Session.SetInt32(LoggedIn, FALSE);
-            Debug.WriteLine("Logger ut...");
+            //Session["LoggetInn"] = false;
             return RedirectToAction("Index");
         }
 
-
-        public bool loggedIn()
+        /*private bool isLoggedIn()
         {
-            bool loggetInn;
-
-            if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
-            {
-                loggetInn = true;
-            }
-            else
-            {
-                HttpContext.Session.SetInt32(LoggedIn, FALSE);
-                loggetInn = false;
-            }
-
-            return loggetInn;
-        }
-
+            if ()
+        }*/
     }
 }

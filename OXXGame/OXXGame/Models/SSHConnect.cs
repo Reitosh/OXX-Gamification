@@ -21,22 +21,30 @@ namespace OXXGame.Models
             this.password = password;
             this.host = host;
         }
-        public string ConnectToVM(string Code)
+        public string CompileCSharp(string Code, int? userId)
         {
-             
-
             using (var client = new SshClient(new ConnectionInfo(
                 "51.140.218.174", "Markus", new PasswordAuthenticationMethod("Markus", "Plainsmuchj0urney"))))
             {
-
                 client.Connect();
-                var command = client.RunCommand("sudo sh /home/Markus/CSharp.sh '" + Code + "'");
-                string result = command.Result;
+                var command = client.RunCommand("sudo sh /home/Markus/CSharp.sh '" + Code + "' "
+                    + "'" + userId + "'");
+                string output = command.Result;
+                Debug.WriteLine(output);
                 client.Disconnect();
-               
-                return result;
+
+                return output;
             }
         }
+           /* public void RunJavaScript()
+            {
+                using (var client = new SshClient(new ConnectionInfo(
+                "51.140.218.174", "Markus", new PasswordAuthenticationMethod("Markus", "Plainsmuchj0urney"))))
+                {
+                    client.Connect();
+                    
+                }
+        }*/
 
     }
 }
