@@ -1,0 +1,53 @@
+﻿@model Submission
+@{
+    ViewData["Title"] = "Evnetest";
+}
+
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>OXXGame - @ViewData["Title"]</title>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+        <!-- Linked CSS Files -->
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/mobile.css" />
+
+        <!-- Linked Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="main">
+            <div class="form-group">
+                @using (Html.BeginForm("KjorKode", "Home", FormMethod.Post))
+                {
+                    <label class="test-text">Kategori:</label><br />
+                    <label class="test-text">Vanskelighetsgrad:</label><br />
+
+                    <label class="test-text">Oppgave:</label><br />
+
+
+                    <textarea class="form-control" asp-for="Code" id="code" placeholder="Kode her" name="code" rows="10"></textarea>
+                    <input type="submit" value="Kjør kode" />
+                    <textarea class="form-control"  id="code" placeholder="Output her" name="code" rows="5"></textarea>
+                }
+
+
+                @using (Html.BeginForm("Avbryt", "Home", FormMethod.Get))
+                {
+                    <button id="btn-login" new { onclick="return confirm('Er du sikker på at du vil kaste inn håndklet? Du vil bli logget ut og tatt tilbake til innlogging.');" })>
+                        Gi opp
+                    </button>
+                }
+
+
+
+
+
+            </div>
+        </div>
+</body>

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj": {}
+    "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj": {
+    "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
+        "projectUniqueName": "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
         "projectName": "OXXGame",
-        "projectPath": "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
-        "packagesPath": "C:\\Users\\Djembla\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Djembla\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\obj\\",
+        "projectPath": "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
+        "packagesPath": "C:\\Users\\testor\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Djembla\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\testor\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -59,11 +59,15 @@
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[3.1.0, )"
+              "version": "[3.1.1, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
               "version": "[3.1.0, )"
+            },
+            "SSH.NET": {
+              "target": "Package",
+              "version": "[2016.1.0, )"
             }
           },
           "imports": [

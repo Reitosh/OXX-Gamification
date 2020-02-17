@@ -1,0 +1,77 @@
+﻿@model User
+@{
+    ViewData["Title"] = "RegisterUser";
+}
+
+<h1>RegisterUser</h1>
+
+<!--<form action="" method="post"> -->
+@using (Html.BeginForm("RegisterUser", "Home",FormMethod.Post))
+{
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="email">Email</label>
+        <input asp-for="email" class="form-control" />
+        <span asp-validation-for="email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="password">Passord</label>
+        <input asp-for="password" class="form-control" />
+        <span asp-validation-for="password" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="firstname">Fornavn</label>
+        <input asp-for="firstname" class="form-control" />
+        <span asp-validation-for="firstname" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="lastname">Etternavn</label>
+        <input asp-for="lastname" class="form-control" />
+        <span asp-validation-for="lastname" class="text-danger"></span>
+    </div>
+
+    <div class="form-group form-check">
+        @Html.CheckBoxFor(model => model.knowHtml)
+        @Html.LabelFor(model => model.knowHtml)
+    </div>
+    <div class="form-group form-check">
+        @Html.CheckBoxFor(model => model.knowCss)
+        @Html.LabelFor(model => model.knowCss)
+    </div>
+    <div class="form-group form-check">
+        @Html.CheckBoxFor(model => model.knowJavascript)
+        @Html.LabelFor(model => model.knowJavascript)
+    </div>
+    <div class="form-group form-check">
+        @Html.CheckBoxFor(model => model.knowCsharp)
+        @Html.LabelFor(model => model.knowCsharp)
+    </div>
+    <div class="form-group form-check">
+        @Html.CheckBoxFor(model => model.knowMvc)
+        @Html.LabelFor(model => model.knowMvc)
+    </div>
+    <div class="form-group form-check">
+        @Html.CheckBoxFor(model => model.knowNetframework)
+        @Html.LabelFor(model => model.knowNetframework)
+    </div>
+    <div class="form-group form-check">
+        @Html.CheckBoxFor(model => model.knowTypescript)
+        @Html.LabelFor(model => model.knowTypescript)
+    </div>
+    <div class="form-group form-check">
+        @Html.CheckBoxFor(model => model.knowVue)
+        @Html.LabelFor(model => model.knowVue)
+    </div>
+    <div class="form-group form-check">
+        @Html.CheckBoxFor(model => model.knowReact)
+        @Html.LabelFor(model => model.knowReact)
+    </div>
+    <div class="form-group form-check">
+        @Html.CheckBoxFor(model => model.knowAngular)
+        @Html.LabelFor(model => model.knowAngular)
+    </div>
+
+    <input id="btn-login" type="submit" name="RegisterUser" value="Letsgo" />
+}
+
+<!--</form>-->
