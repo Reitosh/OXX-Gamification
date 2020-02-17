@@ -64,7 +64,6 @@ namespace OXXGame.Controllers
                     }
                     else
                     {
-
                         return View("TestInfo");
                     }
 
@@ -162,6 +161,5 @@ namespace OXXGame.Controllers
 
             return loggetInn;
         }
-
     }
 }
