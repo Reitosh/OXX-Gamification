@@ -25,11 +25,15 @@ namespace OXXGame.Controllers
             dbContext = context;
         }
 
+        //  Index, kjøres når programmet starter. Sørger for at egen Session variabel blir FALSE
+        //  slik at en bruker ikke er logget inn fra start. 
+
         public ActionResult Index()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
             return View();
         }
+
 
         [HttpPost]
         public ActionResult Login(User inUser)
@@ -49,8 +53,9 @@ namespace OXXGame.Controllers
                     }
                     else
                     {
-                        return View("TestInfo");
+                        return RedirectToAction("TestInfo", "Test");
                     }
+
                 }
             }
 
@@ -60,32 +65,6 @@ namespace OXXGame.Controllers
         public ActionResult Register()
         {
             return View("RegisterUser");
-        }
-
-        public ActionResult TestInfo()
-        {
-            if (loggedIn())
-            {
-                return View();
-            }
-            else
-            {
-                Debug.WriteLine("Ikke logget inn");
-                return RedirectToAction("Register");
-            }
-        }
-
-        public ActionResult TestView()
-        {
-            if (loggedIn())
-            {
-                return View();
-            }
-            else
-            {
-                Debug.WriteLine("Ikke logget inn");
-                return RedirectToAction("Register");
-            }
         }
 
         [HttpPost]
@@ -99,36 +78,18 @@ namespace OXXGame.Controllers
                 return View("Index");
             }
 
-            return View("Register");
-        }
-        
-        public ActionResult StartTest()
-        {
-            if (loggedIn())
-            {
-                return View("TestView");
-            }
-            else
-            {
-                return View("Index");
-            }
+            return View("RegisterUser");
         }
 
-        public ActionResult KjorKode(Submission Submission)
-        {
-            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
-            ssh.ConnectToVM(Submission.Code);
-            
-            return RedirectToAction("TestView");
-        }
+/*        public ActionResult Avbryt()
 
-        public ActionResult Avbryt()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
             Debug.WriteLine("Logger ut...");
             return RedirectToAction("Index");
         }
 
+*/
 
         public bool loggedIn()
         {
