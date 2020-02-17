@@ -4,13 +4,44 @@
 /**********************************************/
 
 body {
+    background-color: #282828;
     font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: #fff;
     margin: 0;
     padding: 0;
     -webkit-user-select: none;
     -moz-user-select: -moz-none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.section {
+    padding: 80px 0;
+}
+
+.underline {
+    background: #fdea0e;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 40px;
+    width: 80px;
+    height: 3px;
+    border: 0;
+}
+
+/* Headings */
+h2 {
+    margin-bottom: 25px;
+    font-size: 30px;
+    text-align: center;
+}
+
+h5 {
+    font-size: 18px;
+    font-style: italic;
+    text-align: center;
 }
 
 /**********************************************/
@@ -29,7 +60,7 @@ body {
 
 .login-box {
     background-color: rgba(16, 16, 16, .6);
-    color: #fff;
+    color: #ffffff;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -41,50 +72,121 @@ body {
     text-align: center;
 }
 
-.login-box img {
-    width: 90px;
-    height: auto;
-    margin-bottom: 25px;
-}
+    .login-box img {
+        width: 90px;
+        height: auto;
+        margin-bottom: 25px;
+    }
 
-.login-box input {
-    width: 100%;
-    padding: 6px 10px;
-    margin-top: 20px;
-}
+    .login-box input {
+        width: 100%;
+        padding: 6px 10px;
+        margin-top: 20px;
+        outline: none;
+    }
 
 .login-box-content {
+    color: #ffffff;
     font-size: 14px;
-    color: #fff;
+    font-weight: 400;
 }
 
-.login-box-content:hover {
-    text-decoration: none;
-    color: #fff;
-}
+    .login-box-content:hover {
+        text-decoration: none;
+        color: #ffffff;
+    }
 
-#login-content-1 {
+#login-content-1 p {
     text-align: left;
-    margin-top: 10px;
+    margin-top: 12px;
 }
 
-#login-content-2 {
+#login-content-2 p {
     text-align: center;
     margin-top: 16px;
 }
 
 #btn-login {
-    background-color: #eaaa00;
+    background-color: #fdea0e;
     border: 1px solid #282828;
     padding: 8px 16px;
     color: #282828;
 }
 
-#btn-login:hover { background-color: #ffbe12; }
+    #btn-login:hover {
+        background-color: #f5ce02;
+    }
+
+.form-error-login {
+    color: #fdea0e;
+    font-size: 14px;
+    font-style: italic;
+    text-align: left;
+}
 
 /**********************************************/
 /***************** END LOGIN ******************/
 /**********************************************/
 
+/**********************************************/
+/****************** NAVBAR ********************/
+/**********************************************/
+
+.navbar {
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 88px;
+}
+
+.navbar-scroll {
+    background-color: #fdea0e;
+    height: 76px;
+    padding: 0 16px;
+    -moz-box-shadow: 0px 0px 5px 0px #000;
+    -webkit-box-shadow: 0px 0px 5px 0px #000;
+    box-shadow: 0px 0px 5px 0px #000;
+}
+
+/* Logo */
+.navbar-brand {
+    margin: 0;
+    padding: 0;
+}
+
+    .navbar-brand img {
+        width: 42px;
+        height: auto;
+    }
+
+/* Navbar Menu */
+.navbar-nav li a {
+    color: #ffffff;
+    font-weight: 300;
+}
+
+/**********************************************/
+/**************** END NAVBAR ******************/
+/**********************************************/
 
 
+/**********************************************/
+/****************** FOOTER ********************/
+/**********************************************/
+
+.footer {
+    background-color: #121212;
+    padding: 30px 0;
+}
+
+    .footer p {
+        margin: 0;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+    }
+
+/**********************************************/
+/**************** END FOOTER ******************/
+/**********************************************/
