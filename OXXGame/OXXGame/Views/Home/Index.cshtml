@@ -1,4 +1,5 @@
 ﻿@model User
+
 @{
     ViewData["Title"] = "Brukerinnlogging";
     Layout = null;
@@ -12,17 +13,19 @@
 
     <title>OXXGame - @ViewData["Title"]</title>
 
+    <!-- Linked Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
     <!-- Linked CSS Files -->
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/mobile.css" />
-
-    <!-- Linked Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
 </head>
-
 <body>
     <!-- LOGIN -->
     <div class="page-background">
@@ -33,38 +36,26 @@
                 <!-- Login form -->
                 @using (Html.BeginForm("Login", "Home", FormMethod.Post))
                 {
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="email">Email</label>
-                        <input asp-for="email" class="form-control" />
-                        <span asp-validation-for="email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="password">Passord</label>
-                        <input asp-for="password" class="form-control" />
-                        <span asp-validation-for="password" class="text-danger"></span>
-                    </div>
-                    <a class="login-box-content" href="#">
-                        <p id="login-content-1">Glemt innloggingsdetaljer?</p>
+                    <input asp-for="email" type="text" name="email" placeholder="E-post" /><br />
+                    <div class="form-error form-error-login" id="form-login-uname-error"></div>
+                    <input asp-for="password" type="password" name="password" placeholder="Passord" /><br />
+                    <div class="form-error form-error-login" id="form-login-passwd-error"></div>
+                    <a class="login-box-content" id="login-content-1" href="#">
+                        <p>Glemt innloggingsdetaljer?</p>
                     </a>
 
                     <input id="btn-login" type="submit" name="login" value="Logg inn" />
-
-                    <a class="login-box-content" href="#">
-
-                        <!-- <p id="login-content-2">Registrer ny bruker</p id="login-content-1"> -->
-                        @Html.ActionLink("Registrer ny bruker", "Register")
-
-
+                    <a class="login-box-content" id="login-content-2" asp-controller="Home" asp-action="Register">
+                        <p>Registrer ny bruker</p>
                     </a>
                 }
             </div>
         </div>
     </div>
     <!-- END LOGIN -->
-</body>
 
-<!-- Script Files -->
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Script Files -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
