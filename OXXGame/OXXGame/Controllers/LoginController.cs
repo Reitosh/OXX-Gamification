@@ -25,27 +25,20 @@ namespace OXXGame.Controllers
             dbContext = context;
         }
 
-
         //  Index, kjøres når programmet starter. Sørger for at egen Session variabel blir FALSE
         //  slik at en bruker ikke er logget inn fra start. 
+
         public ActionResult Index()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
 
         [HttpPost]
         public ActionResult Login(User inUser)
         {
-
             DB db = new DB(dbContext);
-
             User user = db.getUser(inUser.email);
 
             if (user != null)
@@ -60,12 +53,12 @@ namespace OXXGame.Controllers
                     }
                     else
                     {
-
                         return RedirectToAction("TestInfo", "Test");
                     }
 
                 }
             }
+
             return RedirectToAction("Index");
         }
 
@@ -89,11 +82,13 @@ namespace OXXGame.Controllers
         }
 
 /*        public ActionResult Avbryt()
+
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
             Debug.WriteLine("Logger ut...");
             return RedirectToAction("Index");
         }
+
 */
 
         public bool loggedIn()
@@ -112,6 +107,5 @@ namespace OXXGame.Controllers
 
             return loggetInn;
         }
-
     }
 }
