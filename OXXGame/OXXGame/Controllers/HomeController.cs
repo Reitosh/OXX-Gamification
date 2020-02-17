@@ -25,31 +25,16 @@ namespace OXXGame.Controllers
             dbContext = context;
         }
 
-
         public ActionResult Index()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
             return View();
         }
 
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
         [HttpPost]
         public ActionResult Login(User inUser)
         {
-
             DB db = new DB(dbContext);
-
             User user = db.getUser(inUser.email);
 
             if (user != null)
@@ -66,10 +51,15 @@ namespace OXXGame.Controllers
                     {
                         return View("TestInfo");
                     }
-
                 }
             }
+
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Register()
+        {
+            return View("RegisterUser");
         }
 
         public ActionResult TestInfo()
@@ -96,11 +86,6 @@ namespace OXXGame.Controllers
                 Debug.WriteLine("Ikke logget inn");
                 return RedirectToAction("Register");
             }
-        }
-
-        public ActionResult Register()
-        {
-            return View("RegisterUser");
         }
 
         [HttpPost]
