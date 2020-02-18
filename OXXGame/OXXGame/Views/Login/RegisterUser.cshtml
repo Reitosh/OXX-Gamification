@@ -56,16 +56,24 @@
     <div class="section section-registrer" id="section-registrer-1"></div>
     <div class="container">
         <h2>Brukerregistrering</h2>
+        @if (ViewData["DbErrorMessage"] != null)
+        {
+            <p style="color: red">@ViewData["DbErrorMessage"]</p>
+        }
         <span class="underline"></span>
         <h5>Fyll inn dine personopplysninger i skjemaet under</h5>
 
-        @using (Html.BeginForm("RegisterUser", "Home", FormMethod.Post))
+        @using (Html.BeginForm("RegisterUser", "Login", FormMethod.Post))
         {
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="email">Email</label>
                 <input asp-for="email" class="form-control" />
                 <span asp-validation-for="email" class="text-danger"></span>
+                @if (ViewData["EmailErrorMessage"] != null)
+                {
+                    <p style="color: red">@ViewData["EmailErrorMessage"]</p>
+                }
             </div>
             <div class="form-group">
                 <label asp-for="password">Passord</label>

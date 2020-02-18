@@ -13,6 +13,7 @@ namespace OXXGame.Controllers
     public class LoginController : Controller
     {
         private readonly ILogger<LoginController> _logger;
+
         private OXXGameDBContext dbContext; //DbContext-objektet som brukes til database-aksess
 
         public readonly string LoggedIn = "login_key";
@@ -26,32 +27,16 @@ namespace OXXGame.Controllers
         }
 
 
+        //  Index, kjøres når programmet starter. Sørger for at egen Session variabel blir FALSE
+        //  slik at en bruker ikke er logget inn fra start. 
+
         public ActionResult Index()
         {
-            if (HttpContext.Session.Get(LoggedIn) != null)
-            {
-                if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
-                {
-                    return RedirectToAction("");
-                }
-            }
-            else
-            {
-                HttpContext.Session.SetInt32(LoggedIn, FALSE);
-            }
+            HttpContext.Session.SetInt32(LoggedIn, FALSE);
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
 
         [HttpPost]
         public ActionResult Login(User inUser)
@@ -65,8 +50,18 @@ namespace OXXGame.Controllers
             {
                 if (Enumerable.SequenceEqual(inUser.pwdHash,user.pwdHash))
                 {
-                    HttpContext.Session.SetInt32("uId", user.userId);
-                    return View("TestInfo");
+
+                    HttpContext.Session.SetInt32(LoggedIn, TRUE);
+
+                    if (user.isAdmin)
+                    {
+                        return RedirectToAction("AdminPortal", "Admin");
+                    }
+                    else
+                    {
+                        return RedirectToAction("TestInfo", "Test");
+                    }
+
                 }
             }
             Debug.WriteLine("wtf");
@@ -81,40 +76,58 @@ namespace OXXGame.Controllers
         [HttpPost]
         public ActionResult RegisterUser(User user)
         {
-
             DB db = new DB(dbContext);
+            List<User> users = db.allUsers();
+
+            foreach (User existingUser in users)
+            {
+                if (user.email == existingUser.email)
+                {
+                    ViewData["EmailErrorMessage"] = "Denne epost-addressen er allerede registrert";
+                    return View("RegisterUser");
+                }
+            }
+
             if (db.addUser(user))
             {
                 ModelState.Clear();
-                return View("Index");
+                HttpContext.Session.SetInt32(LoggedIn, TRUE);
+                return RedirectToAction("TestInfo","Test");
             }
 
-            return RedirectToAction("Register");
+            ViewData["DBErrorMessage"] = "Det oppsto en feil, prøv igjen.";
+            return View("RegisterUser");
+
         }
         
-        public ActionResult StartTest()
-        {
-            return View("TestView");
-        }
+       
 
-        public ActionResult CompileAndExecute(Submission Submission)
-        {
-            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
-            ssh.RunCode(Submission.Code, HttpContext.Session.GetInt32("uId"));
-            
-            
-            return View("TestView");
-        }
+/*        public ActionResult Avbryt()
 
-        public ActionResult Avbryt()
         {
-            //Session["LoggetInn"] = false;
+            HttpContext.Session.SetInt32(LoggedIn, FALSE);
+            Debug.WriteLine("Logger ut...");
             return RedirectToAction("Index");
         }
 
-        /*private bool isLoggedIn()
+*/
+
+        public bool loggedIn()
         {
-            if ()
-        }*/
+            bool loggetInn;
+
+            if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
+            {
+                loggetInn = true;
+            }
+            else
+            {
+                HttpContext.Session.SetInt32(LoggedIn, FALSE);
+                loggetInn = false;
+            }
+
+            return loggetInn;
+        }
+
     }
 }

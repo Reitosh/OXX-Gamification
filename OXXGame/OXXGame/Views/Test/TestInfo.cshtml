@@ -37,14 +37,15 @@
                 </h4>
             </div>
         </div>
-        @using (Html.BeginForm("Avbryt", "Login", FormMethod.Get))
+        
+        @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
         {
             <div class="info-avbryt">
                 <input type="submit" name="avbryt" value="Avbryt" />
             </div>
         }
-
-        @using (Html.BeginForm("StartTest", "Login", FormMethod.Get))
+        
+        @using (Html.BeginForm("StartTest", "Test", FormMethod.Get))
         {
             <div class="info-neste">
                 <input id="btn-login" type="submit" name="neste" value="Start test!" />
