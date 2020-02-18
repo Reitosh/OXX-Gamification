@@ -13,7 +13,7 @@ namespace OXXGame.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private OXXGameDBContext dbContext; //DbContext-objektet som brukes til database-aksess
+        private OXXGameDBContext dbContext; // DbContext-objektet som brukes til database-aksess
 
         public readonly string LoggedIn = "login_key";
         public readonly int TRUE = 1;
@@ -25,16 +25,9 @@ namespace OXXGame.Controllers
             dbContext = context;
         }
 
-
         public ActionResult Index()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
-            return View();
-        }
-
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 
@@ -64,7 +57,6 @@ namespace OXXGame.Controllers
                     }
                     else
                     {
-
                         return View("TestInfo");
                     }
 
@@ -82,7 +74,7 @@ namespace OXXGame.Controllers
             else
             {
                 Debug.WriteLine("Ikke logget inn");
-                return RedirectToAction("Register");
+                return RedirectToAction("UserRegistration");
             }
         }
 
@@ -95,13 +87,13 @@ namespace OXXGame.Controllers
             else
             {
                 Debug.WriteLine("Ikke logget inn");
-                return RedirectToAction("Register");
+                return RedirectToAction("UserRegistration");
             }
         }
 
-        public ActionResult Register()
+        public ActionResult UserRegistration()
         {
-            return View("RegisterUser");
+            return View("UserRegistration");
         }
 
         [HttpPost]
@@ -115,7 +107,7 @@ namespace OXXGame.Controllers
                 return View("Index");
             }
 
-            return View("Register");
+            return View("UserRegistration");
         }
         
         public ActionResult StartTest()

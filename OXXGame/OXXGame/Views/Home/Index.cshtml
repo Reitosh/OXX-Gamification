@@ -19,6 +19,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
 
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/cb7428d12a.js"></script>
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
@@ -36,16 +39,26 @@
                 <!-- Login form -->
                 @using (Html.BeginForm("Login", "Home", FormMethod.Post))
                 {
-                    <input asp-for="email" type="text" name="email" placeholder="E-post" /><br />
-                    <div class="form-error form-error-login" id="form-login-uname-error"></div>
-                    <input asp-for="password" type="password" name="password" placeholder="Passord" /><br />
-                    <div class="form-error form-error-login" id="form-login-passwd-error"></div>
+                    <div class="form-group">
+                        <input asp-for="email" type="text" name="email" placeholder="E-post" /><br />
+                        <div class="form-error form-error-login" id="form-login-uname-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <input id="passwdLogin" asp-for="password" type="password" name="password" placeholder="Passord" />
+                        <span class="fas fa-eye passwd-toggle" toggle="#passwdLogin"></span>
+                        <br />
+                        <div class="form-error form-error-login" id="form-login-passwd-error"></div>
+                    </div>
+
                     <a class="login-box-content" id="login-content-1" href="#">
                         <p>Glemt innloggingsdetaljer?</p>
                     </a>
 
-                    <input id="btn-login" type="submit" name="login" value="Logg inn" />
-                    <a class="login-box-content" id="login-content-2" asp-controller="Home" asp-action="Register">
+                    <div class="form-group">
+                        <input id="btn-login" type="submit" name="login" value="Logg inn" />
+                    </div>
+
+                    <a class="login-box-content" id="login-content-2" asp-controller="Home" asp-action="UserRegistration">
                         <p>Registrer ny bruker</p>
                     </a>
                 }
@@ -57,5 +70,8 @@
     <!-- Bootstrap Script Files -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Linked Script Files -->
+    <script src="~/js/toggle_passwd.js"></script>
 </body>
 </html>
