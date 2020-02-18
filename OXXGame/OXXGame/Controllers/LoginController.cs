@@ -97,10 +97,10 @@ namespace OXXGame.Controllers
             return View("TestView");
         }
 
-        public ActionResult RunCSharpCode(Submission Submission)
+        public ActionResult CompileAndExecute(Submission Submission)
         {
-            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
-            ssh.CompileCSharp(Submission.Code, HttpContext.Session.GetInt32("uId"));
+            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
+            ssh.RunCode(Submission.Code, HttpContext.Session.GetInt32("uId"));
             
             
             return View("TestView");
