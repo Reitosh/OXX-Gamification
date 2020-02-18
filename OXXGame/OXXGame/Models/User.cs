@@ -19,7 +19,6 @@ namespace OXXGame.Models
         public byte[] pwdHash {
             get 
             {
-
                 if (password == null)
                 {
                     return _pwdHash;
@@ -35,9 +34,15 @@ namespace OXXGame.Models
             } 
         }
         public int loginCounter { get; set; }
+
+        [StringLength(255)]
         public string firstname { get; set; }
+
+        [StringLength(255)]
         public string lastname { get; set; }
 
+        [EmailAddress]
+        [StringLength(255)]
         [Required(ErrorMessage ="Vennligst skriv inn epostadresse")]
         public string email { get; set; }
         public bool isAdmin { get; set; }

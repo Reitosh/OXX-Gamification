@@ -19,6 +19,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
 
+
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/cb7428d12a.js"></script>
 
@@ -37,7 +38,8 @@
                 <img src="../images/brand/logo_hvit.png" alt="logo" />
 
                 <!-- Login form -->
-                @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+
+                @using (Html.BeginForm("Login", "Login", FormMethod.Post))
                 {
                     <div class="form-group">
                         <input asp-for="email" type="text" name="email" placeholder="E-post" /><br />
@@ -49,16 +51,16 @@
                         <br />
                         <div class="form-error form-error-login" id="form-login-passwd-error"></div>
                     </div>
-
                     <a class="login-box-content" id="login-content-1" href="#">
                         <p>Glemt innloggingsdetaljer?</p>
                     </a>
+
 
                     <div class="form-group">
                         <input id="btn-login" type="submit" name="login" value="Logg inn" />
                     </div>
 
-                    <a class="login-box-content" id="login-content-2" asp-controller="Home" asp-action="UserRegistration">
+                    <a class="login-box-content" id="login-content-2" asp-controller="Login" asp-action="UserRegistration">
                         <p>Registrer ny bruker</p>
                     </a>
                 }
@@ -71,7 +73,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
+
     <!-- Linked Script Files -->
     <script src="~/js/toggle_passwd.js"></script>
+
 </body>
 </html>

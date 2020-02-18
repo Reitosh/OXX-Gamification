@@ -9,5 +9,8 @@ namespace OXXGame.Models
     {
 
         public string Code { get; set; }
+
+        
+       
     }
 }
