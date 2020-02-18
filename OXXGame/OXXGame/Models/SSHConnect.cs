@@ -41,12 +41,12 @@ namespace OXXGame.Models
                             var CSharpCommand = client.RunCommand("sudo sh /home/Markus/Scripts/CSharp.sh '" + Code + "' "
                         + "'" + userId + "'");
                             string CSharpOutput = CSharpCommand.Result;
+                            Debug.WriteLine("ja her valgte zxsharp da");
                             Debug.WriteLine(CSharpOutput);
                             client.Disconnect();
                             return CSharpOutput;
                         
                         case "JavaScript":
-                            client.Connect();
                             var JavaScriptCommand = client.RunCommand("sudo sh /home/Markus/Scripts/JavaScript.sh '" + Code + "' " + "'"
                                 + userId + "'");
                             string JavaScriptOutput = JavaScriptCommand.Result;

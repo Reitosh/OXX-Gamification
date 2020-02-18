@@ -34,7 +34,7 @@
                 <img src="../images/brand/logo_hvit.png" alt="logo" />
 
                 <!-- Login form -->
-                @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                @using (Html.BeginForm("Login", "Login", FormMethod.Post))
                 {
                     <input asp-for="email" type="text" name="email" placeholder="E-post" /><br />
                     <div class="form-error form-error-login" id="form-login-uname-error"></div>
@@ -45,7 +45,7 @@
                     </a>
 
                     <input id="btn-login" type="submit" name="login" value="Logg inn" />
-                    <a class="login-box-content" id="login-content-2" asp-controller="Home" asp-action="Register">
+                    <a class="login-box-content" id="login-content-2" asp-controller="Login" asp-action="Register">
                         <p>Registrer ny bruker</p>
                     </a>
                 }
