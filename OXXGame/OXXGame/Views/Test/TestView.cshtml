@@ -1,4 +1,4 @@
-﻿@model Submission
+@model Submission
 @{
     ViewData["Title"] = "Evnetest";
 }
@@ -23,9 +23,11 @@
     <body>
         <div class="main">
             <div class="form-group">
+
                 @using (Html.BeginForm("KjorKode", "Test", FormMethod.Post))
                 {
                     <label class="test-text">Kategori:</label><br />
+
                     <label class="test-text">Vanskelighetsgrad:</label><br />
 
                     <label class="test-text">Oppgave:</label><br />
@@ -35,6 +37,7 @@
                     <input type="submit" value="Kjør kode" />
                     <textarea class="form-control"  id="code" placeholder="Output her" name="code" rows="5"></textarea>
                 }
+
 
 
                 @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
