@@ -39,7 +39,7 @@ namespace OXXGame.Controllers
 
         public ActionResult UserAdmin()
         {
-            if (ValidateSession()) 
+            if (AdminLoggedIn()) 
             {
                 DB db = new DB(dbContext);
                 List<User> users = db.allUsers();
@@ -58,7 +58,7 @@ namespace OXXGame.Controllers
 
         public ActionResult TaskAdmin()
         {
-            if (ValidateSession())
+            if (AdminLoggedIn())
             {
                 return View("TaskAdmin");
             }
@@ -68,7 +68,7 @@ namespace OXXGame.Controllers
             }
         }
 
-        private bool ValidateSession()
+        private bool AdminLoggedIn()
         {
             if (HttpContext.Session.GetInt32(LoggedIn) == TRUE && 
                 HttpContext.Session.GetInt32(IsAdmin) == TRUE)
