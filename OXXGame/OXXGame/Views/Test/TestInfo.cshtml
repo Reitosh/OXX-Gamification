@@ -1,6 +1,7 @@
-﻿@{
+@{
 
-    ViewData["Title"] = "Info";
+    ViewData["Title"] = "Testinfo";
+
 }
 
 <!DOCTYPE html>
@@ -25,6 +26,7 @@
 <body>
     <!-- TESTINFO -->
     <div>
+
         <img src="../images/brand/logo_hvit.png" alt="logo" />
         <h2 class="info-header">Velkommen til OXX sin evnetest</h2>
         <div class="container">
@@ -39,15 +41,14 @@
         </div>
 
         @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
-
         {
             <div class="info-avbryt">
                 <input type="submit" name="avbryt" value="Avbryt" />
             </div>
         }
 
+
         @using (Html.BeginForm("StartTest", "Test", FormMethod.Get))
-      
         {
             <div class="info-neste">
                 <input id="btn-login" type="submit" name="neste" value="Start test!" />

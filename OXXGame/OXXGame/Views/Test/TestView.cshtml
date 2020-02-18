@@ -38,9 +38,8 @@
                     <textarea class="form-control"  id="code" placeholder="Output her" name="code" rows="5"></textarea>
                 }
 
-
-
                 @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
+
                 {
                     <button id="btn-login" new { onclick="return confirm('Er du sikker på at du vil kaste inn håndklet? Du vil bli logget ut og tatt tilbake til innlogging.');" })>
                         Gi opp
