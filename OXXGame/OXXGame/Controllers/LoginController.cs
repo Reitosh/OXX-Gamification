@@ -63,7 +63,6 @@ namespace OXXGame.Controllers
                         return RedirectToAction("TestInfo", "Test");
                     }
 
-
                 }
             }
 
@@ -78,15 +77,28 @@ namespace OXXGame.Controllers
         [HttpPost]
         public ActionResult RegisterUser(User user)
         {
-
             DB db = new DB(dbContext);
+            List<User> users = db.allUsers();
+
+            foreach (User existingUser in users)
+            {
+                if (user.email == existingUser.email)
+                {
+                    ViewData["EmailErrorMessage"] = "Denne epost-addressen er allerede registrert";
+                    return View("RegisterUser");
+                }
+            }
+
             if (db.addUser(user))
             {
                 ModelState.Clear();
-                return View("Index");
+                HttpContext.Session.SetInt32(LoggedIn, TRUE);
+                return RedirectToAction("TestInfo","Test");
             }
 
-            return RedirectToAction("Register");
+            ViewData["DBErrorMessage"] = "Det oppsto en feil, prøv igjen.";
+            return View("RegisterUser");
+
         }
         
        
