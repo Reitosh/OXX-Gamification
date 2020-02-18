@@ -1,4 +1,4 @@
-﻿@model Submission
+@model Submission
 @{
     ViewData["Title"] = "Evnetest";
 }
@@ -23,9 +23,11 @@
     <body>
         <div class="main">
             <div class="form-group">
-                @using (Html.BeginForm("CompileAndExecute", "Home", FormMethod.Post))
+
+                @using (Html.BeginForm("KjorKode", "Test", FormMethod.Post))
                 {
-                    <label class="test-text">Kategori</label><br />
+                    <label class="test-text">Kategori:</label><br />
+
                     <label class="test-text">Vanskelighetsgrad:</label><br />
 
                     <label class="test-text">Oppgave:</label><br />
@@ -38,6 +40,12 @@
 
 
 
+                @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
+                {
+                    <button id="btn-login" new { onclick="return confirm('Er du sikker på at du vil kaste inn håndklet? Du vil bli logget ut og tatt tilbake til innlogging.');" })>
+                        Gi opp
+                    </button>
+                }
 
 
 
