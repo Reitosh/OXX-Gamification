@@ -10,35 +10,37 @@ using Microsoft.AspNetCore.Http;
 
 namespace OXXGame.Controllers
 {
+
+
     public class LoginController : Controller
     {
         private readonly ILogger<LoginController> _logger;
+
         private OXXGameDBContext dbContext; //DbContext-objektet som brukes til database-aksess
 
         public readonly string LoggedIn = "login_key";
         public readonly int TRUE = 1;
         public readonly int FALSE = 0;
 
+
         public LoginController(ILogger<LoginController> logger, OXXGameDBContext context)
+
         {
             _logger = logger;
             dbContext = context;
         }
 
 
+
         //  Index, kjøres når programmet starter. Sørger for at egen Session variabel blir FALSE
         //  slik at en bruker ikke er logget inn fra start. 
+
         public ActionResult Index()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
 
         [HttpPost]
         public ActionResult Login(User inUser)
@@ -52,6 +54,7 @@ namespace OXXGame.Controllers
             {
                 if (Enumerable.SequenceEqual(inUser.pwdHash,user.pwdHash))
                 {
+
                     HttpContext.Session.SetInt32(LoggedIn, TRUE);
 
                     if (user.isAdmin)
@@ -62,6 +65,7 @@ namespace OXXGame.Controllers
                     {
 
                         return RedirectToAction("TestInfo", "Test");
+
                     }
 
                 }
@@ -69,9 +73,10 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Register()
+
+        public ActionResult UserRegistration()
         {
-            return View("RegisterUser");
+            return View("UserRegistration");
         }
 
         [HttpPost]
@@ -79,22 +84,42 @@ namespace OXXGame.Controllers
         {
 
             DB db = new DB(dbContext);
+            List<User> users = db.allUsers();
+
+            foreach (User existingUser in users)
+            {
+                if (user.email == existingUser.email)
+                {
+                    ViewData["EmailErrorMessage"] = "Denne epost-addressen er allerede registrert";
+                    return View("RegisterUser");
+                }
+            }
+
             if (db.addUser(user))
             {
                 ModelState.Clear();
-                return View("Index");
+                HttpContext.Session.SetInt32(LoggedIn, TRUE);
+                return RedirectToAction("TestInfo","Test");
             }
 
+            ViewData["DBErrorMessage"] = "Det oppsto en feil, prøv igjen.";
             return View("RegisterUser");
         }
+                    
+       
 
-/*        public ActionResult Avbryt()
+/*
+        public ActionResult Avbryt()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
             Debug.WriteLine("Logger ut...");
             return RedirectToAction("Index");
         }
+
+
+
 */
+
 
         public bool loggedIn()
         {
