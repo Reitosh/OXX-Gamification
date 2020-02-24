@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace OXXGame.Controllers
 {
+
     public class LoginController : Controller
     {
         private readonly ILogger<LoginController> _logger;
@@ -20,11 +21,14 @@ namespace OXXGame.Controllers
         public readonly int TRUE = 1;
         public readonly int FALSE = 0;
 
+
         public LoginController(ILogger<LoginController> logger, OXXGameDBContext context)
+
         {
             _logger = logger;
             dbContext = context;
         }
+
 
 
         //  Index, kjøres når programmet starter. Sørger for at egen Session variabel blir FALSE
@@ -35,7 +39,6 @@ namespace OXXGame.Controllers
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
             return View();
         }
-
 
 
         [HttpPost]
@@ -60,23 +63,27 @@ namespace OXXGame.Controllers
                     }
                     else
                     {
+
                         return RedirectToAction("TestInfo", "Test");
+
                     }
 
                 }
             }
-            
+
             return RedirectToAction("Index");
         }
 
-        public ActionResult Register()
+
+        public ActionResult UserRegistration()
         {
-            return View("RegisterUser");
+            return View("UserRegistration");
         }
 
         [HttpPost]
         public ActionResult RegisterUser(User user)
         {
+
             DB db = new DB(dbContext);
             List<User> users = db.allUsers();
 
@@ -98,20 +105,22 @@ namespace OXXGame.Controllers
 
             ViewData["DBErrorMessage"] = "Det oppsto en feil, prøv igjen.";
             return View("RegisterUser");
-
         }
-        
+                    
        
 
-/*        public ActionResult Avbryt()
-
+/*
+        public ActionResult Avbryt()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
             Debug.WriteLine("Logger ut...");
             return RedirectToAction("Index");
         }
 
+
+
 */
+
 
         public bool loggedIn()
         {
