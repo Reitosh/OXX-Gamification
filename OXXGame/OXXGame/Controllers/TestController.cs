@@ -60,10 +60,10 @@ namespace OXXGame.Controllers
 
         public ActionResult KjorKode(Submission Submission)
         {
-            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
-            ssh.ConnectToVM(Submission.Code);
+            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
+            ssh.RunCode(Submission.Code, HttpContext.Session.GetInt32("uId"));
 
-            return RedirectToAction("TestView");
+            return RedirectToAction("TestView","Test");
         }
 
         public ActionResult Avbryt()

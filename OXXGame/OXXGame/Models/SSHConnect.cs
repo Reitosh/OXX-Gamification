@@ -11,9 +11,9 @@ namespace OXXGame.Models
 
     public class SSHConnect
     {
-        private string user;
-        private string password;
-        private string host;
+        private string user = "Markus";
+        private string password = "Plainsmuchj0urney";
+        private string host = "51.140.218.174";
         private OXXGameDBContext db;
 
         public SSHConnect(string user, string password, string host, OXXGameDBContext db)
@@ -26,14 +26,16 @@ namespace OXXGame.Models
         public string RunCode(string Code, int? userId)
         {
             using (var client = new SshClient(new ConnectionInfo(
-                "51.140.218.174", "Markus", new PasswordAuthenticationMethod("Markus", "Plainsmuchj0urney"))))
+                host, user, new PasswordAuthenticationMethod(user, password))))
             {
                 DB category = new DB(db);
-                List<Models.Task> tasks = category.allTasks();
+                List<Task> tasks = category.allTasks();
 
                 client.Connect();
+                Debug.WriteLine("ye");
+                
 
-                foreach (Models.Task task in tasks)
+                foreach (Task task in tasks)
                 {
                     switch (task.category)
                     {
@@ -41,20 +43,22 @@ namespace OXXGame.Models
                             var CSharpCommand = client.RunCommand("sudo sh /home/Markus/Scripts/CSharp.sh '" + Code + "' "
                         + "'" + userId + "'");
                             string CSharpOutput = CSharpCommand.Result;
+                            Debug.WriteLine("ja her valgte ZSharp da");
                             Debug.WriteLine(CSharpOutput);
                             client.Disconnect();
                             return CSharpOutput;
                         
                         case "JavaScript":
-                            client.Connect();
                             var JavaScriptCommand = client.RunCommand("sudo sh /home/Markus/Scripts/JavaScript.sh '" + Code + "' " + "'"
                                 + userId + "'");
                             string JavaScriptOutput = JavaScriptCommand.Result;
+                            Debug.WriteLine("ja her valgte javascript da");
                             Debug.WriteLine(JavaScriptOutput);
                             client.Disconnect();
                             return JavaScriptOutput;
 
-                        case "Vue.js":
+                        case "vue.js":
+                            Debug.WriteLine("ja her valgte vue.js da");
                             return "ikke laget";
 
                         case "MVC":
@@ -70,7 +74,9 @@ namespace OXXGame.Models
                             return "ikke laget";
 
                         case "Angular":
-                            return "ikke laget";                           
+                            return "ikke laget";
+                        
+
                     }
                 }
                 return "Empty";

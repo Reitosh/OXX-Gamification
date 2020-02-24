@@ -83,7 +83,7 @@ namespace OXXGame.Models
         }
 
         public DbSet<Users> Users { get; set; }
-        public DbSet<Tasks> Tests { get; set; }
+        public DbSet<Tasks> Tasks { get; set; }
         public DbSet<SingleTestResults> SingleTestResults { get; set; }
         public DbSet<Results> Results { get; set; }
     }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Http;
 
 namespace OXXGame.Controllers
 {
-
 
     public class LoginController : Controller
     {
@@ -56,6 +55,7 @@ namespace OXXGame.Controllers
                 {
 
                     HttpContext.Session.SetInt32(LoggedIn, TRUE);
+                    HttpContext.Session.SetInt32("uId", user.userId);
 
                     if (user.isAdmin)
                     {
@@ -70,6 +70,7 @@ namespace OXXGame.Controllers
 
                 }
             }
+
             return RedirectToAction("Index");
         }
 
