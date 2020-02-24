@@ -1,4 +1,4 @@
-@model Submission
+﻿@model Submission
 @{
     ViewData["Title"] = "Evnetest";
 }
@@ -19,23 +19,45 @@
 
         <!-- Linked Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+        <!-- Codemirror-->
+        <script src="~/codemirror/lib/codemirror.js"></script>
+        <script src="~/codemirror/mode/javascript/javascript.js"></script>
+        <script src="~/codemirror/mode/xml/xml.js"></script>
+        <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+        <script src="~/codemirror/mode/clike/clike.js"></script>
+        <link rel="stylesheet" href="~/codemirror/lib/codemirror.css">
+        <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
+    
     </head>
     <body>
         <div class="main">
             <div class="form-group">
-                @using (Html.BeginForm("CompileAndExecute", "Login", FormMethod.Post))
+                @using (Html.BeginForm("KjorKode", "Test", FormMethod.Post))
                 {
-                    <label class="test-text" >Kategori: </label><br />
-
+                    <label class="test-text">Kategori: </label><br />
                     <label class="test-text">Vanskelighetsgrad:</label><br />
-
                     <label class="test-text">Oppgave:</label><br />
 
-
-                    <textarea class="form-control" asp-for="Code" id="code" placeholder="Kode her" name="code" rows="10"></textarea>
+                    <textarea class="editor" asp-for="Code" id="input" placeholder="Kode her" name="code" rows="10"></textarea>
                     <input type="submit" value="Kjør kode" />
-                    <textarea class="form-control"  id="code" placeholder="Output her" name="code" rows="5"></textarea>
+                    <textarea class="f" placeholder="Output her" name="code" rows="5"></textarea>
+                    
+                    <script>
+                        var editor = CodeMirror.fromTextArea(
+                            document.getElementById('input'), { 
+                                mode: "text/x-csrc", 
+                                theme: "dracula",
+                                lineNumbers: true,
+                                indentUnit: 4,
+                                indentWithTabs: true,
+                                autoCloseTags: true,
+                                autoCloseBrackets: true,
+                        });
+                    </script>
+
                 }
+
 
 
 
@@ -45,11 +67,6 @@
                         Gi opp
                     </button>
                 }
-
-
-
-
-
             </div>
         </div>
 </body>

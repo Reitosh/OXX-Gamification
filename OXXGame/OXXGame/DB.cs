@@ -138,7 +138,7 @@ namespace OXXGame
 
         public List<Models.Task> allTasks()
         {
-            List<Models.Task> tasks = db.Tests.Select(task => new Models.Task
+            List<Models.Task> tasks = db.Tasks.Select(task => new Models.Task
             {
                 testId = task.id,
                 test = task.Test,
@@ -215,7 +215,7 @@ namespace OXXGame
         /* ------------------------- Update metoder ------------------------- */
         public bool updateTask(int taskId, Models.Task uTask)
         {
-            var task = db.Tests.SingleOrDefault(t => t.id == taskId);
+            var task = db.Tasks.SingleOrDefault(t => t.id == taskId);
             
             if (task != null)
             {
@@ -231,7 +231,7 @@ namespace OXXGame
                 
             try
             {
-                db.Tests.Update(task);
+                db.Tasks.Update(task);
                 db.SaveChanges();
                 return true;
             }

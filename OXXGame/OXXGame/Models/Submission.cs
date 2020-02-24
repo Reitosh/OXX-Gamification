@@ -10,7 +10,7 @@ namespace OXXGame.Models
 
         public string Code { get; set; }
 
-        public string Category { get; set; }
+        
        
     }
 }

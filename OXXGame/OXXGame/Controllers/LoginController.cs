@@ -52,6 +52,7 @@ namespace OXXGame.Controllers
                 {
 
                     HttpContext.Session.SetInt32(LoggedIn, TRUE);
+                    HttpContext.Session.SetInt32("uId", user.userId);
 
                     if (user.isAdmin)
                     {
@@ -64,7 +65,7 @@ namespace OXXGame.Controllers
 
                 }
             }
-            Debug.WriteLine("wtf");
+            
             return RedirectToAction("Index");
         }
 
