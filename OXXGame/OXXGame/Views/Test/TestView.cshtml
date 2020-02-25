@@ -1,4 +1,4 @@
-@model Submission
+﻿@model Submission
 @{
     ViewData["Title"] = "Evnetest";
 }
@@ -19,24 +19,50 @@
 
         <!-- Linked Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+        <!-- Codemirror-->
+        <script src="~/codemirror/lib/codemirror.js"></script>
+        <script src="~/codemirror/mode/javascript/javascript.js"></script>
+        <script src="~/codemirror/mode/xml/xml.js"></script>
+        <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+        <script src="~/codemirror/mode/clike/clike.js"></script>
+        <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
+        <link href="~/codemirror/lib/codemirror.css" rel="stylesheet"/>
+        <link href="~/codemirror/theme/dracula.css" rel="stylesheet"/>
+        <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet"/>
+        <link href="~/codemirror/addon//scroll/simplescrollbars.css" rel="stylesheet"/>
+
     </head>
     <body>
         <div class="main">
             <div class="form-group">
-
                 @using (Html.BeginForm("KjorKode", "Test", FormMethod.Post))
                 {
-                    <label class="test-text">Kategori:</label><br />
-
+                    <label class="test-text">Kategori: </label><br />
                     <label class="test-text">Vanskelighetsgrad:</label><br />
-
                     <label class="test-text">Oppgave:</label><br />
 
-
-                    <textarea class="form-control" asp-for="Code" id="code" placeholder="Kode her" name="code" rows="10"></textarea>
+                    <textarea class="editor" asp-for="Code" id="input" placeholder="Kode her" name="code" rows="10"></textarea>
                     <input type="submit" value="Kjør kode" />
-                    <textarea class="form-control"  id="code" placeholder="Output her" name="code" rows="5"></textarea>
+                    <textarea class="output" placeholder="Output her" name="code" rows="5"></textarea>
+                    
+                    <script>
+                        var editor = CodeMirror.fromTextArea(
+                            document.getElementById('input'), { 
+                                mode: "text/x-csrc", 
+                                theme: "base16-dark",
+                                lineNumbers: true,
+                                indentUnit: 4,
+                                indentWithTabs: true,
+                                autoCloseTags: true,
+                                autoCloseBrackets: true,
+                                scrollbarStyle: "overlay"
+                        });
+                        editor.setSize("700", "400");
+                    </script>
+
                 }
+
 
                 @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
 
@@ -45,11 +71,6 @@
                         Gi opp
                     </button>
                 }
-
-
-
-
-
             </div>
         </div>
 </body>

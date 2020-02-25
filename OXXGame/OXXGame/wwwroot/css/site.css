@@ -18,6 +18,13 @@ body {
     user-select: none;
 }
 
+.editor {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 100px;
+}
+
 .section {
     padding-top: 180px;
     padding-bottom: 80px;
