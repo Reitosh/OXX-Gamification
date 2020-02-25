@@ -33,7 +33,7 @@ namespace OXXGame.Controllers
             }
             else
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index","Login");
             }
         }
 
@@ -52,7 +52,7 @@ namespace OXXGame.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Login");
             }
         }
 
@@ -64,7 +64,7 @@ namespace OXXGame.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Login");
             }
         }
 

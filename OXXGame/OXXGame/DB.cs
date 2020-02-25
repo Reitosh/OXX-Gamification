@@ -17,7 +17,7 @@ namespace OXXGame
         }
 
         /* ------------------------- Add metoder ------------------------- */
-        public bool addUser(User user)
+        public User addUser(User user)
         {
             var userRow = new Users()
             {
@@ -43,14 +43,15 @@ namespace OXXGame
             {
                 db.Add(userRow);
                 db.SaveChanges();
-                return true;
+                return user;
             } 
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
                 Debug.WriteLine(e.Message);
-                return false;
             }
+
+            return null;
         }
 
         public bool addTask(Models.Task task)
@@ -322,6 +323,25 @@ namespace OXXGame
                 testId = sResult.TestId,
                 submitted = sResult.Submitted
             };
+        }
+
+        // Metode til bruk for testing (Andreas).
+        public bool checkIfExist(string uname)
+        {
+
+            bool exist;
+
+            try
+            {
+                Users user = db.Users.SingleOrDefault(u => u.Email == uname);
+                exist = true;
+                return exist;
+            }
+            catch (Exception e)
+            {
+                exist = false;
+                return exist;
+            }
         }
     }
 }
