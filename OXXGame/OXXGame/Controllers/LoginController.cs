@@ -37,6 +37,7 @@ namespace OXXGame.Controllers
         public ActionResult Index()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
+            loggedIn();
             return View();
         }
 
@@ -81,7 +82,7 @@ namespace OXXGame.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegisterUser(User user)
+        public ActionResult UserRegistration(User user)
         {
 
             DB db = new DB(dbContext);
@@ -92,11 +93,11 @@ namespace OXXGame.Controllers
                 if (user.email == existingUser.email)
                 {
                     ViewData["EmailErrorMessage"] = "Denne epost-addressen er allerede registrert";
-                    return View("RegisterUser");
+                    return View("UserRegistration");
                 }
             }
 
-            if (db.addUser(user))
+            if (db.addUser(user) != null)
             {
                 ModelState.Clear();
                 HttpContext.Session.SetInt32(LoggedIn, TRUE);
@@ -104,7 +105,7 @@ namespace OXXGame.Controllers
             }
 
             ViewData["DBErrorMessage"] = "Det oppsto en feil, prøv igjen.";
-            return View("RegisterUser");
+            return View("UserRegistration");
         }
                     
        
@@ -121,7 +122,33 @@ namespace OXXGame.Controllers
 
 */
 
+        //metode som sjekker om en bruker er Administrator (til bruk for testing)
+        public bool isAdmin(User inUser)
+        {
+            bool isAdmin = false;
 
+            DB db = new DB(dbContext);
+
+            User user = db.getUser(inUser.email);
+
+            if (user != null)
+            {
+                if (user.isAdmin)
+                {
+                    isAdmin = true;
+                    Debug.WriteLine("User is admin");
+                }
+                else
+                {
+                    isAdmin = false;
+                    Debug.WriteLine("User is not admin");
+                }
+            }
+
+            return isAdmin;
+        }
+
+        // Metode som skal sjekke om en bruker er logget inn med session. 
         public bool loggedIn()
         {
             bool loggetInn;
