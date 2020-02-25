@@ -26,7 +26,8 @@ namespace OXXGame.Models
         public string RunCode(string Code, int? userId)
         {
             using (var client = new SshClient(new ConnectionInfo(
-                host, user, new PasswordAuthenticationMethod(user, password))))
+                host, user, new PasswordAuthenticationMethod(user, password)
+                )))
             {
                 DB category = new DB(db);
                 List<Task> tasks = category.allTasks();
@@ -39,7 +40,7 @@ namespace OXXGame.Models
                 {
                     switch (task.category)
                     {
-                        case "ZSharp":
+                        case "CSharp":
                             var CSharpCommand = client.RunCommand("sudo sh /home/Markus/Scripts/CSharp.sh '" + Code + "' "
                         + "'" + userId + "'");
                             string CSharpOutput = CSharpCommand.Result;
