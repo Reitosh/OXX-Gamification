@@ -9,11 +9,12 @@ $(window).scroll(function () {
     if ($(this).scrollTop() > 88) {
         $('.navbar .navbar-brand img').attr('src', '../images/brand/logo_svart.png');
         $('.navbar .navbar-brand img').css('width', '36px');
-        $('.navbar-nav li a').css('color', '#282828');
+        $('.navbar-nav li a').css({ "color": "#282828", "font-weight": "400" });
+        $
     } else {
         $('.navbar .navbar-brand img').attr('src', '../images/brand/logo_hvit.png');
         $('.navbar .navbar-brand img').css('width', '42px');
-        $('.navbar-nav li a').css('color', '#ffffff');
+        $('.navbar-nav li a').css({ "color": "#fff", "font-weight": "300" });
     }
 
 });
