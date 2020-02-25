@@ -42,7 +42,7 @@
                 <!-- Navbar Menu -->
                 <ul class="nav navbar-nav navbar-right">
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Index">
+                        <a class="nav-link" asp-controller="Login" asp-action="Index">
                             <i class="fas fa-sign-in-alt"></i>
                             Logg inn
                         </a>
@@ -52,86 +52,133 @@
         </nav>
     </header>
     <!-- END HEADER -->
-
     <!-- USER REGISTRATION -->
-    <div class="section section-registrer" id="section-registrer-1"></div>
-    <div class="container">
-        <h2>Brukerregistrering</h2>
-        <span class="underline"></span>
-        <h5>Fyll inn dine personopplysninger i skjemaet under</h5>
+    <div class="section section-registrer" id="section-registrer-1">
+        <div class="container">
+            <h2>Brukerregistrering</h2>
+            <span class="underline"></span>
+            <h5>Fyll inn dine personopplysninger i skjemaet under</h5>
 
-        @using (Html.BeginForm("RegisterUser", "Home", FormMethod.Post))
-        {
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="email">Email</label>
-                <input asp-for="email" class="form-control" />
-                <span asp-validation-for="email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="password">Passord</label>
-                <input asp-for="password" class="form-control" />
-                <span asp-validation-for="password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="firstname">Fornavn</label>
-                <input asp-for="firstname" class="form-control" />
-                <span asp-validation-for="firstname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastname">Etternavn</label>
-                <input asp-for="lastname" class="form-control" />
-                <span asp-validation-for="lastname" class="text-danger"></span>
-            </div>
 
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowHtml)
-                @Html.LabelFor(model => model.knowHtml)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowCss)
-                @Html.LabelFor(model => model.knowCss)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowJavascript)
-                @Html.LabelFor(model => model.knowJavascript)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowCsharp)
-                @Html.LabelFor(model => model.knowCsharp)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowMvc)
-                @Html.LabelFor(model => model.knowMvc)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowNetframework)
-                @Html.LabelFor(model => model.knowNetframework)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowTypescript)
-                @Html.LabelFor(model => model.knowTypescript)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowVue)
-                @Html.LabelFor(model => model.knowVue)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowReact)
-                @Html.LabelFor(model => model.knowReact)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowAngular)
-                @Html.LabelFor(model => model.knowAngular)
-            </div>
+            <!-- Registration Form -->
+            <div class="wrapper wrapper-form" id="wrapper-form-reg">
+                @using (Html.BeginForm("RegisterUser", "Home", FormMethod.Post))
+                {
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input asp-for="firstname" type="text" name="firstname" class="form-control"
+                                       id="reg-form-firstname" placeholder="Fornavn">
+                                <div class="form-error form-error-reg" id="form-error-reg-firstname"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input asp-for="lastname" type="text" name="lastname" class="form-control"
+                                       id="reg-form-lastname" placeholder="Etternavn">
+                                <div class="form-error form-error-reg" id="form-error-reg-lastname"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input asp-for="email" type="email" name="email" class="form-control"
+                                       id="reg-form-email" placeholder="E-post">
+                                <div class="form-error form-error-reg" id="form-error-reg-email"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input asp-for="password" type="password" name="password" class="form-control"
+                                       id="reg-form-password" placeholder="Passord">
+                                <span class="fas fa-eye passwd-toggle" toggle="#reg-form-password"></span>
+                                <div class="form-error form-error-reg" id="form-error-reg-password"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input asp-for="passwordRepeat" type="password" name="passwordRepeat" class="form-control"
+                                       id="reg-form-passwordRepeat" placeholder="Gjenta passord">
+                                <span class="fas fa-eye passwd-toggle" toggle="#reg-form-passwordRepeat"></span>
+                                <div class="form-error form-error-reg" id="form-error-reg-passwordRepeat"></div>
+                            </div>
+                        </div>
+                    </div>
 
-            <input id="btn-login" type="submit" name="RegisterUser" value="Letsgo" />
-        }
+                    <div class="reg-form-content">
+                        <h6>Velg teknologier og programmeringsspråk du har kompetanse innen?</h6>
+                        <div class="row">
+                            <div class="form-group form-check">
+                                @Html.CheckBoxFor(model => model.knowHtml)
+                                <label asp-for="knowHtml">HTML</label>
+                            </div>
+                            <div class="form-group form-check">
+                                @Html.CheckBoxFor(model => model.knowCss)
+                                <label asp-for="knowCss">CSS</label>
+                            </div>
+                            <div class="form-group form-check">
+                                <input type="checkbox" name="knowBootstrap" value="bootstrap">
+                                <label for="vehicle3">Bootstrap</label>
+                            </div>
+                            <div class="form-group form-check">
+                                @Html.CheckBoxFor(model => model.knowJavascript)
+                                <label asp-for="knowJavascript">JavaScript</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group form-check">
+                                @Html.CheckBoxFor(model => model.knowTypescript)
+                                <label asp-for="knowTypescript">TypeScript</label>
+                            </div>
+                            <div class="form-group form-check">
+                                @Html.CheckBoxFor(model => model.knowVue)
+                                <label asp-for="knowVue">Vue.js</label>
+                            </div>
+                            <div class="form-group form-check">
+                                @Html.CheckBoxFor(model => model.knowReact)
+                                <label asp-for="knowReact">React</label>
+                            </div>
+                            <div class="form-group form-check">
+                                @Html.CheckBoxFor(model => model.knowAngular)
+                                <label asp-for="knowAngular">Angular</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group form-check">
+                                @Html.CheckBoxFor(model => model.knowCsharp)
+                                <label asp-for="knowCsharp">C#</label>
+                            </div>
+                            <div class="form-group form-check">
+                                @Html.CheckBoxFor(model => model.knowMvc)
+                                <label asp-for="knowMvc">MVC</label>
+                            </div>
+                            <div class="form-group form-check">
+                                @Html.CheckBoxFor(model => model.knowNetframework)
+                                <label asp-for="knowNetframework">.NET Framework</label>
+                            </div>
+                            <div class="form-group form-check">
+                                <input type="checkbox" name="knowSql" value="sql">
+                                <label for="vehicle3">SQL</label>
+                            </div>
+                        </div>
+                    </div>
 
-    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="submit" name="register" value="Registrer" class="btn btn-success btn-form-reg">
+                        </div>
+                    </div>
+                }
+                <!-- End Registration Form -->
+            </div>
+        </div>
     </div>
     <!-- END USER REGISTRATION -->
-
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
@@ -145,5 +192,6 @@
 
     <!-- Linked Script Files -->
     <script src="~/js/nav_scroll.js" asp-append-version="true"></script>
+    <script src="~/js/toggle_passwd.js"></script>
 </body>
 </html>
