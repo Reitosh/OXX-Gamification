@@ -17,11 +17,11 @@ body {
     user-select: none;
 }
 
-/*.editor {
-    
-    width: 500px;
-    font-family: Consolas, sans-serif;*/
-    
+.editor {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 100px;
 }
 
 .section {
