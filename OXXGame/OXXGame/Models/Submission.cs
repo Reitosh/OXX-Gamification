@@ -7,10 +7,6 @@ namespace OXXGame.Models
 {
     public class Submission
     {
-
         public string Code { get; set; }
-
-        
-       
     }
 }
