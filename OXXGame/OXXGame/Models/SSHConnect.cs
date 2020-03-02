@@ -32,9 +32,8 @@ namespace OXXGame.Models
                 DB category = new DB(db);
                 List<Task> tasks = category.allTasks();
 
+
                 client.Connect();
-                Debug.WriteLine("ye");
-                
 
                 foreach (Task task in tasks)
                 {
@@ -44,7 +43,7 @@ namespace OXXGame.Models
                             var CSharpCommand = client.RunCommand("sudo sh /home/Markus/Scripts/CSharp.sh '" + Code + "' "
                         + "'" + userId + "'");
                             string CSharpOutput = CSharpCommand.Result;
-                            Debug.WriteLine("ja her valgte ZSharp da");
+                            Debug.WriteLine("ja her valgte CSharp da");
                             Debug.WriteLine(CSharpOutput);
                             client.Disconnect();
                             return CSharpOutput;
