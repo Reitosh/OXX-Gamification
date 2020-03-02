@@ -1,6 +1,10 @@
 ﻿@model Submission
 @{
     ViewData["Title"] = "Evnetest";
+    var output = ViewData["Output"];
+    var input = ViewData["Input"];
+    
+    
 }
 
 
@@ -40,25 +44,42 @@
                 {
                     <label class="test-text">Kategori: </label><br />
                     <label class="test-text">Vanskelighetsgrad:</label><br />
-                    <label class="test-text">Oppgave:</label><br />
+                    <label class="test-text">Oppgave:</label><br/>
 
-                    <textarea class="editor" asp-for="Code" id="input" placeholder="Kode her" name="code" rows="10"></textarea>
+
+
+                    <textarea class="editor" asp-for="Code" id="input" name="code" rows="10">@input</textarea>
                     <input type="submit" value="Kjør kode" />
-                    <textarea class="output" placeholder="Output her" name="code" rows="5"></textarea>
+
+                    <textarea readonly class="output" id="output" rows="5">@output</textarea>
                     
+
+
+
+
+
                     <script>
                         var editor = CodeMirror.fromTextArea(
-                            document.getElementById('input'), { 
-                                mode: "text/x-csrc", 
-                                theme: "base16-dark",
-                                lineNumbers: true,
-                                indentUnit: 4,
-                                indentWithTabs: true,
-                                autoCloseTags: true,
-                                autoCloseBrackets: true,
-                                scrollbarStyle: "overlay"
+                            document.getElementById('input'), {
+                            mode: "text/x-csharp",
+                            theme: "base16-dark",
+                            lineNumbers: true,
+                            indentUnit: 4,
+                            indentWithTabs: true,
+                            autoCloseTags: true,
+                            autoCloseBrackets: true,
+                            scrollbarStyle: "overlay"
                         });
                         editor.setSize("700", "400");
+
+                        var outputWindow = CodeMirror.fromTextArea(
+                            document.getElementById('output'), {
+                            mode: "text/x-csharp",
+                            theme: "base16-dark",
+                            scrollbarStyle: "overlay"
+                        });
+                        outputWindow.setSize("500", "150");
+
                     </script>
 
                 }
