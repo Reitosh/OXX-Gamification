@@ -62,9 +62,9 @@ namespace OXXGame.Controllers
         {
             SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
 
-            string output = ssh.RunCode(Submission.Code, HttpContext.Session.GetInt32("uId"));
-            ViewData["Output"] = output;
-            ModelState.Clear();
+            
+            ViewData["Output"] = ssh.RunCode(Submission.Code, HttpContext.Session.GetInt32("uId"));
+            ViewData["Input"] = Submission.Code;
             return View("TestView");
         }
 
