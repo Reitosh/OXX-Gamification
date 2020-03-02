@@ -43,15 +43,16 @@ namespace OXXGame
             {
                 db.Add(userRow);
                 db.SaveChanges();
+                Debug.WriteLine("Try'en kjørte..");
                 return user;
             } 
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
                 Debug.WriteLine(e.Message);
+                Debug.WriteLine("Denne gikk til helvete..");
+                return null;
             }
-
-            return null;
         }
 
         public bool addTask(Models.Task task)
