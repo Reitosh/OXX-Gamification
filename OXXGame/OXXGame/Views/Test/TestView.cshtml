@@ -1,6 +1,7 @@
-﻿@model Submission
+﻿@model SingleTestResult
 @{
     ViewData["Title"] = "Evnetest";
+    OXXGame.Models.Task task = (OXXGame.Models.Task) ViewData["Task"];
 }
 
 
@@ -25,10 +26,10 @@
             <div class="form-group">
                 @using (Html.BeginForm("KjorKode", "Test", FormMethod.Post))
                 {
-                    <label class="test-text">Kategori:</label><br />
-                    <label class="test-text">Vanskelighetsgrad:</label><br />
+                    <label class="test-text">Kategori: @task.category</label><br />
+                    <label class="test-text">Vanskelighetsgrad: @task.difficulty</label><br />
 
-                    <label class="test-text">Oppgave:</label><br />
+                    <label class="test-text">Oppgave: @task.test</label><br />
 
 
                     <textarea class="form-control" asp-for="Code" id="code" placeholder="Kode her" name="code" rows="10"></textarea>

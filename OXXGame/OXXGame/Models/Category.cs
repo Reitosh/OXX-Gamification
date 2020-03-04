@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace OXXGame.Models
 {
-    public class Submission
+    public class Category
     {
-        public SingleTestResult singleTestResult { get; set; }
-        public string Code { get; set; }
+        public string category { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace OXXGame.Controllers
         private readonly ILogger<LoginController> _logger;
         private OXXGameDBContext dbContext; //DbContext-objektet som brukes til database-aksess
 
+        public readonly string userId = "uId_key";
         public readonly string LoggedIn = "login_key";
         public readonly int TRUE = 1;
         public readonly int FALSE = 0;
@@ -46,6 +47,7 @@ namespace OXXGame.Controllers
                 if (Enumerable.SequenceEqual(inUser.pwdHash,user.pwdHash))
                 {
                     HttpContext.Session.SetInt32(LoggedIn, TRUE);
+                    HttpContext.Session.SetInt32(userId, user.userId);
 
                     if (user.isAdmin)
                     {
@@ -61,9 +63,28 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public ActionResult Register()
         {
-            return View("RegisterUser");
+            DB db = new DB(dbContext);
+            // ViewData["Categories"] = db.allCategories();
+            List<Category> categories = db.allCategories();
+            User model = new User()
+            {
+                categoryLvls = new List<User.CategoryLvl>()
+            };
+
+            foreach (Category category in categories)
+            {
+                model.categoryLvls.Add(new User.CategoryLvl()
+                {
+                    category = category.category,
+                    lvl = false
+                });
+            }
+
+            // ViewData["UserData"] = model;
+            return View("RegisterUser",model);
         }
 
         [HttpPost]
@@ -71,36 +92,50 @@ namespace OXXGame.Controllers
         {
             DB db = new DB(dbContext);
             List<User> users = db.allUsers();
+            
+            List<Category> categories = db.allCategories();
+            List<ResultPerCategory> resPerCategory = new List<ResultPerCategory>();
 
             foreach (User existingUser in users)
             {
                 if (user.email == existingUser.email)
                 {
                     ViewData["EmailErrorMessage"] = "Denne epost-addressen er allerede registrert";
-                    return View("RegisterUser");
+                    return View("RegisterUser",user);
                 }
             }
 
-            if (db.addUser(user))
+            Users newUser = db.addUser(user);
+            if (newUser != null)
             {
-                ModelState.Clear();
-                HttpContext.Session.SetInt32(LoggedIn, TRUE);
-                return RedirectToAction("TestInfo","Test");
+
+                for (int i = 0; i < categories.Count(); i++)
+                {
+                    int inLvl = 0;
+                    if (user.categoryLvls[i].lvl)
+                    {
+                        inLvl = 1;
+                    }
+
+                    resPerCategory.Add(new ResultPerCategory()
+                    {
+                        userId = newUser.id,
+                        category = categories[i].category,
+                        lvl = inLvl
+                    });
+                }
+
+                if (db.addResultPerCategory(resPerCategory))
+                {
+                    ModelState.Clear();
+                    HttpContext.Session.SetInt32(LoggedIn, TRUE);
+                    return RedirectToAction("TestInfo", "Test");
+                }
             }
 
             ViewData["DBErrorMessage"] = "Det oppsto en feil, prøv igjen.";
-            return View("RegisterUser");
+            return View("RegisterUser",user);
         }
-
-/*        public ActionResult Avbryt()
-
-        {
-            HttpContext.Session.SetInt32(LoggedIn, FALSE);
-            Debug.WriteLine("Logger ut...");
-            return RedirectToAction("Index");
-        }
-
-*/
 
         public bool loggedIn()
         {

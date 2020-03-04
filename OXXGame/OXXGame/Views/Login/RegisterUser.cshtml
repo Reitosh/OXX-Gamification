@@ -91,51 +91,21 @@
                 <span asp-validation-for="lastname" class="text-danger"></span>
             </div>
 
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowHtml)
-                @Html.LabelFor(model => model.knowHtml)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowCss)
-                @Html.LabelFor(model => model.knowCss)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowJavascript)
-                @Html.LabelFor(model => model.knowJavascript)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowCsharp)
-                @Html.LabelFor(model => model.knowCsharp)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowMvc)
-                @Html.LabelFor(model => model.knowMvc)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowNetframework)
-                @Html.LabelFor(model => model.knowNetframework)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowTypescript)
-                @Html.LabelFor(model => model.knowTypescript)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowVue)
-                @Html.LabelFor(model => model.knowVue)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowReact)
-                @Html.LabelFor(model => model.knowReact)
-            </div>
-            <div class="form-group form-check">
-                @Html.CheckBoxFor(model => model.knowAngular)
-                @Html.LabelFor(model => model.knowAngular)
-            </div>
+
+
+            @for (int i = 0; i < Model.categoryLvls.Count(); i++)
+            {
+                <div class="form-group form-check">
+                    @Html.HiddenFor(model => model.categoryLvls[i].category)
+
+                    @Html.CheckBoxFor(model => model.categoryLvls[i].lvl)
+                    <label>@Model.categoryLvls[i].category</label>
+                </div>
+            }
 
             <input id="btn-login" type="submit" name="RegisterUser" value="Letsgo" />
         }
 
-    </div>
     </div>
     <!-- END REGISTRER -->
 
