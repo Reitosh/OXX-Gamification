@@ -6,7 +6,6 @@ using System.Web;
 
 namespace OXXGame.Models
 {
-
     public class Task
     {
         public int testId { get; set; }
@@ -17,5 +16,4 @@ namespace OXXGame.Models
 
         public string category { get; set; }
     }
-
 }
