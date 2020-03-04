@@ -4,12 +4,15 @@ using OXXGame.Controllers;
 using OXXGame.Models;
 using Moq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.VisualStudio.TestPlatform;
 using Autofac.Extras.Moq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace OXXGame.test
 {
     public class UnitTest1
     {
+        OXXGameDBContext dBContext;
 
         [Fact]
         public void TestSSH()
@@ -107,12 +110,25 @@ namespace OXXGame.test
                 knowAngular = knoAngular
             };
 
-            var mockRepo = new Mock<DB>();
-            mockRepo.Setup(x => x.addUser(user)).Returns(user);
+            var mock = new Mock<DB>();
+            mock.Setup(x => x.addUser(user)).Returns(user);
 
-            var userObject = new DB(mockRepo.Object);
+            var userObject = new DB(mock.Object);
             var retrnData = userObject.addUser(user);
         }
 
+        [Fact]
+        public async Task TestController_TestInfo_ShouldReturnResult()
+        {
+            // Arrange
+            var controller = new TestController(dBContext);
+
+            // Act
+            var result = await controller.TestInfo(null) as ViewResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+
+        }
     }
 }

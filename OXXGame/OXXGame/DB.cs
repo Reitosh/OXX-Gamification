@@ -326,6 +326,27 @@ namespace OXXGame
             };
         }
 
+         /*----------------------------------------------------- Slett metoder -------------------------------------------------------------*/
+
+        public bool deleteUser(int userId)
+        {
+            try
+            {
+                var deleteUsr = db.Users.Find(userId);
+                db.Users.Remove(deleteUsr);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine("Detta gikk dårlig");
+                return false; 
+            }
+        }
+
+
+
         // Metode til bruk for testing (Andreas).
         public bool checkIfExist(string uname)
         {

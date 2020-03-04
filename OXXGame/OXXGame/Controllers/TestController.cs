@@ -20,7 +20,7 @@ namespace OXXGame.Controllers
             dbContext = context;
         }
 
-        public ActionResult TestInfo()
+        public ActionResult TestInfo(object p)
         {
             if (loggedIn())
             {
