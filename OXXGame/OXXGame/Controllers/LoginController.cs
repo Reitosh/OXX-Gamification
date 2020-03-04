@@ -13,6 +13,7 @@ namespace OXXGame.Controllers
 
     public class LoginController : Controller
     {
+
         private readonly ILogger<LoginController> _logger;
 
         private OXXGameDBContext dbContext; //DbContext-objektet som brukes til database-aksess
