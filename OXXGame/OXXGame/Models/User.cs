@@ -47,22 +47,20 @@ namespace OXXGame.Models
         [Required(ErrorMessage ="Vennligst skriv inn epostadresse")]
         public string email { get; set; }
         public bool isAdmin { get; set; }
-        public bool knowHtml { get; set; }
-        public bool knowCss { get; set; }
-        public bool knowJavascript { get; set; }
-        public bool knowCsharp { get; set; }
-        public bool knowMvc { get; set; }
-        public bool knowNetframework { get; set; }
-        public bool knowTypescript { get; set; }
-        public bool knowVue { get; set; }
-        public bool knowReact { get; set; }
-        public bool knowAngular { get; set; }
+
+        public List<CategoryLvl> categoryLvls { get; set; }
 
         private byte[] createHash(string s)
         {
             var alg = System.Security.Cryptography.SHA256.Create();
             byte[] pwd = System.Text.Encoding.ASCII.GetBytes(s);
             return alg.ComputeHash(pwd);
+        }
+
+        public class CategoryLvl
+        {
+            public bool lvl { get; set; }
+            public string category { get; set; }
         }
     }
 }

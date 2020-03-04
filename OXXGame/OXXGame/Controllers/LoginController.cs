@@ -18,6 +18,7 @@ namespace OXXGame.Controllers
 
         private OXXGameDBContext dbContext; //DbContext-objektet som brukes til database-aksess
 
+        public readonly string userId = "uId_key";
         public readonly string LoggedIn = "login_key";
         public readonly int TRUE = 1;
         public readonly int FALSE = 0;
@@ -57,7 +58,7 @@ namespace OXXGame.Controllers
                 {
 
                     HttpContext.Session.SetInt32(LoggedIn, TRUE);
-                    HttpContext.Session.SetInt32("uId", user.userId);
+                    HttpContext.Session.SetInt32(userId, user.userId);
 
                     if (user.isAdmin)
                     {
@@ -76,10 +77,28 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [HttpGet]
         public ActionResult UserRegistration()
         {
-            return View("UserRegistration");
+            DB db = new DB(dbContext);
+            // ViewData["Categories"] = db.allCategories();
+            List<Category> categories = db.allCategories();
+            User model = new User()
+            {
+                categoryLvls = new List<User.CategoryLvl>()
+            };
+
+            foreach (Category category in categories)
+            {
+                model.categoryLvls.Add(new User.CategoryLvl()
+                {
+                    category = category.category,
+                    lvl = false
+                });
+            }
+
+            // ViewData["UserData"] = model;
+            return View("UserRegistration",model);
         }
 
         [HttpPost]
@@ -88,68 +107,51 @@ namespace OXXGame.Controllers
 
             DB db = new DB(dbContext);
             List<User> users = db.allUsers();
+            
+            List<Category> categories = db.allCategories();
+            List<ResultPerCategory> resPerCategory = new List<ResultPerCategory>();
 
             foreach (User existingUser in users)
             {
                 if (user.email == existingUser.email)
                 {
                     ViewData["EmailErrorMessage"] = "Denne epost-addressen er allerede registrert";
-                    return View("UserRegistration");
+                    return View("RegisterUser",user);
                 }
             }
 
-            if (db.addUser(user) != null)
+            Users newUser = db.addUser(user);
+            if (newUser != null)
             {
-                ModelState.Clear();
-                HttpContext.Session.SetInt32(LoggedIn, TRUE);
-                return RedirectToAction("TestInfo","Test");
+                for (int i = 0; i < categories.Count(); i++)
+                {
+                    int inLvl = 0;
+                    if (user.categoryLvls[i].lvl)
+                    {
+                        inLvl = 1;
+                    }
+
+                    resPerCategory.Add(new ResultPerCategory()
+                    {
+                        userId = newUser.id,
+                        category = categories[i].category,
+                        lvl = inLvl
+                    });
+                }
+
+                if (db.addResultPerCategory(resPerCategory))
+                {
+                    ModelState.Clear();
+                    HttpContext.Session.SetInt32(LoggedIn, TRUE);
+                    return RedirectToAction("TestInfo", "Test");
+                }
             }
 
             ViewData["DBErrorMessage"] = "Det oppsto en feil, prøv igjen.";
-            return View("UserRegistration");
-        }
-                    
-       
-
-/*
-        public ActionResult Avbryt()
-        {
-            HttpContext.Session.SetInt32(LoggedIn, FALSE);
-            Debug.WriteLine("Logger ut...");
-            return RedirectToAction("Index");
+            return View("UserRegistration",user);
         }
 
 
-
-*/
-
-        //metode som sjekker om en bruker er Administrator (til bruk for testing)
-        public bool isAdmin(User inUser)
-        {
-            bool isAdmin = false;
-
-            DB db = new DB(dbContext);
-
-            User user = db.getUser(inUser.email);
-
-            if (user != null)
-            {
-                if (user.isAdmin)
-                {
-                    isAdmin = true;
-                    Debug.WriteLine("User is admin");
-                }
-                else
-                {
-                    isAdmin = false;
-                    Debug.WriteLine("User is not admin");
-                }
-            }
-
-            return isAdmin;
-        }
-
-        // Metode som skal sjekke om en bruker er logget inn med session. 
         public bool loggedIn()
         {
             bool loggetInn;
