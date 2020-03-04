@@ -26,8 +26,7 @@ namespace OXXGame.Models
         public string RunCode(string Code, int? userId)
         {
             using (var client = new SshClient(new ConnectionInfo(
-                host, user, new PasswordAuthenticationMethod(user, password)
-                )))
+                host, user, new PasswordAuthenticationMethod(user, password))))
             {
                 DB category = new DB(db);
                 List<Task> tasks = category.allTasks();
@@ -37,20 +36,20 @@ namespace OXXGame.Models
 
                 foreach (Task task in tasks)
                 {
+                    string scriptPath = "sudo sh /home/Markus/Scripts/";
+
                     switch (task.category)
                     {
                         case "CSharp":
-                            var CSharpCommand = client.RunCommand("sudo sh /home/Markus/Scripts/CSharp.sh '" + Code + "' "
-                        + "'" + userId + "'");
+                            var CSharpCommand = client.RunCommand(scriptPath + "CSharp.sh" + " '" + Code + "' " + "'" + userId + "'");
                             string CSharpOutput = CSharpCommand.Result;
                             Debug.WriteLine("ja her valgte CSharp da");
                             Debug.WriteLine(CSharpOutput);
                             client.Disconnect();
                             return CSharpOutput;
-                        
+
                         case "JavaScript":
-                            var JavaScriptCommand = client.RunCommand("sudo sh /home/Markus/Scripts/JavaScript.sh '" + Code + "' " + "'"
-                                + userId + "'");
+                            var JavaScriptCommand = client.RunCommand(scriptPath + "JavaScript.sh" + " '" + Code + "' " + "'" + userId + "'");
                             string JavaScriptOutput = JavaScriptCommand.Result;
                             Debug.WriteLine("ja her valgte javascript da");
                             Debug.WriteLine(JavaScriptOutput);
@@ -75,11 +74,11 @@ namespace OXXGame.Models
 
                         case "Angular":
                             return "ikke laget";
-                        
+
 
                     }
                 }
-                return "Empty";
+                return "No task specified";
             }
         }
     }

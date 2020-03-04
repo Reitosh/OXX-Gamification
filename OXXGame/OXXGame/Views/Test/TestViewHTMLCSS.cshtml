@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "TestViewHTMLCSS";
+}
+
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Code Editor</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/mobile.css" />
+    <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
+    <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
+    <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
+    <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
+
+
+</head>
+
+<body>
+    <div id="content">
+        <textarea id="html" onkeyup="showHtml()"></textarea>
+        <iframe id="view-result"></iframe>
+    </div>
+
+    <!-- Scripts -->
+
+    <script>
+        function showHtml() {
+            var srcHtml = document.getElementById('html').value;
+            document.getElementById("view-result").srcdoc = srcHtml;
+        }
+    </script>
+
+
+    <script src="~/codemirror/lib/codemirror.js"></script>
+    <script src="~/codemirror/mode/javascript/javascript.js"></script>
+    <script src="~/codemirror/mode/xml/xml.js"></script>
+    <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+    <script src="~/codemirror/mode/clike/clike.js"></script>
+    <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
+    <script src="~/js/TestViewConfiguration.js"></script>
+</body>
+
+
+
+</html>
