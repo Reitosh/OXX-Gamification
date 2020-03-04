@@ -61,20 +61,11 @@ namespace OXXGame.Controllers
         public ActionResult KjorKode(Submission Submission)
         {
             SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
+
             
             ViewData["Output"] = ssh.RunCode(Submission.Code, HttpContext.Session.GetInt32("uId"));
             ViewData["Input"] = Submission.Code;
             return View("TestView");
-        }
-
-        public ActionResult Neste()
-        {
-            return View("TestView");
-        }
-
-        public ActionResult HTMLCSS()
-        {
-            return View("TestViewCSSHTML");
         }
 
         public ActionResult Avbryt()

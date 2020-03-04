@@ -6,7 +6,7 @@
     
     
 }
-    <html>
+
 
     <head>
         <meta charset="utf-8" />
@@ -20,13 +20,21 @@
         <!-- Linked CSS Files -->
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/css/mobile.css" />
-        <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
-        <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
-        <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
-        <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
 
         <!-- Linked Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+        <!-- Codemirror-->
+        <script src="~/codemirror/lib/codemirror.js"></script>
+        <script src="~/codemirror/mode/javascript/javascript.js"></script>
+        <script src="~/codemirror/mode/xml/xml.js"></script>
+        <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+        <script src="~/codemirror/mode/clike/clike.js"></script>
+        <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
+        <link href="~/codemirror/lib/codemirror.css" rel="stylesheet"/>
+        <link href="~/codemirror/theme/dracula.css" rel="stylesheet"/>
+        <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet"/>
+        <link href="~/codemirror/addon//scroll/simplescrollbars.css" rel="stylesheet"/>
 
     </head>
     <body>
@@ -36,22 +44,46 @@
                 {
                     <label class="test-text">Kategori: </label><br />
                     <label class="test-text">Vanskelighetsgrad:</label><br />
-                    <label class="test-text">Oppgave:</label><br />
+                    <label class="test-text">Oppgave:</label><br/>
+
+
 
                     <textarea class="editor" asp-for="Code" id="input" name="code" rows="10">@input</textarea>
-                    <input type="submit" value="Kjør kode" id="codeBtn" onclick="DisableButton(); submit();" />
+                    <input type="submit" value="Kjør kode" />
+
                     <textarea readonly class="output" id="output" rows="5">@output</textarea>
+                    
+
+
+
+
+
+                    <script>
+                        var editor = CodeMirror.fromTextArea(
+                            document.getElementById('input'), {
+                            mode: "text/x-csharp",
+                            theme: "base16-dark",
+                            lineNumbers: true,
+                            indentUnit: 4,
+                            indentWithTabs: true,
+                            autoCloseTags: true,
+                            autoCloseBrackets: true,
+                            scrollbarStyle: "overlay"
+                        });
+                        editor.setSize("700", "400");
+
+                        var outputWindow = CodeMirror.fromTextArea(
+                            document.getElementById('output'), {
+                            mode: "text/x-csharp",
+                            theme: "base16-dark",
+                            scrollbarStyle: "overlay"
+                        });
+                        outputWindow.setSize("500", "150");
+
+                    </script>
+
                 }
 
-                @using (Html.BeginForm("Neste", "Test", FormMethod.Get))
-                {
-                <input type="submit" value="Neste" />
-                }
-
-                @using (Html.BeginForm("HTMLCSS", "Test", FormMethod.Get))
-                {
-                    <input type="submit" value="HTMLCSS" />
-                }
 
                 @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
 
@@ -62,16 +94,4 @@
                 }
             </div>
         </div>
-
-        <!-- Codemirror-->
-        
-        <script src="~/codemirror/lib/codemirror.js"></script>
-        <script src="~/codemirror/mode/javascript/javascript.js"></script>
-        <script src="~/codemirror/mode/xml/xml.js"></script>
-        <script src="~/codemirror/addon/edit/closebrackets.js"></script>
-        <script src="~/codemirror/mode/clike/clike.js"></script>
-        <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
-        <script src="~/js/TestViewConfiguration.js"></script>
-
-    </body>
-</html>
+</body>
