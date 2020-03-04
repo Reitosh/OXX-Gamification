@@ -10,9 +10,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace OXXGame.Controllers
 {
+
     public class LoginController : Controller
     {
         private readonly ILogger<LoginController> _logger;
+
         private OXXGameDBContext dbContext; //DbContext-objektet som brukes til database-aksess
 
         public readonly string userId = "uId_key";
@@ -26,6 +28,7 @@ namespace OXXGame.Controllers
             dbContext = context;
         }
 
+
         //  Index, kjøres når programmet starter. Sørger for at egen Session variabel blir FALSE
         //  slik at en bruker ikke er logget inn fra start. 
 
@@ -36,16 +39,20 @@ namespace OXXGame.Controllers
         }
 
 
+
         [HttpPost]
         public ActionResult Login(User inUser)
         {
+
             DB db = new DB(dbContext);
+
             User user = db.getUser(inUser.email);
 
             if (user != null)
             {
                 if (Enumerable.SequenceEqual(inUser.pwdHash,user.pwdHash))
                 {
+
                     HttpContext.Session.SetInt32(LoggedIn, TRUE);
                     HttpContext.Session.SetInt32(userId, user.userId);
 
@@ -57,6 +64,7 @@ namespace OXXGame.Controllers
                     {
                         return RedirectToAction("TestInfo", "Test");
                     }
+
                 }
             }
 
@@ -108,7 +116,6 @@ namespace OXXGame.Controllers
             Users newUser = db.addUser(user);
             if (newUser != null)
             {
-
                 for (int i = 0; i < categories.Count(); i++)
                 {
                     int inLvl = 0;
@@ -153,5 +160,6 @@ namespace OXXGame.Controllers
 
             return loggetInn;
         }
+
     }
 }
