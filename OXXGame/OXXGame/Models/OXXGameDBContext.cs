@@ -36,7 +36,7 @@ namespace OXXGame.Models
     {
         public int id { get; set; }
         public string Test { get; set; }
-        public string Difficulty { get; set; }
+        public int Difficulty { get; set; }
         public string Category { get; set; }
     }
 
