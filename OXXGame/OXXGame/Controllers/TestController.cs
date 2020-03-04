@@ -29,7 +29,7 @@ namespace OXXGame.Controllers
             dbContext = context;
         }
 
-        public ActionResult TestInfo()
+        public ActionResult TestInfo(object p)
         {
             if (loggedIn())
             {
@@ -116,10 +116,20 @@ namespace OXXGame.Controllers
 
         public ActionResult KjorKode(SingleTestResult singleTest)
         {
-            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
-            ssh.ConnectToVM(singleTest.Code);
+            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
 
-            return RedirectToAction("TestView");
+            ViewData["Output"] = ssh.RunCode(Submission.Code, HttpContext.Session.GetInt32("uId"));
+            ViewData["Input"] = Submission.Code;
+            return View("TestView");
+        }
+        public ActionResult Neste()
+        {
+            return View("TestView");
+        }
+
+        public ActionResult HTMLCSS()
+        {
+            return View("TestViewHTMLCSS");
         }
 
         public ActionResult Avbryt()

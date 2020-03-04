@@ -18,6 +18,7 @@ namespace OXXGame
         }
 
         /* ------------------------- Add metoder ------------------------- */
+      
         public Users addUser(User user)
         {
             var userRow = new Users()
@@ -422,18 +423,6 @@ namespace OXXGame
                 lastname = user.Lastname,
                 email = user.Email,
                 isAdmin = user.IsAdmin,
-                /*
-                knowHtml = user.KnowHtml,
-                knowCss = user.KnowCss,
-                knowJavascript = user.KnowJavascript,
-                knowCsharp = user.KnowCsharp,
-                knowMvc = user.KnowMvc,
-                knowNetframework = user.KnowNetframework,
-                knowTypescript = user.KnowTypescript,
-                knowVue = user.KnowVue,
-                knowReact = user.KnowReact,
-                knowAngular = user.KnowAngular
-                */
             };
         }
 
@@ -460,6 +449,46 @@ namespace OXXGame
                 testId = sResult.TestId,
                 //submitted = sResult.Submitted
             };
+        }
+
+         /*----------------------------------------------------- Slett metoder -------------------------------------------------------------*/
+
+        public bool deleteUser(int userId)
+        {
+            try
+            {
+                var deleteUsr = db.Users.Find(userId);
+                db.Users.Remove(deleteUsr);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine("Detta gikk dårlig");
+                return false; 
+            }
+        }
+
+
+
+        // Metode til bruk for testing (Andreas).
+        public bool checkIfExist(string uname)
+        {
+
+            bool exist;
+
+            try
+            {
+                Users user = db.Users.SingleOrDefault(u => u.Email == uname);
+                exist = true;
+                return exist;
+            }
+            catch (Exception e)
+            {
+                exist = false;
+                return exist;
+            }
         }
     }
 }

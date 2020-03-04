@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,6 +13,7 @@ namespace OXXGame.Controllers
 
     public class LoginController : Controller
     {
+
         private readonly ILogger<LoginController> _logger;
 
         private OXXGameDBContext dbContext; //DbContext-objektet som brukes til database-aksess
@@ -22,11 +23,14 @@ namespace OXXGame.Controllers
         public readonly int TRUE = 1;
         public readonly int FALSE = 0;
 
+
         public LoginController(ILogger<LoginController> logger, OXXGameDBContext context)
+
         {
             _logger = logger;
             dbContext = context;
         }
+
 
 
         //  Index, kjøres når programmet starter. Sørger for at egen Session variabel blir FALSE
@@ -35,9 +39,9 @@ namespace OXXGame.Controllers
         public ActionResult Index()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
+            loggedIn();
             return View();
         }
-
 
 
         [HttpPost]
@@ -62,7 +66,9 @@ namespace OXXGame.Controllers
                     }
                     else
                     {
+
                         return RedirectToAction("TestInfo", "Test");
+
                     }
 
                 }
@@ -72,7 +78,7 @@ namespace OXXGame.Controllers
         }
 
         [HttpGet]
-        public ActionResult Register()
+        public ActionResult UserRegistration()
         {
             DB db = new DB(dbContext);
             // ViewData["Categories"] = db.allCategories();
@@ -92,12 +98,13 @@ namespace OXXGame.Controllers
             }
 
             // ViewData["UserData"] = model;
-            return View("RegisterUser",model);
+            return View("UserRegistration",model);
         }
 
         [HttpPost]
-        public ActionResult RegisterUser(User user)
+        public ActionResult UserRegistration(User user)
         {
+
             DB db = new DB(dbContext);
             List<User> users = db.allUsers();
             
@@ -141,8 +148,9 @@ namespace OXXGame.Controllers
             }
 
             ViewData["DBErrorMessage"] = "Det oppsto en feil, prøv igjen.";
-            return View("RegisterUser",user);
+            return View("UserRegistration",user);
         }
+
 
         public bool loggedIn()
         {

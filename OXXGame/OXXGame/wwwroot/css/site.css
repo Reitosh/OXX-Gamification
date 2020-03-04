@@ -8,6 +8,7 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 300;
+    letter-spacing: 0.6px;
     color: #fff;
     margin: 0;
     padding: 0;
@@ -17,12 +18,20 @@ body {
     user-select: none;
 }
 
+.editor {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 100px;
+}
+
 .section {
-    padding: 80px 0;
+    padding-top: 180px;
+    padding-bottom: 80px;
 }
 
 .underline {
-    background: #fdea0e;
+    background: #f5ce02;
     display: block;
     margin: 0 auto;
     margin-bottom: 40px;
@@ -30,6 +39,26 @@ body {
     height: 3px;
     border: 0;
 }
+
+/* Buttons */
+.btn, .btn:active, .btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.btn-success {
+    background-color: #f5ce02;
+    color: #282828;
+    padding: 8px 12px;
+    border: none;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.btn-success:hover,  .btn-success:active {
+    background-color: #fdea0e !important;
+    color: #282828 !important;
+} 
 
 /* Headings */
 h2 {
@@ -42,6 +71,71 @@ h5 {
     font-size: 18px;
     font-style: italic;
     text-align: center;
+}
+
+h6 {
+    text-align: center;
+    line-height: 2.0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Forms */
+.form-control {
+    background-color: transparent !important;
+    color: #fff !important;
+    padding-left: 0;
+    border-width: 0 0 1.2px;
+    border-color: #fff;
+    border-radius: 0;
+    outline: 0;
+}
+
+.form-control:focus {
+    background-color: #282828;
+    border-width: 0 0 1.2px;
+    border-color: #f5ce02;
+    outline: none;
+    box-shadow: none;
+}
+
+::-webkit-input-placeholder {
+    color: #7b7b7b !important;
+    font-size: 14px;
+}
+
+:-moz-placeholder {
+    color: #7b7b7b !important;
+    font-size: 14px;
+}
+
+::-moz-placeholder {
+    color: #7b7b7b !important;
+    font-size: 14px;
+}
+
+:-ms-input-placeholder {
+    color: #7b7b7b !important;
+    font-size: 14px;
+}
+
+::placeholder {
+    color: #7b7b7b !important;
+    font-size: 14px;
+}
+
+/* Password Toggle */
+.passwd-toggle {
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    padding: 12px;
+    text-align: center;
+}
+
+.fa-eye, .fa-eye-slash {
+    color: #fff;
+    font-size: 12px;
 }
 
 /**********************************************/
@@ -58,9 +152,10 @@ h5 {
     overflow: hidden;
 }
 
+/*** Login Form ***/
 .login-box {
-    background-color: rgba(16, 16, 16, .6);
-    color: #ffffff;
+    background-color: rgba(16, 16, 16, .75);
+    color: #fff;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -68,61 +163,55 @@ h5 {
     min-width: 380px;
     margin: 0;
     padding: 40px;
-    border: 1px solid #767676;
+    border: 1px solid #6d6d6d;
+    border-radius: 12px;
     text-align: center;
 }
 
-    .login-box img {
-        width: 90px;
-        height: auto;
-        margin-bottom: 25px;
-    }
+.login-box img {
+    width: 90px;
+    height: auto;
+    margin-bottom: 40px;
+}
 
-    .login-box input {
-        width: 100%;
-        padding: 6px 10px;
-        margin-top: 20px;
-        outline: none;
-    }
+.login-box .form-group {
+    margin: 0;
+    padding: 0;
+}
+
+.login-box .passwd-toggle {
+    top: 278px;
+    right: 28px;
+}
 
 .login-box-content {
-    color: #ffffff;
+    display: inline-block;
+    color: #fff;
     font-size: 14px;
-    font-weight: 400;
 }
 
-    .login-box-content:hover {
-        text-decoration: none;
-        color: #ffffff;
-    }
-
-#login-content-1 p {
-    text-align: left;
-    margin-top: 12px;
+.login-box-content:hover {
+    text-decoration: none;
+    color: #fff;
 }
 
-#login-content-2 p {
-    text-align: center;
-    margin-top: 16px;
+#login-content-1 {
+    float: left;
+    margin-top: 24px;
 }
 
-#btn-login {
-    background-color: #fdea0e;
-    border: 1px solid #282828;
-    padding: 8px 16px;
-    color: #282828;
+.btn-form-login {
+    width: 100%;
+    margin: 20px 0;
 }
-
-    #btn-login:hover {
-        background-color: #f5ce02;
-    }
 
 .form-error-login {
-    color: #fdea0e;
+    color: #f5ce02;
     font-size: 14px;
     font-style: italic;
     text-align: left;
 }
+/*** End Login Form ***/
 
 /**********************************************/
 /***************** END LOGIN ******************/
@@ -138,12 +227,14 @@ h5 {
     top: 0;
     width: 100%;
     height: 88px;
+    z-index: 10000;
 }
 
 .navbar-scroll {
-    background-color: #fdea0e;
+    background-color: #f5ce02;
     height: 76px;
     padding: 0 16px;
+    z-index: 10000;
     -moz-box-shadow: 0px 0px 5px 0px #000;
     -webkit-box-shadow: 0px 0px 5px 0px #000;
     box-shadow: 0px 0px 5px 0px #000;
@@ -155,14 +246,14 @@ h5 {
     padding: 0;
 }
 
-    .navbar-brand img {
-        width: 42px;
-        height: auto;
-    }
+.navbar-brand img {
+    width: 42px;
+    height: auto;
+}
 
 /* Navbar Menu */
 .navbar-nav li a {
-    color: #ffffff;
+    color: #fff;
     font-weight: 300;
 }
 
@@ -170,6 +261,42 @@ h5 {
 /**************** END NAVBAR ******************/
 /**********************************************/
 
+/**********************************************/
+/************* USER REGISTRATION **************/
+/**********************************************/
+
+/* Registration Form */
+#wrapper-form-reg {
+    width: 60%;
+    padding: 40px;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+#wrapper-form-reg .passwd-toggle {
+    top: 0;
+    right: 5px;
+}
+    
+.reg-form-content {
+    margin-top: 30px;
+    padding: 30px 20px 10px 20px;
+    border: 1px solid #6d6d6d;
+    border-radius: 10px;
+}
+
+.reg-form-content h6 {
+    padding-bottom: 20px;
+}
+
+.btn-form-reg {
+    width: 100%;
+    margin-top: 30px;
+}
+
+/**********************************************/
+/*********** END USER REGISTRATION ************/
+/**********************************************/
 
 /**********************************************/
 /****************** FOOTER ********************/
@@ -180,12 +307,12 @@ h5 {
     padding: 30px 0;
 }
 
-    .footer p {
-        margin: 0;
-        color: #fff;
-        font-size: 12px;
-        text-align: center;
-    }
+.footer p {
+    margin: 0;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+}
 
 /**********************************************/
 /**************** END FOOTER ******************/

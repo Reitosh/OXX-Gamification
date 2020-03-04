@@ -16,6 +16,7 @@ namespace OXXGame.Models
 
         [Required(ErrorMessage ="Vennligst skriv inn passord")]
         public string password { get; set; }
+        public string passwordRepeat { get; set; }
         public byte[] pwdHash {
             get 
             {

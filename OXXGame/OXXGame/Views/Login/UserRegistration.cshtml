@@ -42,7 +42,7 @@
                 <!-- Navbar Menu -->
                 <ul class="nav navbar-nav navbar-right">
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Index">
+                        <a class="nav-link" asp-controller="Login" asp-action="Index">
                             <i class="fas fa-sign-in-alt"></i>
                             Logg inn
                         </a>
@@ -52,63 +52,91 @@
         </nav>
     </header>
     <!-- END HEADER -->
-    <!-- REGISTRER -->
-    <div class="section section-registrer" id="section-registrer-1"></div>
-    <div class="container">
-        <h2>Brukerregistrering</h2>
-        @if (ViewData["DbErrorMessage"] != null)
-        {
-            <p style="color: red">@ViewData["DbErrorMessage"]</p>
-        }
-        <span class="underline"></span>
-        <h5>Fyll inn dine personopplysninger i skjemaet under</h5>
 
-        @using (Html.BeginForm("RegisterUser", "Login", FormMethod.Post))
-        {
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="email">Email</label>
-                <input asp-for="email" class="form-control" />
-                <span asp-validation-for="email" class="text-danger"></span>
-                @if (ViewData["EmailErrorMessage"] != null)
+    <!-- USER REGISTRATION -->
+
+    <div class="section section-registrer" id="section-registrer-1">
+        <div class="container">
+            <h2>Brukerregistrering</h2>
+            <span class="underline"></span>
+            <h5>Fyll inn dine personopplysninger i skjemaet under</h5>
+
+
+            <!-- Registration Form -->
+            <div class="wrapper wrapper-form" id="wrapper-form-reg">
+                @using (Html.BeginForm("UserRegistration", "Login", FormMethod.Post))
                 {
-                    <p style="color: red">@ViewData["EmailErrorMessage"]</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input asp-for="firstname" type="text" name="firstname" class="form-control"
+                                       id="reg-form-firstname" placeholder="Fornavn">
+                                <div class="form-error form-error-reg" id="form-error-reg-firstname"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input asp-for="lastname" type="text" name="lastname" class="form-control"
+                                       id="reg-form-lastname" placeholder="Etternavn">
+                                <div class="form-error form-error-reg" id="form-error-reg-lastname"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input asp-for="email" type="email" name="email" class="form-control"
+                                       id="reg-form-email" placeholder="E-post">
+                                <div class="form-error form-error-reg" id="form-error-reg-email"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input asp-for="password" type="password" name="password" class="form-control"
+                                       id="reg-form-password" placeholder="Passord">
+                                <span class="fas fa-eye passwd-toggle" toggle="#reg-form-password"></span>
+                                <div class="form-error form-error-reg" id="form-error-reg-password"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input asp-for="passwordRepeat" type="password" name="passwordRepeat" class="form-control"
+                                       id="reg-form-passwordRepeat" placeholder="Gjenta passord">
+                                <span class="fas fa-eye passwd-toggle" toggle="#reg-form-passwordRepeat"></span>
+                                <div class="form-error form-error-reg" id="form-error-reg-passwordRepeat"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reg-form-content">
+                        <h6>Velg teknologier og programmeringsspråk du har kompetanse innen?</h6>
+                        
+                        @for (int i = 0; i < Model.categoryLvls.Count(); i++)
+                        {
+                            <div class="form-group form-check">
+                                @Html.HiddenFor(model => model.categoryLvls[i].category)
+
+                                @Html.CheckBoxFor(model => model.categoryLvls[i].lvl)
+                                <label>@Model.categoryLvls[i].category</label>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="submit" name="register" value="Registrer" class="btn btn-success btn-form-reg">
+                        </div>
+                    </div>
                 }
+                <!-- End Registration Form -->
             </div>
-            <div class="form-group">
-                <label asp-for="password">Passord</label>
-                <input asp-for="password" class="form-control" />
-                <span asp-validation-for="password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="firstname">Fornavn</label>
-                <input asp-for="firstname" class="form-control" />
-                <span asp-validation-for="firstname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="lastname">Etternavn</label>
-                <input asp-for="lastname" class="form-control" />
-                <span asp-validation-for="lastname" class="text-danger"></span>
-            </div>
-
-
-
-            @for (int i = 0; i < Model.categoryLvls.Count(); i++)
-            {
-                <div class="form-group form-check">
-                    @Html.HiddenFor(model => model.categoryLvls[i].category)
-
-                    @Html.CheckBoxFor(model => model.categoryLvls[i].lvl)
-                    <label>@Model.categoryLvls[i].category</label>
-                </div>
-            }
-
-            <input id="btn-login" type="submit" name="RegisterUser" value="Letsgo" />
-        }
-
+        </div>
     </div>
-    <!-- END REGISTRER -->
-
+    <!-- END USER REGISTRATION -->
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
@@ -116,12 +144,12 @@
         </div>
     </footer>
     <!-- END FOOTER -->
-
     <!-- Bootstrap Script Files -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Linked Script Files -->
     <script src="~/js/nav_scroll.js" asp-append-version="true"></script>
+    <script src="~/js/toggle_passwd.js"></script>
 </body>
 </html>
