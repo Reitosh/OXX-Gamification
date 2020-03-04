@@ -67,6 +67,15 @@ namespace OXXGame.Controllers
             ViewData["Input"] = Submission.Code;
             return View("TestView");
         }
+        public ActionResult Neste()
+        {
+            return View("TestView");
+        }
+
+        public ActionResult HTMLCSS()
+        {
+            return View("TestViewHTMLCSS");
+        }
 
         public ActionResult Avbryt()
         {
