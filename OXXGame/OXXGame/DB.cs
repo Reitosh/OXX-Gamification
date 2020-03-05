@@ -453,11 +453,11 @@ namespace OXXGame
 
          /*----------------------------------------------------- Slett metoder -------------------------------------------------------------*/
 
-        public bool deleteUser(int userId)
+        public bool deleteUser(int deleteId)
         {
             try
             {
-                var deleteUsr = db.Users.Find(userId);
+                Users deleteUsr = db.Users.Find(deleteId);
                 db.Users.Remove(deleteUsr);
                 db.SaveChanges();
                 return true;

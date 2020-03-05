@@ -83,5 +83,17 @@ namespace OXXGame.Controllers
                 return false;
             }
         }
+
+
+        public ActionResult DeleteUser(int userId)
+        {
+            var userDb = new DB(dbContext);
+            bool OK = userDb.deleteUser(userId);
+            if (OK)
+            {
+                Debug.WriteLine("User deleted");
+            }
+            return RedirectToAction("UserAdmin", "Admin");
+        }
     }
 }
