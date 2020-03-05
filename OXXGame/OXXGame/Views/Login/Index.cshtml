@@ -14,11 +14,11 @@
     <title>OXXGame - @ViewData["Title"]</title>
 
     <!-- Linked Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
-
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/cb7428d12a.js"></script>
@@ -33,36 +33,42 @@
 <body>
     <!-- LOGIN -->
     <div class="page-background">
-        <div class="container">
+        <div class="container container-login">
             <div class="login-box">
                 <img src="../images/brand/logo_hvit.png" alt="logo" />
 
                 <!-- Login Form -->
-                @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+                @using (Html.BeginForm("Login", "Login", FormMethod.Post,
+                  new { name="formLogin", id="form-login", onsubmit="return loginAll()", novalidate="true" }))
                 {
                     <div class="form-group">
-                        <input asp-for="email" type="text" name="email" placeholder="E-post"
-                               class="form-control" id="login-form-email" /><br />
+                        <input asp-for="email" type="text" name="email" class="form-control"
+                               id="form-login-email" onchange="loginEmail()" required />
+                        <label class="float-label" for="form-login-email">E-post</label>
                         <div class="form-error form-error-login" id="form-error-login-email"></div>
                     </div>
+
                     <div class="form-group">
-                        <input asp-for="password" type="password" name="password" placeholder="Passord"
-                               class="form-control" id="login-form-password" />
-                        <span class="fas fa-eye passwd-toggle" toggle="#login-form-password"></span>
-                        <br />
-                        <div class="form-error form-error-login" id="form-error-login-passwd"></div>
+                        <input asp-for="password" type="password" name="password" class="form-control"
+                               id="form-login-password" onchange="loginPasswd()" required />
+                        <label class="float-label" for="form-login-email">Passord</label>
+                        <span class="fas fa-eye passwd-toggle" toggle="#form-login-password"></span>
+                        <div class="form-error form-error-login" id="form-error-login-password"></div>
                     </div>
-                    <a class="login-box-content" id="login-content-1" href="#">
-                        <p>Glemt innloggingsdetaljer?</p>
-                    </a>
 
                     <div class="form-group">
                         <input type="submit" name="login" value="Logg inn" class="btn btn-success btn-form-login" />
                     </div>
 
-                    <a class="login-box-content" id="login-content-2" asp-controller="Login" asp-action="UserRegistration">
-                        <p>Registrer ny bruker</p>
-                    </a>
+                    <div class="login-links">
+                        <div class="login-links-content p-small" id="login-links-forgot">
+                            <a href="#">Glemt brukernavn eller passord?</a>
+                        </div>
+                        <div class="login-links-content p-small" id="login-links-reg">
+                            Har du ikke en konto?
+                            <a asp-controller="Login" asp-action="UserRegistration">Registrer deg</a>
+                        </div>
+                    </div>
                 }
                 <!-- End Login Form -->
             </div>
@@ -74,9 +80,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-
     <!-- Linked Script Files -->
     <script src="~/js/toggle_passwd.js"></script>
-
+    <script src="~/js/client_validation.js"></script>
 </body>
 </html>
