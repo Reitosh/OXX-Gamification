@@ -114,7 +114,7 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index", "Login");
         }
 
-        public ActionResult KjorKode(SingleTestResult singleTest)
+        public ActionResult KjorKode(Submission Submission)
         {
             SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
 
