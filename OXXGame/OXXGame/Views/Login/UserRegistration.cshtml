@@ -115,14 +115,48 @@
                     <div class="reg-form-content">
                         <h6>Velg teknologier og programmeringsspråk du har kompetanse innen?</h6>
                         
-                        @for (int i = 0; i < Model.categoryLvls.Count(); i++)
-                        {
-                            <div class="form-group form-check">
-                                @Html.HiddenFor(model => model.categoryLvls[i].category)
+                        @{
+                            int i = -1;
+                        }
 
-                                @Html.CheckBoxFor(model => model.categoryLvls[i].lvl)
-                                <label>@Model.categoryLvls[i].category</label>
-                            </div>
+                        @while (++i < Model.categoryLvls.Count())
+                        {
+                            <table class="form-group form-check">
+                                <tr>
+                                    <td>
+                                        <div class="form-group form-check">
+                                            @Html.HiddenFor(model => model.categoryLvls[i].category)
+
+                                            @Html.CheckBoxFor(model => model.categoryLvls[i].lvl)
+                                            <label>@Model.categoryLvls[i].category</label>
+                                        </div>
+                                    </td>
+
+                                    @if (++i < Model.categoryLvls.Count())
+                                    {
+                                        <td>
+                                            <div class="form-group form-check">
+                                                @Html.HiddenFor(model => model.categoryLvls[i].category)
+
+                                                @Html.CheckBoxFor(model => model.categoryLvls[i].lvl)
+                                                <label>@Model.categoryLvls[i].category</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (++i < Model.categoryLvls.Count())
+                                    {
+                                        <td>
+                                            <div class="form-group form-check">
+                                                @Html.HiddenFor(model => model.categoryLvls[i].category)
+
+                                                @Html.CheckBoxFor(model => model.categoryLvls[i].lvl)
+                                                <label>@Model.categoryLvls[i].category</label>
+                                            </div>
+                                        </td>
+                                    }
+                                </tr>
+                            </table>
                         }
                     </div>
 
