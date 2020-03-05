@@ -1,17 +1,23 @@
-﻿/**********************************************/
-/********* OXX Game JavaScript File ***********/
-/******* Filename: client-validation.js *******/
-/**********************************************/
+﻿/**
+ * Document info: OXX Game JavaScript File
+ *     File name: client_validation.js
+ *        Author: Vladimir Maric
+ *   
+ *   Description: This file includes all the necessary methods for the 
+ *                client-side validation of login and registration form.
+ */
 
-/* Login Validation */
+/*======================================================================
+  Login Form Validation 
+  ======================================================================*/
 
-// Login form - username validation
-function login_uname() {
-    inputUname = document.forms["formLogin"]["uname"].value;
-    errorMessage = document.getElementById("form-login-uname-error");
+// Login form - email validation
+function loginEmail() {
+    inputEmail = document.forms["formLogin"]["email"].value;
+    errorMessage = document.getElementById("form-error-login-email");
 
-    if (inputUname == null || inputUname == "") {
-        errorMessage.innerHTML = "Vennligst oppgi din e-post adresse";
+    if (inputEmail == null || inputEmail == "") {
+        errorMessage.innerHTML = "Vennligst oppgi e-post adresse";
         return false;
     } else {
         errorMessage.innerHTML = "";
@@ -20,12 +26,12 @@ function login_uname() {
 }
 
 // Login form - password validation
-function login_passwd() {
-    inputPasswd = document.forms["formLogin"]["passwd"].value;
-    errorMessage = document.getElementById("form-login-passwd-error");
+function loginPasswd() {
+    inputPasswd = document.forms["formLogin"]["password"].value;
+    errorMessage = document.getElementById("form-error-login-password");
 
     if (inputPasswd == null || inputPasswd == "") {
-        errorMessage.innerHTML = "Vennligst oppgi ditt passord";
+        errorMessage.innerHTML = "Vennligst oppgi passord";
         return false;
     } else {
         errorMessage.innerHTML = "";
@@ -34,15 +40,131 @@ function login_passwd() {
 }
 
 // Login form - all validation
-function login_all() {
-    acceptUname = login_uname();
-    acceptPasswd = login_passwd();
+function loginAll() {
+    acceptEmail = loginEmail();
+    acceptPasswd = loginPasswd();
 
-    if (acceptUname && acceptPasswd) {
+    if (acceptEmail && acceptPasswd) {
         return true;
     } else {
         return false;
     }
 }
 
-/* End Login Validation */
+/*======================================================================
+  Registration Form Validation
+  ======================================================================*/
+
+/* Regular Expression variables */
+var REGEX_NAME = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð '-]{2,20}$/;
+var REGEX_EMAIL = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+var REGEX_PASSWD = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+// Registration form - firstname validation
+function regFirstname() {
+    inputFirstname = document.forms["formReg"]["firstname"].value;
+    accept = REGEX_NAME.test(inputFirstname);
+    errorMessage = document.getElementById("form-error-reg-firstname");
+
+    if (inputFirstname == null || inputFirstname == "") {
+        errorMessage.innerHTML = "Fornavn er påkrevd";
+        return false;
+    } else if (!accept) {
+        errorMessage.innerHTML = "Fornavnet må være mellom 2 og 20 tegn langt og kun inneholde bokstaver og mellomrom";
+        return false;
+    } else {
+        errorMessage.innerHTML = "";
+        return true;
+    }
+}
+
+// Registration form - lastname validation
+function regLastname() {
+    inputLastname = document.forms["formReg"]["lastname"].value;
+    accept = REGEX_NAME.test(inputLastname);
+    errorMessage = document.getElementById("form-error-reg-lastname");
+
+    if (inputLastname == null || inputLastname == "") {
+        errorMessage.innerHTML = "Etternavn er påkrevd";
+        return false;
+    } else if (!accept) {
+        errorMessage.innerHTML = "Etternavnet må være mellom 2 og 20 tegn langt og kun inneholde bokstaver og mellomrom";
+        return false;
+    } else {
+        errorMessage.innerHTML = "";
+        return true;
+    }
+}
+
+// Registration form - email validation
+function regEmail() {
+    inputEmail = document.forms["formReg"]["email"].value;
+    accept = REGEX_EMAIL.test(inputEmail);
+    errorMessage = document.getElementById("form-error-reg-email");
+
+    if (inputEmail == null || inputEmail == "") {
+        errorMessage.innerHTML = "E-post adresse er påkrevd";
+        return false;
+    } else if (!accept) {
+        errorMessage.innerHTML = "Vennligst oppgi en gyldig e-post adresse";
+        return false;
+    } else {
+        errorMessage.innerHTML = "";
+        return true;
+    }
+}
+
+// Registration form - password validation
+function regPasswd() {
+    inputPasswd = document.forms["formReg"]["password"].value;
+    accept = REGEX_PASSWD.test(inputPasswd);
+    errorMessage = document.getElementById("form-error-reg-password");
+
+    if (inputPasswd == null || inputPasswd == "") {
+        errorMessage.innerHTML = "Passord er påkrevd";
+        return false;
+    } else if (!accept) {
+        errorMessage.innerHTML = "Passordet må inneholde minst 8 tegn, minst en bokstav og ett tall";
+        return false;
+    } else {
+        errorMessage.innerHTML = "";
+        return true;
+    }
+}
+
+// Registration form - password-repeat validation
+function regPasswdRepeat() {
+    inputPasswdRepeat = document.forms["formReg"]["passwordRepeat"].value;
+    inputPasswd = document.forms["formReg"]["password"].value;
+    errorMessage = document.getElementById("form-error-reg-passwordRepeat");
+    acceptPasswd = regPasswd();
+
+    if (acceptPasswd) {
+        if (inputPasswdRepeat == inputPasswd) {
+            errorMessage.innerHTML = "";
+            return true;
+        } else {
+            errorMessage.innerHTML = "Stemmer ikke overens med gjentatt passord";
+            return false;
+        }
+    } else {
+        return false;
+    }
+   
+}
+
+// Registration form - all validation
+function regAll() {
+    acceptFirstname = regFirstname();
+    acceptLastname = regLastname();
+    acceptEmail = regEmail();
+    acceptPasswd = regPasswd();
+    acceptPasswdRepeat = regPasswdRepeat();
+
+    if (acceptFirstname && acceptLastname && acceptEmail && acceptPasswd && acceptPasswdRepeat) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
