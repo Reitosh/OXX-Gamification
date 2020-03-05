@@ -1,76 +1,77 @@
 ﻿@model Submission
 @{
     ViewData["Title"] = "Evnetest";
+    OXXGame.Models.Task task = (OXXGame.Models.Task) ViewData["Task"];
+    var output = ViewData["Output"];
+    var input = ViewData["Input"];
 }
 
+<html>
 
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>OXXGame - @ViewData["Title"]</title>
+    <title>OXXGame - @ViewData["Title"]</title>
 
-        <!-- Bootstrap -->
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
-        <!-- Linked CSS Files -->
-        <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="~/css/mobile.css" />
+    <!-- Linked CSS Files -->
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/mobile.css" />
+    <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
+    <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
+    <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
+    <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
 
-        <!-- Linked Google Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <!-- Linked Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 
-        <!-- Codemirror-->
-        <script src="~/codemirror/lib/codemirror.js"></script>
-        <script src="~/codemirror/mode/javascript/javascript.js"></script>
-        <script src="~/codemirror/mode/xml/xml.js"></script>
-        <script src="~/codemirror/addon/edit/closebrackets.js"></script>
-        <script src="~/codemirror/mode/clike/clike.js"></script>
-        <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
-        <link href="~/codemirror/lib/codemirror.css" rel="stylesheet"/>
-        <link href="~/codemirror/theme/dracula.css" rel="stylesheet"/>
-        <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet"/>
-        <link href="~/codemirror/addon//scroll/simplescrollbars.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="main">
+        <div class="form-group">
+            @using (Html.BeginForm("KjorKode", "Test", FormMethod.Post))
+            {
+                <label class="test-text">Kategori: @task.category</label><br />
+                <label class="test-text">Vanskelighetsgrad: @task.difficulty</label><br />
+                <label class="test-text">Oppgave: @task.test</label><br />
 
-    </head>
-    <body>
-        <div class="main">
-            <div class="form-group">
-                @using (Html.BeginForm("KjorKode", "Test", FormMethod.Post))
-                {
-                    <label class="test-text">Kategori: </label><br />
-                    <label class="test-text">Vanskelighetsgrad:</label><br />
-                    <label class="test-text">Oppgave:</label><br />
+                <textarea class="editor" asp-for="Code" id="input" name="code" rows="10">@input</textarea>
+                <input type="submit" value="Kjør kode" id="codeBtn" onclick="DisableButton(); submit();" />
+                <textarea readonly class="output" id="output" rows="5">@output</textarea>
+            }
 
-                    <textarea class="editor" asp-for="Code" id="input" placeholder="Kode her" name="code" rows="10"></textarea>
-                    <input type="submit" value="Kjør kode" />
-                    <textarea class="output" placeholder="Output her" name="code" rows="5"></textarea>
-                    
-                    <script>
-                        var editor = CodeMirror.fromTextArea(
-                            document.getElementById('input'), { 
-                                mode: "text/x-csrc", 
-                                theme: "base16-dark",
-                                lineNumbers: true,
-                                indentUnit: 4,
-                                indentWithTabs: true,
-                                autoCloseTags: true,
-                                autoCloseBrackets: true,
-                                scrollbarStyle: "overlay"
-                        });
-                        editor.setSize("700", "400");
-                    </script>
+            @using (Html.BeginForm("Neste", "Test", FormMethod.Get))
+            {
+                <input type="submit" value="Neste" />
+            }
 
-                }
+            @using (Html.BeginForm("HTMLCSS", "Test", FormMethod.Get))
+            {
+                <input type="submit" value="HTMLCSS" />
+            }
 
+            @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
 
-                @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
-
-                {
-                    <button id="btn-login" new { onclick="return confirm('Er du sikker på at du vil kaste inn håndklet? Du vil bli logget ut og tatt tilbake til innlogging.');" })>
-                        Gi opp
-                    </button>
-                }
-            </div>
+            {
+                <button id="btn-login" new { onclick="return confirm('Er du sikker på at du vil kaste inn håndklet? Du vil bli logget ut og tatt tilbake til innlogging.');" })>
+                    Gi opp
+                </button>
+            }
         </div>
+    </div>
+
+    <!-- Codemirror-->
+
+    <script src="~/codemirror/lib/codemirror.js"></script>
+    <script src="~/codemirror/mode/javascript/javascript.js"></script>
+    <script src="~/codemirror/mode/xml/xml.js"></script>
+    <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+    <script src="~/codemirror/mode/clike/clike.js"></script>
+    <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
+    <script src="~/js/TestViewConfiguration.js"></script>
+
 </body>
+</html>

@@ -4,14 +4,15 @@ using OXXGame.Controllers;
 using OXXGame.Models;
 using Moq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.VisualStudio.TestPlatform;
 using Autofac.Extras.Moq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace OXXGame.test
 {
     public class UnitTest1
     {
-
-        private OXXGameDBContext dbContext;
+        OXXGameDBContext dBContext;
 
         [Fact]
         public void TestSSH()
@@ -60,18 +61,19 @@ namespace OXXGame.test
         // Denne testen skal feile fordi det ikke er mulig å legge inn en ny bruker med spesifikk userId.
         // Skal senere endres til å sjekke om metoden kaster en exception. 
         [Theory]
-        [InlineData("Andreas", "Reitan", "andreas.reitan@oxx.no", "kebab123")]
-        public void addUser_ShouldNotBeSuccessful(string firstName, string lastName, string eMail, string passWord)
+        [InlineData(0, "Andreas", "Reitan", "andreas.reitan@oxx.no", "kebab123")]
+        public void addUser_ShouldNotBeSuccessful(int id, string firstName, string lastName, string eMail, string passWord)
         {
+
             DB db = new DB(null);
 
             User expected = new User
             {
+                userId = id,
                 firstname = firstName,
                 lastname = lastName,
                 email = eMail,
-                password = passWord,
-                userId = 0
+                password = passWord
             };
 
             var actual = db.addUser(expected);
@@ -83,28 +85,50 @@ namespace OXXGame.test
             Assert.Equal(expected.password, actual.password);
         }
 
-
+        // Metoden er ikke komplett. 
         [Theory]
-        [InlineData("Pappa", "iSjappa", "pappa@monaco.no", "phenger")]
-        public void addUser_ShouldBeSuccessful(string firstName, string lastName, string eMail, string passWord)
+        [InlineData("Pappa", "iSjappa", "pappa@monaco.no", "phenger", 1, false, false, false, false, false, false, false, false, false, false, false)]
+        public void addUser_ShouldBeSuccessful(string firstName, string lastName, string eMail, string passWord, int loginCount, bool yeAdmin, bool knoHtml, bool knoCss, bool knoJavscript, bool knoCsharp, bool knoMvc, bool knoNetFramework, bool knoTypescript, bool knoVue, bool knoReact, bool knoAngular)
         {
-            DB db = new DB(null);
-
-            User expected = new User
+            User user = new User
             {
                 firstname = firstName,
                 lastname = lastName,
                 email = eMail,
-                password = passWord
+                password = passWord,
+                loginCounter = loginCount,
+                isAdmin = yeAdmin,
+                knowHtml = knoHtml,
+                knowCss = knoCss,
+                knowJavascript = knoJavscript,
+                knowCsharp = knoCsharp,
+                knowMvc = knoMvc,
+                knowNetframework = knoNetFramework,
+                knowTypescript = knoTypescript,
+                knowVue = knoVue,
+                knowReact = knoReact,
+                knowAngular = knoAngular
             };
 
-            var actual = db.addUser(expected);
+            var mock = new Mock<DB>();
+            mock.Setup(x => x.addUser(user)).Returns(user);
 
-            Assert.Equal(expected.firstname, actual.firstname);
-            Assert.Equal(expected.lastname, actual.lastname);
-            Assert.Equal(expected.email, actual.email);
-            Assert.Equal(expected.password, actual.password);
+            var userObject = new DB(mock.Object);
+            var retrnData = userObject.addUser(user);
         }
 
+        [Fact]
+        public async Task TestController_TestInfo_ShouldReturnResult()
+        {
+            // Arrange
+            var controller = new TestController(dBContext);
+
+            // Act
+            var result = await controller.TestInfo(null) as ViewResult;
+
+            // Assert
+            Assert.IsNotNull(result);
+
+        }
     }
 }

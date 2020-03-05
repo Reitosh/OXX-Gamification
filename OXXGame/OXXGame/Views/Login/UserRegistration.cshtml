@@ -54,6 +54,7 @@
     </header>
     <!-- END HEADER -->
 
+
     <!-- USER REGISTRATION -->
     <div class="section section-user-reg">
         <div class="container container-user-reg">
@@ -63,8 +64,10 @@
 
             <!-- Registration Form -->
             <div class="wrapper wrapper-form" id="wrapper-form-reg">
+
                 @using (Html.BeginForm("UserRegistration", "Login", FormMethod.Post, 
                      new { name="formReg", id="form-reg", onsubmit="return regAll()", novalidate="true" }))
+
                 {
                     <div class="row">
                         <div class="col-md-6">
@@ -128,60 +131,52 @@
 
                     <div class="reg-form-content">
                         <h6>Velg teknologier og programmeringsspråk du har kompetanse innen?</h6>
-                        <div class="row">
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowHtml, new { @class="form-check-input" })
-                                <label asp-for="knowHtml">HTML</label>
-                            </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowCss, new { @class="form-check-input" })
-                                <label asp-for="knowCss">CSS</label>
-                            </div>
-                            <div class="form-group form-check">
-                                <input type="checkbox" name="knowBootstrap" value="bootstrap">
-                                <label for="vehicle3">Bootstrap</label>
-                            </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowJavascript)
-                                <label asp-for="knowJavascript">JavaScript</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowTypescript)
-                                <label asp-for="knowTypescript">TypeScript</label>
-                            </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowVue)
-                                <label asp-for="knowVue">Vue.js</label>
-                            </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowReact)
-                                <label asp-for="knowReact">React</label>
-                            </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowAngular)
-                                <label asp-for="knowAngular">Angular</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowCsharp)
-                                <label asp-for="knowCsharp">C#</label>
-                            </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowMvc)
-                                <label asp-for="knowMvc">MVC</label>
-                            </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowNetframework)
-                                <label asp-for="knowNetframework">.NET Framework</label>
-                            </div>
-                            <div class="form-group form-check">
-                                <input type="checkbox" name="knowSql" value="sql">
-                                <label for="vehicle3">SQL</label>
-                            </div>
-                        </div>
+                        
+                        
+                        @{
+                            int i = -1;
+                        }
+
+                        @while (++i < Model.categoryLvls.Count())
+                        {
+                            <table class="form-group form-check">
+                                <tr>
+                                    <td>
+                                        <div class="form-group form-check">
+                                            @Html.HiddenFor(model => model.categoryLvls[i].category)
+
+                                            @Html.CheckBoxFor(model => model.categoryLvls[i].lvl)
+                                            <label>@Model.categoryLvls[i].category</label>
+                                        </div>
+                                    </td>
+
+                                    @if (++i < Model.categoryLvls.Count())
+                                    {
+                                        <td>
+                                            <div class="form-group form-check">
+                                                @Html.HiddenFor(model => model.categoryLvls[i].category)
+
+                                                @Html.CheckBoxFor(model => model.categoryLvls[i].lvl)
+                                                <label>@Model.categoryLvls[i].category</label>
+                                            </div>
+                                        </td>
+                                    }
+
+                                    @if (++i < Model.categoryLvls.Count())
+                                    {
+                                        <td>
+                                            <div class="form-group form-check">
+                                                @Html.HiddenFor(model => model.categoryLvls[i].category)
+
+                                                @Html.CheckBoxFor(model => model.categoryLvls[i].lvl)
+                                                <label>@Model.categoryLvls[i].category</label>
+                                            </div>
+                                        </td>
+                                    }
+                                </tr>
+                            </table>
+                        }
+
                     </div>
 
                     <div class="row">
