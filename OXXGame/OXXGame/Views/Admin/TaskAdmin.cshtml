@@ -5,3 +5,37 @@
 
 <h1>TaskAdmin</h1>
 
+@{
+    var tasks = (List<OXXGame.Models.Task>)ViewData["Tasks"]; 
+}
+
+<table class="table" style="color:#ffffff">
+    <thread>
+        <
+        <tr>
+            <th scope="col">Exercise</th>
+            <th scope="col">Difficulty</th>
+            <th scope="col">Category</th>
+        </tr>
+    </thread>
+    <tbody>
+        @foreach (OXXGame.Models.Task task in tasks)
+        {
+            <tr>
+                <th>@task.test</th>
+                <th>@task.difficulty</th>
+                <th>@task.category</th>
+                <th>
+                    <button type="button" class="btn btn-info">
+                        Endre
+                    </button>
+                </th>
+                <th>
+                    <button type="button" class="btn btn-danger">
+                        Slett
+                    </button>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>

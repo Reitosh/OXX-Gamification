@@ -60,13 +60,22 @@ namespace OXXGame.Controllers
         {
             if (AdminLoggedIn())
             {
+                DB db = new DB(dbContext);
+                List<OXXGame.Models.Task> tasks = db.allTasks();
+
+                ViewData["Tasks"] = tasks;
+
                 return View("TaskAdmin");
+
+                
             }
             else
             {
                 return RedirectToAction("Index", "Login");
             }
         }
+
+        
 
         private bool AdminLoggedIn()
         {
