@@ -470,24 +470,20 @@ namespace OXXGame
             }
         }
 
-
-
-        // Metode til bruk for testing (Andreas).
-        public bool checkIfExist(string uname)
+        public bool deleteTask(int deleteId)
         {
-
-            bool exist;
-
             try
             {
-                Users user = db.Users.SingleOrDefault(u => u.Email == uname);
-                exist = true;
-                return exist;
+                Tasks deleteTsk = db.Tasks.Find(deleteId);
+                db.Tasks.Remove(deleteTsk);
+                db.SaveChanges();
+                return true;
             }
             catch (Exception e)
             {
-                exist = false;
-                return exist;
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine("Detta gikk dårlig");
+                return false;
             }
         }
     }

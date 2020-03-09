@@ -6,7 +6,7 @@
 <h1>TaskAdmin</h1>
 
 @{
-    var tasks = (List<OXXGame.Models.Task>)ViewData["Tasks"]; 
+    var tasks = (List<OXXGame.Models.Task>)ViewData["Tasks"];
 }
 
 <table class="table" style="color:#ffffff">
@@ -31,11 +31,15 @@
                     </button>
                 </th>
                 <th>
-                    <button type="button" class="btn btn-danger">
-                        Slett
-                    </button>
+                    @Html.ActionLink("Slett", "DeleteTask", "Admin", new { testId = task.testId }, null)
                 </th>
             </tr>
         }
     </tbody>
+
 </table>
+
+@using (Html.BeginForm("CreateTask", "Admin", FormMethod.Get))
+{
+    <input id="btn-login" type="submit" name="ny oppgave" value="Ny oppgave" />
+}

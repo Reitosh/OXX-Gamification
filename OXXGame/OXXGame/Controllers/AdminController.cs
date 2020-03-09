@@ -7,6 +7,7 @@ using OXXGame.Controllers;
 using OXXGame.Models;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace OXXGame.Controllers
 {
@@ -66,8 +67,6 @@ namespace OXXGame.Controllers
                 ViewData["Tasks"] = tasks;
 
                 return View("TaskAdmin");
-
-                
             }
             else
             {
@@ -103,6 +102,41 @@ namespace OXXGame.Controllers
                 Debug.WriteLine("User deleted");
             }
             return RedirectToAction("UserAdmin", "Admin");
+        }
+
+        public ActionResult DeleteTask(int testId)
+        {
+            var taskDb = new DB(dbContext);
+            bool  OK = taskDb.deleteTask(testId);
+            if (OK)
+            {
+                Debug.WriteLine("Task deleted");
+            }
+            return RedirectToAction("TaskAdmin", "Admin");
+        }
+
+        public ActionResult CreateTask()
+        {
+            if (AdminLoggedIn())
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CreateTask(Tasks task)
+        {
+            DB db = new DB(dbContext);
+
+            List<Category> categories = db.allCategories();
+
+            ViewData["Categories"] = categories;
+            
+            return RedirectToAction("TaskAdmin", "Admin");
         }
     }
 }
