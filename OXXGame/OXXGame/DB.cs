@@ -241,6 +241,27 @@ namespace OXXGame
             return tasks;
         }
 
+        public Models.Task getSingleTask(int testId)
+        {
+            var aTask = db.Tasks.Find(testId);
+
+            if (aTask == null)
+            {
+                return null;
+            }
+            else
+            {
+                var outTask = new Models.Task()
+                {
+                    testId = aTask.id,
+                    test = aTask.Test,
+                    difficulty = aTask.Difficulty,
+                    category = aTask.Category
+                };
+                return outTask;
+            }
+        }
+
         public List<Result> allResults()
         {
             List<Result> results = db.Results.Select(result => getResultData(result)).ToList();
@@ -406,6 +427,25 @@ namespace OXXGame
             {
                 Debug.WriteLine(e.StackTrace);
                 Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public bool editTask(int testId, Models.Task inTask)
+        {
+            try
+            {
+                var editTsk = db.Tasks.Find(testId);
+                editTsk.Test = inTask.test;
+                editTsk.Difficulty = inTask.difficulty;
+                editTsk.Category = inTask.category;
+
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                Debug.WriteLine("Edit task failed.");
                 return false;
             }
         }

@@ -26,9 +26,7 @@
                 <th>@task.difficulty</th>
                 <th>@task.category</th>
                 <th>
-                    <button type="button" class="btn btn-info">
-                        Endre
-                    </button>
+                    @Html.ActionLink("Endre", "EditTask", "Admin", new { testId = task.testId })
                 </th>
                 <th>
                     @Html.ActionLink("Slett", "DeleteTask", "Admin", new { testId = task.testId }, null)

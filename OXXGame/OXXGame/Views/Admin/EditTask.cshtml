@@ -1,10 +1,8 @@
 ﻿@model OXXGame.Models.Task
 @{
-    ViewData["Title"] = "CreateTask";
+    ViewData["Title"] = "EditTask";
     List<Category> categories = (List<Category>) ViewData["Categories"];
 }
-
-<h1>Ny Oppgave</h1>
 
 <head>
     <meta charset="utf-8" />
@@ -34,38 +32,38 @@
     <!-- TASK REGISTRATION -->
     <div class="section section-user-reg">
         <div class="container container-task-reg">
-            <h2>Lag ny oppgave</h2>
+            <h2>Endre oppgave</h2>
             <span class="underline"></span>
-            <h5>Lag ny oppgave ved å fylle inn i feltene under</h5>
+            <h5>Endre oppgaven ved å endre feltene under</h5>
 
             <!-- Registration Form -->
             <div class="wrapper wrapper-form" id="wrapper-form-reg">
 
-                @using (Html.BeginForm("CreateTask", "Admin", FormMethod.Post,
-                    new { name = "formReg", id = "form-reg", onsubmit = "return regAll()", novalidate = "true" }))
+                @using (Html.BeginForm("EditTask", "Admin", FormMethod.Post,
+                   new { name = "formReg", id = "form-reg", onsubmit = "return regAll()", novalidate = "true" }))
 
                 {
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <select asp-for="category">
-                                @foreach (var category in categories)
-                                {
-                                    <option value="@category.category">@category.category</option>
-                                }
-                            </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <select asp-for="category">
+                                    @foreach (var category in categories)
+                                    {
+                                        <option value="@category.category">@category.category</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <select asp-for="difficulty">
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <select asp-for="difficulty">
-                                <option>0</option>
-                                <option>1</option>
-                                <option>2</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">

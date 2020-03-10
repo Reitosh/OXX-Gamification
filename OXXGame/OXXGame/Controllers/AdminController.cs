@@ -119,7 +119,9 @@ namespace OXXGame.Controllers
         {
             if (AdminLoggedIn())
             {
-                return View();
+                DB db = new DB(dbContext);
+                ViewData["Categories"] = db.allCategories();
+                return View("CreateTask");
             }
             else
             {
@@ -128,15 +130,39 @@ namespace OXXGame.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateTask(Tasks task)
+        public ActionResult CreateTask(Models.Task task)
         {
             DB db = new DB(dbContext);
 
-            List<Category> categories = db.allCategories();
+            bool insertOK = db.addTask(task);
+            if (insertOK)
+            {
+                return RedirectToAction("TaskAdmin");
+            }
+            return View();
+        }
 
-            ViewData["Categories"] = categories;
-            
-            return RedirectToAction("TaskAdmin", "Admin");
+        public ActionResult EditTask(int testId)
+        {
+            var db = new DB(dbContext);
+            ViewData["Categories"] = db.allCategories();
+            Models.Task aTask = db.getSingleTask(testId);
+            return View(aTask);   
+        }
+
+        [HttpPost]
+        public ActionResult EditTask(int testId, Models.Task editTask)
+        {
+            if (AdminLoggedIn())
+            {
+                var db = new DB(dbContext);
+                bool editOK = db.editTask(testId, editTask);
+                if (editOK)
+                {
+                    return RedirectToAction("TaskAdmin");
+                }
+            }
+            return View();
         }
     }
 }
