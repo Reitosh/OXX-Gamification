@@ -431,11 +431,12 @@ namespace OXXGame
             }
         }
 
-        public bool editTask(Models.Task inTask)
+        public bool editTask(int testId, Models.Task inTask)
         {
             try
             {
-                var editTsk = db.Tasks.Find(inTask.testId);
+                var editTsk = db.Tasks.Find(testId);
+                Debug.WriteLine("Test id er funnet og vi endrer de andre verdiene");
                 editTsk.Test = inTask.test;
                 editTsk.Difficulty = inTask.difficulty;
                 editTsk.Category = inTask.category;
