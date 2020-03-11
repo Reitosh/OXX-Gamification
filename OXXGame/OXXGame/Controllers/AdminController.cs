@@ -145,18 +145,17 @@ namespace OXXGame.Controllers
         public ActionResult EditTask(int testId)
         {
             var db = new DB(dbContext);
-            ViewData["Categories"] = db.allCategories();
             Models.Task aTask = db.getSingleTask(testId);
             return View(aTask);   
         }
 
         [HttpPost]
-        public ActionResult EditTask(int testId, Models.Task editTask)
+        public ActionResult EditTask(Models.Task editTask)
         {
             if (AdminLoggedIn())
             {
                 var db = new DB(dbContext);
-                bool editOK = db.editTask(testId, editTask);
+                bool editOK = db.editTask(editTask);
                 if (editOK)
                 {
                     return RedirectToAction("TaskAdmin");
