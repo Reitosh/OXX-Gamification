@@ -3,48 +3,78 @@
 }
 
 
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Code Editor</title>
-    <!-- CSS -->
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/mobile.css" />
-    <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
-    <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
-    <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
-    <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
+        <!-- CSS -->
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/mobile.css" />
+        <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
+        <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
+        <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
+        <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
 
+        <style>
+            .CodeMirror {
+		        float: left;
+		        width: 47%;
+		        height: 500px;
+		        border: 1px solid black;
+		      }
+            iframe {
+                width: 47%;
+                height: 500px;
+                border: 1px;
+                border-left: 0px;
+                background-color: white;
+            }
+            #container{
+                padding-top: 5%;
+            }
+        </style>
 
-</head>
+    </head>
+    <body>
+        <label class="test-text">Kategori: </label><br />
+        <label class="test-text">Vanskelighetsgrad:</label><br />
+        <label class="test-text">Oppgave:</label><br />
 
-<body>
-    <div id="content">
-        <textarea id="html" onkeyup="showHtml()"></textarea>
-        <iframe id="view-result"></iframe>
-    </div>
+        <div id="container">
+            <textarea id="htmlEditor"></textarea>
+            <input type="submit" onclick="showHtml();" value="Run" />
+            <iframe id="iframe"></iframe>
+        </div>
 
-    <!-- Scripts -->
+        <!-- Scripts -->
+        <script src="~/codemirror/lib/codemirror.js"></script>
+        <script src="~/codemirror/mode/xml/xml.js"></script>
+        <script src="~/codemirror/mode/javascript/javascript.js"></script>
+        <script src="~/codemirror/mode/css/css.js"></script>
+        <script src="~/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+        <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+        <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
+        <script src="~/codemirror/addon/edit/matchtags.js"></script>
+        <script src="~/codemirror/addon/edit/closetag.js"></script>
 
-    <script>
-        function showHtml() {
-            var srcHtml = document.getElementById('html').value;
-            document.getElementById("view-result").srcdoc = srcHtml;
-        }
-    </script>
+        <script>
+            var HTMLeditor = CodeMirror.fromTextArea(
+                document.getElementById('htmlEditor'), {
+                mode: "htmlmixed",
+                theme: "base16-dark",
+                lineNumbers: true,
+                indentUnit: 4,
+                indentWithTabs: true,
+                autoCloseTags: true,
+                autoCloseBrackets: true,
+                scrollbarStyle: "overlay",
+            });
 
-
-    <script src="~/codemirror/lib/codemirror.js"></script>
-    <script src="~/codemirror/mode/javascript/javascript.js"></script>
-    <script src="~/codemirror/mode/xml/xml.js"></script>
-    <script src="~/codemirror/addon/edit/closebrackets.js"></script>
-    <script src="~/codemirror/mode/clike/clike.js"></script>
-    <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
-    <script src="~/js/TestViewConfiguration.js"></script>
-</body>
-
-
-
-</html>
+            function showHtml() {
+                var srcHtml = HTMLeditor.getValue();
+                document.getElementById('iframe').srcdoc = srcHtml;
+            }
+        </script>
+    </body>
+    </html>

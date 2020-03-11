@@ -50,7 +50,23 @@ namespace OXXGame.Controllers
         {
             if (loggedIn())
             {
-                return View("TestView");
+                Submission submission = new Submission()
+                {
+                    Code = @"using System;
+
+namespace CSharp 
+{
+	class Solution 
+	{
+		static void Main(string[] args) 
+		{
+			
+		}
+	}
+}"
+
+                };
+                return View("TestView", submission);
             }
             else
             {
@@ -58,14 +74,19 @@ namespace OXXGame.Controllers
             }
         }
 
-        public ActionResult KjorKode(Submission Submission)
+        public ActionResult RunTypeScript(Submission submission)
         {
-            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
-
+            SSHConnect TypeScript = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
+            ViewData["TypeScriptOutput"] = TypeScript.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
+            return View("TypeScriptView", submission);
             
-            ViewData["Output"] = ssh.RunCode(Submission.Code, HttpContext.Session.GetInt32("uId"));
-            ViewData["Input"] = Submission.Code;
-            return View("TestView");
+        }
+
+        public ActionResult RunCSharp(Submission submission)
+        {
+            SSHConnect CSharp = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
+            ViewData["CSharpOutput"] = CSharp.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
+            return View("TestView", submission);
         }
         public ActionResult Neste()
         {
@@ -75,6 +96,11 @@ namespace OXXGame.Controllers
         public ActionResult HTMLCSS()
         {
             return View("TestViewHTMLCSS");
+        }
+
+        public ActionResult TypeScript()
+        {
+            return View("TypeScriptView");
         }
 
         public ActionResult Avbryt()
