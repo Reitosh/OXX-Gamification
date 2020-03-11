@@ -60,13 +60,13 @@
         <div class="container container-user-reg">
             <h2>Brukerregistrering</h2>
             <span class="underline"></span>
-            <h5>Fyll inn dine personopplysninger i skjemaet under</h5>
+            <h5>Vennligst fyll ut registreringsskjemaet under</h5>
 
             <!-- Registration Form -->
             <div class="wrapper wrapper-form" id="wrapper-form-reg">
 
-                @using (Html.BeginForm("UserRegistration", "Login", FormMethod.Post, 
-                     new { name="formReg", id="form-reg", onsubmit="return regAll()", novalidate="true" }))
+                @using (Html.BeginForm("UserRegistration", "Login", FormMethod.Post,
+                    new { name = "formReg", id = "form-reg", onsubmit = "return regAll()", novalidate = "true" }))
 
                 {
                     <div class="row">
@@ -100,6 +100,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                <!-- Husk å legge til asp-tilleg for tlf når Sivert har oppdatert databasen -->
                                 <input name="tlf" class="form-control"
                                        id="form-reg-tlf" onchange="" required>
                                 <label class="float-label" for="form-reg-tlf">Telefon</label>
@@ -129,55 +130,31 @@
                         </div>
                     </div>
 
-                    <div class="reg-form-content">
-                        <h6>Velg teknologier og programmeringsspråk du har kompetanse innen?</h6>
-                        
-                        
+                    <span class="divider"></span>
+
+                    <div class="form-reg-content">
+                        <h6>Hvilke teknologier og programmeringsspråk har du kompetanse innen?</h6>
+
                         @{
                             int i = -1;
                         }
 
+                        <!-- Loop that retrieves categories from the database  -->
                         @while (++i < Model.categoryLvls.Count())
                         {
-                            <table class="form-group form-check">
-                                <tr>
-                                    <td>
-                                        <div class="form-group form-check">
-                                            @Html.HiddenFor(model => model.categoryLvls[i].category)
+                            <div class="form-group">
+                                <label class="form-reg-checkbox">
+                                    @Html.HiddenFor(model => model.categoryLvls[i].category)
 
-                                            @Html.CheckBoxFor(model => model.categoryLvls[i].lvl)
-                                            <label>@Model.categoryLvls[i].category</label>
-                                        </div>
-                                    </td>
+                                    @Html.CheckBoxFor(model => model.categoryLvls[i].lvl, new { @class = "checkbox-category" })
+                                    <span>@Model.categoryLvls[i].category</span>
+                                </label>
 
-                                    @if (++i < Model.categoryLvls.Count())
-                                    {
-                                        <td>
-                                            <div class="form-group form-check">
-                                                @Html.HiddenFor(model => model.categoryLvls[i].category)
-
-                                                @Html.CheckBoxFor(model => model.categoryLvls[i].lvl)
-                                                <label>@Model.categoryLvls[i].category</label>
-                                            </div>
-                                        </td>
-                                    }
-
-                                    @if (++i < Model.categoryLvls.Count())
-                                    {
-                                        <td>
-                                            <div class="form-group form-check">
-                                                @Html.HiddenFor(model => model.categoryLvls[i].category)
-
-                                                @Html.CheckBoxFor(model => model.categoryLvls[i].lvl)
-                                                <label>@Model.categoryLvls[i].category</label>
-                                            </div>
-                                        </td>
-                                    }
-                                </tr>
-                            </table>
+                            </div>
                         }
-
                     </div>
+
+                    <span class="divider"></span>
 
                     <div class="row">
                         <div class="col-md-12">

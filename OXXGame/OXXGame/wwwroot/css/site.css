@@ -32,6 +32,14 @@ body {
     border: 0;
 }
 
+.divider {
+    display: block;
+    width: 100%;
+    margin: 1rem auto;
+    border: 0;
+    border-top: 1px solid rgba(201, 201, 201, .1);
+}
+
 /* Headings and fonts */
 h1, h2, h4 {
     font-family: 'Roboto Slab', serif;
@@ -48,12 +56,13 @@ h2 {
 h5 {
     font-size: 18px;
     font-weight: 400;
+    font-style: italic;
     line-height: 28px;
     text-align: center;
 }
 
 h6 {
-    color: #FFF13E;
+    color: #FDEA0E; 
     font-size: 16px;
     font-weight: 500;
 }
@@ -159,8 +168,9 @@ input[type=password] {
 /* Password Toggle */
 .passwd-toggle {
     float: right;
-    position: relative;
-    top: -44px;
+    position: absolute;
+    top: 0;
+    right: 0;
     width: 44px;
     height: 44px;
     padding: 16px 0;
@@ -205,7 +215,7 @@ input[type=password] {
     border-radius: 12px;
     text-align: center;
 }
-
+ 
     .login-box img {
         width: 70px;
         height: auto;
@@ -228,6 +238,7 @@ input[type=password] {
 
 .btn-form-login {
     width: 100%;
+    margin-top: 18px;
 }
 
 /*** End Login Form ***/
@@ -285,22 +296,83 @@ input[type=password] {
 /**********************************************/
 
 /* Registration Form */
+
 #wrapper-form-reg {
     width: 70%;
     padding: 40px;
     margin: 0 auto;
+    text-align: center;
 }
 
-.reg-form-content {
-    margin-top: 30px;
-    padding: 30px 20px 10px 20px;
-    border-radius: 10px;
+.form-reg-content {
+    padding: 15px 0 10px;
 }
+
+.form-reg-content h6 {
+    color: #FFFFFF;
+    margin-bottom: 15px;
+}
+
+    .form-reg-content .form-group {
+        display: inline-block;
+        width: 23%;
+        margin: 5px;
+    }
+
+.form-reg-checkbox {
+    background-color: #FFFFFF;
+    display: inline-flex;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .form-reg-checkbox span {
+        padding: 6px 0 0 8px;
+        color: #2B2B2B;
+        font-size: 15px;
+    }
+
+    .form-reg-checkbox input {
+        height: 32px;
+        width: 32px;
+        border: 1px solid #A3A3A3;
+        border-radius: 5px 0 0 5px;
+        outline: none;
+        background-color: #C9C9C9;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -o-appearance: none;
+        appearance: none;
+    }
+
+    .form-reg-checkbox input:hover,
+    .form-reg-checkbox input:checked
+    {
+        background-color: #FDEA0E;
+        border: 1px solid #bdae02;
+    }
+
+    .form-reg-checkbox input:checked + span::before {
+        display: block;
+        content: '\2713';
+        text-align: center;
+        color: #2B2B2B;
+        font-weight: 600;
+        position: absolute;
+        left: 0.65rem;
+        top: 0.3rem;
+    }
 
 .btn-form-reg {
-    width: 200px;
-    margin-top: 30px;
+    width: 250px;
+    margin-top: 20px;
 }
+
+/* End Registration Form */
 
 /**********************************************/
 /*********** END USER REGISTRATION ************/
