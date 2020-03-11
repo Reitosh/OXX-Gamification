@@ -40,9 +40,10 @@
             <div class="wrapper wrapper-form" id="wrapper-form-reg">
 
                 @using (Html.BeginForm("EditTask", "Admin", FormMethod.Post,
-                   new { name = "formReg", id = "form-reg", onsubmit = "return regAll()", novalidate = "true" }))
+                  new { name = "formReg", id = "form-reg", onsubmit = "return regAll()", novalidate = "true" }))
 
                 {
+                    @Html.HiddenFor(model => model.testId)
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
