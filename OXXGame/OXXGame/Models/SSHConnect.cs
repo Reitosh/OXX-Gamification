@@ -29,7 +29,7 @@ namespace OXXGame.Models
                 host, user, new PasswordAuthenticationMethod(user, password))))
             {
                 DB category = new DB(db);
-                List<Task> tasks = category.allTasks();
+                List<Task> tasks = category.getTasks("TypeScript", 1);
 
 
                 client.Connect();
@@ -64,7 +64,13 @@ namespace OXXGame.Models
                             return "ikke laget";
 
                         case "TypeScript":
-                            return "ikke laget";
+                            client.RunCommand(scriptPath + "TypeScript.sh" + " '" + Code + "' " + "'" + userId + "'");
+                            var TypeScriptCommand = client.RunCommand("sudo cat /home/Markus/OXXGame/TypeScript-" + userId + ".js");
+                            var TypeScriptOutput = TypeScriptCommand.Result;
+                            client.Disconnect();
+                            return TypeScriptOutput;
+
+                            
 
                         case "DotNetFramework":
                             return "ikke laget";
