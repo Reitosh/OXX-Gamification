@@ -1,28 +1,20 @@
-﻿/**********************************************/
-/********** OXX Game CSS Stylesheet ***********/
-/************ Filename: site.css **************/
-/**********************************************/
+﻿/**
+ * Document info: OXX Game CSS File
+ *     File name: site.css
+ *        Author: Vladimir Maric
+ *   
+ *   Description: General site CSS stylesheet
+ */
 
 body {
-    background-color: #282828;
+    background: #2B2B2B;
     font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    font-weight: 300;
-    letter-spacing: 0.6px;
-    color: #fff;
+    color: #FFFFFF;
     margin: 0;
     padding: 0;
     -webkit-user-select: none;
     -moz-user-select: -moz-none;
     -ms-user-select: none;
-    user-select: none;
-}
-
-.editor {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 100px;
 }
 
 .section {
@@ -31,13 +23,60 @@ body {
 }
 
 .underline {
-    background: #f5ce02;
+    background: #FDEA0E;
     display: block;
     margin: 0 auto;
-    margin-bottom: 40px;
+    margin-bottom: 25px;
     width: 80px;
     height: 3px;
     border: 0;
+}
+
+.divider {
+    display: block;
+    width: 100%;
+    margin: 1rem auto;
+    border: 0;
+    border-top: 1px solid rgba(201, 201, 201, .1);
+}
+
+/* Headings and fonts */
+h1, h2, h4 {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 400;
+}
+
+h2 {
+    font-size: 32px;
+    line-height: 42px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+h5 {
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 28px;
+    text-align: center;
+}
+
+h6 {
+    color: #FDEA0E; 
+    font-size: 16px;
+    font-weight: 500;
+}
+
+p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px;
+}
+
+.p-small {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 22px;
 }
 
 /* Buttons */
@@ -47,94 +86,101 @@ body {
 }
 
 .btn-success {
-    background-color: #f5ce02;
-    color: #282828;
-    padding: 8px 12px;
+    background-color: #FDEA0E;
+    color: #2B2B2B;
+    padding: 10px 16px;
     border: none;
-    font-size: 16px;
-    font-weight: 400;
-}
-
-.btn-success:hover,  .btn-success:active {
-    background-color: #fdea0e !important;
-    color: #282828 !important;
-} 
-
-/* Headings */
-h2 {
-    margin-bottom: 25px;
-    font-size: 30px;
-    text-align: center;
-}
-
-h5 {
-    font-size: 18px;
-    font-style: italic;
-    text-align: center;
-}
-
-h6 {
-    text-align: center;
-    line-height: 2.0;
+    border-radius: 25px;
     font-size: 16px;
     font-weight: 500;
 }
 
+    .btn-success:hover, .btn-success:active {
+        background-color: #FDD20E !important;
+        color: #2B2B2B !important;
+    } 
+
 /* Forms */
+.form-group {
+    position: relative;
+    margin-bottom: 22px;
+}
+
 .form-control {
-    background-color: transparent !important;
-    color: #fff !important;
-    padding-left: 0;
-    border-width: 0 0 1.2px;
-    border-color: #fff;
-    border-radius: 0;
-    outline: 0;
-}
-
-.form-control:focus {
-    background-color: #282828;
-    border-width: 0 0 1.2px;
-    border-color: #f5ce02;
+    color: #000000;
+    padding: 26px 12px 18px 12px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 3px 3px 0 0rgba(0, 0, 0, 0.1);
     outline: none;
-    box-shadow: none;
 }
 
-::-webkit-input-placeholder {
-    color: #7b7b7b !important;
-    font-size: 14px;
+    .form-control:focus {
+        color: #000000;
+        box-shadow: none;
+    }
+
+    /* Browser Input-Autofill Options */
+    .form-control:-webkit-autofill {
+        -webkit-animation-name: autofill;
+        -webkit-animation-fill-mode: both;
+    }
+
+    @-webkit-keyframes autofill {
+        to {
+            color: #000;
+            background: #FFFFFF;
+        }
+    } 
+
+.float-label {
+    float: left;
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    color: #2B2B2B;
+    font-size: 16px;
+    pointer-events: none;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
 }
 
-:-moz-placeholder {
-    color: #7b7b7b !important;
-    font-size: 14px;
+input:focus ~ .float-label,
+input:valid ~ .float-label {
+    top: 2px;
+    opacity: 0.85;
+    font-size: 10px;
+    font-weight: 600;
 }
 
-::-moz-placeholder {
-    color: #7b7b7b !important;
-    font-size: 14px;
+input[type=password] {
+    padding-right: 50px;
 }
 
-:-ms-input-placeholder {
-    color: #7b7b7b !important;
+.form-error {
+    margin-top: 4px;
+    color: #FDEA0E;
     font-size: 14px;
-}
-
-::placeholder {
-    color: #7b7b7b !important;
-    font-size: 14px;
+    text-align: left;
 }
 
 /* Password Toggle */
 .passwd-toggle {
+    float: right;
     position: absolute;
-    height: 40px;
-    width: 40px;
-    padding: 12px;
+    top: 0;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    padding: 16px 0;
+    border-left: 1px solid #707070;
     text-align: center;
+    cursor: pointer;
 }
 
 .fa-eye, .fa-eye-slash {
-    color: #fff;
+    color: #2B2B2B;
     font-size: 12px;
 }
 
@@ -143,7 +189,11 @@ h6 {
 /**********************************************/
 
 .page-background {
-    background-image: url("../images/background_login.jpg");
+    background:
+        linear-gradient( /* Denne kan justeres senere */
+            rgba(40, 40, 40, 0.1), 
+            rgba(40, 40, 40, 0.5)
+        ), url("../images/background_login.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -152,65 +202,45 @@ h6 {
     overflow: hidden;
 }
 
-/*** Login Form ***/
 .login-box {
-    background-color: rgba(16, 16, 16, .75);
-    color: #fff;
+    background-color: rgba(16, 16, 16, .85);
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    min-width: 380px;
+    min-width: 350px;
     margin: 0;
-    padding: 40px;
-    border: 1px solid #6d6d6d;
+    padding: 40px 30px;
+    border: 1px solid #323232;
     border-radius: 12px;
     text-align: center;
 }
+ 
+    .login-box img {
+        width: 70px;
+        height: auto;
+        margin-bottom: 40px;
+    }
 
-.login-box img {
-    width: 90px;
-    height: auto;
-    margin-bottom: 40px;
+/*** Login Form ***/
+
+.login-links-content a {
+    color: #FFFFFF;
 }
 
-.login-box .form-group {
-    margin: 0;
-    padding: 0;
+#login-links-reg {
+    margin-top: 4px;
 }
 
-.login-box .passwd-toggle {
-    top: 278px;
-    right: 28px;
-}
-
-.login-box-content {
-    display: inline-block;
-    color: #fff;
-    font-size: 14px;
-}
-
-.login-box-content:hover {
-    text-decoration: none;
-    color: #fff;
-}
-
-#login-content-1 {
-    float: left;
-    margin-top: 24px;
+#login-links-reg a {
+    color: #FDEA0E;
 }
 
 .btn-form-login {
     width: 100%;
-    margin: 20px 0;
+    margin-top: 18px;
 }
 
-.form-error-login {
-    color: #f5ce02;
-    font-size: 14px;
-    font-style: italic;
-    text-align: left;
-}
 /*** End Login Form ***/
 
 /**********************************************/
@@ -231,7 +261,7 @@ h6 {
 }
 
 .navbar-scroll {
-    background-color: #f5ce02;
+    background-color: #FDEA0E;
     height: 76px;
     padding: 0 16px;
     z-index: 10000;
@@ -246,15 +276,15 @@ h6 {
     padding: 0;
 }
 
-.navbar-brand img {
-    width: 42px;
-    height: auto;
-}
+    .navbar-brand img {
+        width: 42px;
+        height: auto;
+    }
 
 /* Navbar Menu */
 .navbar-nav li a {
-    color: #fff;
-    font-weight: 300;
+    color: #FFFFFF;
+    font-weight: 400;
 }
 
 /**********************************************/
@@ -266,36 +296,96 @@ h6 {
 /**********************************************/
 
 /* Registration Form */
+
 #wrapper-form-reg {
-    width: 60%;
+    width: 70%;
     padding: 40px;
     margin: 0 auto;
-    margin-top: 40px;
+    text-align: center;
 }
 
-#wrapper-form-reg .passwd-toggle {
-    top: 0;
-    right: 5px;
-}
-    
-.reg-form-content {
-    margin-top: 30px;
-    padding: 30px 20px 10px 20px;
-    border: 1px solid #6d6d6d;
-    border-radius: 10px;
+.form-reg-content {
+    padding: 15px 0 10px;
 }
 
-.reg-form-content h6 {
-    padding-bottom: 20px;
+.form-reg-content h6 {
+    color: #FFFFFF;
+    margin-bottom: 15px;
 }
+
+    .form-reg-content .form-group {
+        display: inline-block;
+        width: 23%;
+        margin: 5px;
+    }
+
+.form-reg-checkbox {
+    background-color: #FFFFFF;
+    display: inline-flex;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .form-reg-checkbox span {
+        padding: 6px 0 0 8px;
+        color: #2B2B2B;
+        font-size: 15px;
+    }
+
+    .form-reg-checkbox input {
+        height: 32px;
+        width: 32px;
+        border: 1px solid #A3A3A3;
+        border-radius: 5px 0 0 5px;
+        outline: none;
+        background-color: #C9C9C9;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -o-appearance: none;
+        appearance: none;
+    }
+
+    .form-reg-checkbox input:hover,
+    .form-reg-checkbox input:checked
+    {
+        background-color: #FDEA0E;
+        border: 1px solid #bdae02;
+    }
+
+    .form-reg-checkbox input:checked + span::before {
+        display: block;
+        content: '\2713';
+        text-align: center;
+        color: #2B2B2B;
+        font-weight: 600;
+        position: absolute;
+        left: 0.65rem;
+        top: 0.3rem;
+    }
 
 .btn-form-reg {
-    width: 100%;
-    margin-top: 30px;
+    width: 250px;
+    margin-top: 20px;
 }
+
+/* End Registration Form */
 
 /**********************************************/
 /*********** END USER REGISTRATION ************/
+/**********************************************/
+
+/**********************************************/
+/***************** TESTINFO ******************/
+/**********************************************/
+
+
+
+/**********************************************/
+/*************** END TESTINFO ****************/
 /**********************************************/
 
 /**********************************************/
@@ -303,16 +393,15 @@ h6 {
 /**********************************************/
 
 .footer {
-    background-color: #121212;
+    background-color: #000000;
     padding: 30px 0;
 }
 
-.footer p {
-    margin: 0;
-    color: #fff;
-    font-size: 12px;
-    text-align: center;
-}
+    .footer p {
+        margin: 0;
+        font-size: 12px;
+        text-align: center;
+    }
 
 /**********************************************/
 /**************** END FOOTER ******************/

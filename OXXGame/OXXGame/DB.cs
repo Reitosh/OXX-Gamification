@@ -240,6 +240,27 @@ namespace OXXGame
             return tasks;
         }
 
+        public Models.Task getSingleTask(int testId)
+        {
+            var aTask = db.Tasks.Find(testId);
+
+            if (aTask == null)
+            {
+                return null;
+            }
+            else
+            {
+                var outTask = new Models.Task()
+                {
+                    testId = aTask.id,
+                    test = aTask.Test,
+                    difficulty = aTask.Difficulty,
+                    category = aTask.Category
+                };
+                return outTask;
+            }
+        }
+
         public List<Result> allResults()
         {
             List<Result> results = db.Results.Select(result => getResultData(result)).ToList();
@@ -410,6 +431,25 @@ namespace OXXGame
             }
         }
 
+        public bool editTask(int testId, Models.Task inTask)
+        {
+            try
+            {
+                var editTsk = db.Tasks.Find(testId);
+                editTsk.Test = inTask.test;
+                editTsk.Difficulty = inTask.difficulty;
+                editTsk.Category = inTask.category;
+
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                Debug.WriteLine("Edit task failed.");
+                return false;
+            }
+        }
+
         /* -------------------------------------------------------------------------------------------------------------------------------- */
         // Hjelpemetode for opprettelse av ny brukermodellobjekt basert på tabellrad (Users)
         private static User getUserData(Users user)
@@ -453,11 +493,11 @@ namespace OXXGame
 
          /*----------------------------------------------------- Slett metoder -------------------------------------------------------------*/
 
-        public bool deleteUser(int userId)
+        public bool deleteUser(int deleteId)
         {
             try
             {
-                var deleteUsr = db.Users.Find(userId);
+                Users deleteUsr = db.Users.Find(deleteId);
                 db.Users.Remove(deleteUsr);
                 db.SaveChanges();
                 return true;
@@ -470,24 +510,20 @@ namespace OXXGame
             }
         }
 
-
-
-        // Metode til bruk for testing (Andreas).
-        public bool checkIfExist(string uname)
+        public bool deleteTask(int deleteId)
         {
-
-            bool exist;
-
             try
             {
-                Users user = db.Users.SingleOrDefault(u => u.Email == uname);
-                exist = true;
-                return exist;
+                Tasks deleteTsk = db.Tasks.Find(deleteId);
+                db.Tasks.Remove(deleteTsk);
+                db.SaveChanges();
+                return true;
             }
             catch (Exception e)
             {
-                exist = false;
-                return exist;
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine("Detta gikk dårlig");
+                return false;
             }
         }
     }

@@ -7,6 +7,7 @@ using OXXGame.Controllers;
 using OXXGame.Models;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace OXXGame.Controllers
 {
@@ -61,7 +62,10 @@ namespace OXXGame.Controllers
             if (AdminLoggedIn())
             {
                 DB db = new DB(dbContext);
-                ViewData["Categories"] = db.allCategories();
+                List<OXXGame.Models.Task> tasks = db.allTasks();
+
+                ViewData["Tasks"] = tasks;
+
                 return View("TaskAdmin");
             }
             else
@@ -69,6 +73,8 @@ namespace OXXGame.Controllers
                 return RedirectToAction("Index", "Login");
             }
         }
+
+        
 
         private bool AdminLoggedIn()
         {
@@ -84,6 +90,79 @@ namespace OXXGame.Controllers
 
                 return false;
             }
+        }
+
+
+        public ActionResult DeleteUser(int userId)
+        {
+            var userDb = new DB(dbContext);
+            bool OK = userDb.deleteUser(userId);
+            if (OK)
+            {
+                Debug.WriteLine("User deleted");
+            }
+            return RedirectToAction("UserAdmin", "Admin");
+        }
+
+        public ActionResult DeleteTask(int testId)
+        {
+            var taskDb = new DB(dbContext);
+            bool  OK = taskDb.deleteTask(testId);
+            if (OK)
+            {
+                Debug.WriteLine("Task deleted");
+            }
+            return RedirectToAction("TaskAdmin", "Admin");
+        }
+
+        public ActionResult CreateTask()
+        {
+            if (AdminLoggedIn())
+            {
+                DB db = new DB(dbContext);
+                ViewData["Categories"] = db.allCategories();
+                return View("CreateTask");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CreateTask(Models.Task task)
+        {
+            DB db = new DB(dbContext);
+
+            bool insertOK = db.addTask(task);
+            if (insertOK)
+            {
+                return RedirectToAction("TaskAdmin");
+            }
+            return View();
+        }
+
+        public ActionResult EditTask(int testId)
+        {
+            var db = new DB(dbContext);
+            ViewData["Categories"] = db.allCategories();
+            Models.Task aTask = db.getSingleTask(testId);
+            return View(aTask);   
+        }
+
+        [HttpPost]
+        public ActionResult EditTask(int testId, Models.Task editTask)
+        {
+            if (AdminLoggedIn())
+            {
+                var db = new DB(dbContext);
+                bool editOK = db.editTask(testId, editTask);
+                if (editOK)
+                {
+                    return RedirectToAction("TaskAdmin");
+                }
+            }
+            return View();
         }
     }
 }
