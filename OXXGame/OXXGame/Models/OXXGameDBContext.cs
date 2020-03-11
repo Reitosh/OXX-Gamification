@@ -67,6 +67,10 @@ namespace OXXGame.Models
             : base(options)
         { }
 
+        public OXXGameDBContext()
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
