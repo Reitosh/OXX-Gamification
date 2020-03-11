@@ -104,6 +104,10 @@ namespace OXXGame.Controllers
         [HttpPost]
         public ActionResult UserRegistration(User user)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("UserRegistration",user);
+            }
 
             DB db = new DB(dbContext);
             List<User> users = db.allUsers();
@@ -116,7 +120,7 @@ namespace OXXGame.Controllers
                 if (user.email == existingUser.email)
                 {
                     ViewData["EmailErrorMessage"] = "Denne epost-addressen er allerede registrert";
-                    return View("RegisterUser",user);
+                    return View("UserRegistration",user);
                 }
             }
 

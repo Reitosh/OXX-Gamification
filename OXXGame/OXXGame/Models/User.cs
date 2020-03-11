@@ -42,7 +42,7 @@ namespace OXXGame.Models
         [StringLength(255)]
         public string lastname { get; set; }
 
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Ikke gyldig drit")]
         [StringLength(255)]
         [Required(ErrorMessage ="Vennligst skriv inn epostadresse")]
         public string email { get; set; }
@@ -50,7 +50,7 @@ namespace OXXGame.Models
 
         public List<CategoryLvl> categoryLvls { get; set; }
 
-        private byte[] createHash(string s)
+        public static byte[] createHash(string s)
         {
             var alg = System.Security.Cryptography.SHA256.Create();
             byte[] pwd = System.Text.Encoding.ASCII.GetBytes(s);

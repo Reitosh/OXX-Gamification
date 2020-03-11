@@ -1,7 +1,15 @@
 ﻿@model OXXGame.Models.Task
 @{
     ViewData["Title"] = "TaskAdmin";
+    List<Category> categories = (List<Category>) ViewData["Categories"];
+    Layout = null;
 }
 
-<h1>TaskAdmin</h1>
+        <select asp-for="category">
+            @foreach (var category in categories)
+            {
+                <option value="@category.category">@category.category</option>
+            }
+        </select>
 
+<h1>TaskAdmin</h1>

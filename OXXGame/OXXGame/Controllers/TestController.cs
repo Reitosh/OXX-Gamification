@@ -222,7 +222,7 @@ namespace OXXGame.Controllers
 
             if (uid != null)
             {
-                testResults = db.allSingleTestResults((int)uid); // alle tidligere testresultater til sammenligning med nye oppgaver
+                testResults = db.getSingleTestResults((int)uid); // alle tidligere testresultater til sammenligning med nye oppgaver
             }
             else
             {

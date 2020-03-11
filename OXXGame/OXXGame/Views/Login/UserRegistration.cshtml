@@ -64,7 +64,7 @@
 
             <!-- Registration Form -->
             <div class="wrapper wrapper-form" id="wrapper-form-reg">
-                @using (Html.BeginForm("UserRegistration", "Login", FormMethod.Post))
+                @using (Html.BeginForm("UserRegistration", "Login", FormMethod.Post, new { novalidate = "true"}))
                 {
                     <div class="row">
                         <div class="col-md-6">
@@ -87,6 +87,7 @@
                             <div class="form-group">
                                 <input asp-for="email" type="email" name="email" class="form-control"
                                        id="reg-form-email" placeholder="E-post">
+                                @Html.ValidationMessageFor(model => model.email)
                                 <div class="form-error form-error-reg" id="form-error-reg-email"></div>
                             </div>
                         </div>

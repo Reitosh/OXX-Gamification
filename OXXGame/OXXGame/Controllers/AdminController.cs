@@ -60,6 +60,8 @@ namespace OXXGame.Controllers
         {
             if (AdminLoggedIn())
             {
+                DB db = new DB(dbContext);
+                ViewData["Categories"] = db.allCategories();
                 return View("TaskAdmin");
             }
             else
