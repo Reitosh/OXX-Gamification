@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using OXXGame.Models;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -270,11 +269,11 @@ namespace OXXGame
 
         // Henter ut bruker ved brukernavn. Metoden returnerer null hvis man ikke finner nøyaktig 1 bruker.
         // Denne er i utgangspunktet ment til innloggingsvalidering. 
-        public User getUser(string uname)
+        public User getUser(string email)
         {
             try
             {
-                Users user = db.Users.SingleOrDefault(u => u.Email == uname);
+                Users user = db.Users.SingleOrDefault(u => u.Email == email);
                 User validUser = getUserData(user);
                 
                 return validUser;
@@ -326,7 +325,7 @@ namespace OXXGame
 
         // Henter resultater fra alle enkelt-tasks brukeren har utført ved bruker-id.
         // Har ikke brukeren noen oppføring i singelresultat-tabellen (bruker har ikke utført noen tasks) returneres en tom liste
-        public List<SingleTestResult> allSingleTestResults(int uId)
+        public List<SingleTestResult> getSingleTestResults(int uId)
         {
             List<SingleTestResults> results = db.SingleTestResults.Where(r => r.UserId == uId).ToList();
             List<SingleTestResult> result = new List<SingleTestResult>();
@@ -407,6 +406,7 @@ namespace OXXGame
 
         public bool updateResultsPerCategory(List<ResultPerCategory> resPerCat)
         {
+
             try
             {
                 foreach (ResultPerCategory result in resPerCat)

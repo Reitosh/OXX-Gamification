@@ -63,18 +63,10 @@ namespace OXXGame.Models
 
     public class OXXGameDBContext : DbContext
     {
+        // Konstruktør for opprettelse av context til bruk i tester
         public OXXGameDBContext(DbContextOptions<OXXGameDBContext> options)
             : base(options)
         { }
-
-        public OXXGameDBContext()
-        {
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
