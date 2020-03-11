@@ -1,4 +1,4 @@
-@{
+﻿@{
 
     ViewData["Title"] = "Testinfo";
 
@@ -12,53 +12,54 @@
 
     <title>OXXGame - @ViewData["Title"]</title>
 
+    <!-- Linked Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
     <!-- Linked CSS Files -->
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/mobile.css" />
-
-    <!-- Linked Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
 </head>
-
 <body>
     <!-- TESTINFO -->
-    <div>
+    <div class="section section-user-reg">
+        <div class="container container-user-reg">
+            <h2>Velkommen til OXX sin evnetest</h2>
+            <span class="underline"></span>
 
-        <img src="../images/brand/logo_hvit.png" alt="logo" />
-        <h2 class="info-header">Velkommen til OXX sin evnetest</h2>
-        <div class="container">
-            <div class="info-box">
-                <h4 class="info-text">
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                </h4>
-            </div>
+
+
+            @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
+            {
+                <div class="info-avbryt">
+                    <input type="submit" name="avbryt" value="Avbryt" />
+                </div>
+            }
+
+            @using (Html.BeginForm("StartTest", "Test", FormMethod.Get))
+            {
+                <div class="info-neste">
+                    <input id="btn-login" type="submit" name="neste" value="Start test!" />
+                </div>
+            }
         </div>
-        
-        @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
-        {
-            <div class="info-avbryt">
-                <input type="submit" name="avbryt" value="Avbryt" />
-            </div>
-        }
-
-        @using (Html.BeginForm("StartTest", "Test", FormMethod.Get))
-        {
-            <div class="info-neste">
-                <input id="btn-login" type="submit" name="neste" value="Start test!" />
-            </div>
-        }
     </div>
-    
-</body>
+    <!-- END TESTINFO -->
 
-<!-- Script Files -->
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap Script Files -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Linked Script Files -->
+    <script src="~/js/nav_scroll.js"></script>
+</body>
 </html>
+
+
 

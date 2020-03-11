@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using OXXGame.Models;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace OXXGame
 {
@@ -17,7 +17,8 @@ namespace OXXGame
         }
 
         /* ------------------------- Add metoder ------------------------- */
-        public User addUser(User user)
+      
+        public Users addUser(User user)
         {
             var userRow = new Users()
             {
@@ -27,31 +28,70 @@ namespace OXXGame
                 Lastname = user.lastname,
                 Email = user.email,
                 IsAdmin = false,
-                KnowHtml = user.knowHtml,
-                KnowCss = user.knowCss,
-                KnowJavascript = user.knowJavascript,
-                KnowCsharp = user.knowCsharp,
-                KnowMvc = user.knowMvc,
-                KnowNetframework = user.knowNetframework,
-                KnowTypescript = user.knowTypescript,
-                KnowVue = user.knowVue,
-                KnowReact = user.knowReact,
-                KnowAngular = user.knowAngular
             };
             
             try
             {
-                db.Add(userRow);
+                EntityEntry entity = db.Add(userRow);
+                Users newUser = (Users) entity.Entity;
                 db.SaveChanges();
-                return user;
+                return newUser;
             } 
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
                 Debug.WriteLine(e.Message);
+                return null;
             }
+        }
 
-            return null;
+        public bool addResultPerCategory(List<ResultPerCategory> resPerCategory)
+        {
+            try
+            {
+                foreach (ResultPerCategory res in resPerCategory)
+                {
+                    ResultsPerCategory resultPerCategoryRow = new ResultsPerCategory()
+                    {
+                        UserId = res.userId,
+                        Category = res.category,
+                        Lvl = res.lvl,
+                        Counter = 0
+                    };
+
+                    db.Add(resultPerCategoryRow);
+                }
+
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public bool addCategory(Category category)
+        {
+            var categoryRow = new Categories()
+            {
+                Category = category.category
+            };
+
+            try
+            {
+                db.Add(categoryRow);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
+                return false;
+            }
         }
 
         public bool addTask(Models.Task task)
@@ -87,7 +127,7 @@ namespace OXXGame
                 TimeUsed = result.timeSpent,
                 UserId = result.userId,
                 TestId = result.testId,
-                Submitted = result.submitted
+                // Submitted = result.submitted
             };
             
             try
@@ -137,6 +177,35 @@ namespace OXXGame
             return users;
         }
 
+        public List<ResultPerCategory> allResultsPerCategory(int uId)
+        {
+            List<ResultsPerCategory> resPerCategory = db.ResultsPerCategory.Where(res => res.UserId == uId).ToList();
+            List<ResultPerCategory> results = new List<ResultPerCategory>();
+
+            foreach (ResultsPerCategory res in resPerCategory)
+            {
+                results.Add(new ResultPerCategory()
+                {
+                    userId = res.UserId,
+                    category = res.Category,
+                    lvl = res.Lvl,
+                    counter = res.Counter
+                });
+            }
+
+            return results;
+        }
+
+        public List<Category> allCategories()
+        {
+            List<Category> categories = db.Categories.Select(cat => new Category
+            {
+                category = cat.Category
+            }).ToList();
+
+            return categories;
+        }
+
         public List<Models.Task> allTasks()
         {
             List<Models.Task> tasks = db.Tasks.Select(task => new Models.Task
@@ -147,7 +216,49 @@ namespace OXXGame
                 category = task.Category
             }).ToList();
 
-                return tasks;
+            return tasks;
+        }
+
+        public List<Models.Task> getTasks(string category,int difficulty)
+        {
+            List<Tasks> tasksPerCategory = db.Tasks.Where(
+                task => task.Category == category && task.Difficulty == difficulty).ToList();
+
+            List<Models.Task> tasks = new List<Models.Task>();
+
+            foreach (Tasks task in tasksPerCategory)
+            {
+                tasks.Add(new Models.Task()
+                {
+                    testId = task.id,
+                    test = task.Test,
+                    difficulty = task.Difficulty,
+                    category = task.Category
+                });
+            }
+
+            return tasks;
+        }
+
+        public Models.Task getSingleTask(int testId)
+        {
+            var aTask = db.Tasks.Find(testId);
+
+            if (aTask == null)
+            {
+                return null;
+            }
+            else
+            {
+                var outTask = new Models.Task()
+                {
+                    testId = aTask.id,
+                    test = aTask.Test,
+                    difficulty = aTask.Difficulty,
+                    category = aTask.Category
+                };
+                return outTask;
+            }
         }
 
         public List<Models.Task> getTasks(string category, int difficulty)
@@ -179,13 +290,30 @@ namespace OXXGame
 
         // Henter ut bruker ved brukernavn. Metoden returnerer null hvis man ikke finner nøyaktig 1 bruker.
         // Denne er i utgangspunktet ment til innloggingsvalidering. 
-        public User getUser(string uname)
+        public User getUser(string email)
         {
             try
             {
-                Users user = db.Users.SingleOrDefault(u => u.Email == uname);
+                Users user = db.Users.SingleOrDefault(u => u.Email == email);
                 User validUser = getUserData(user);
                 
+                return validUser;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+        public User getUser(int uId)
+        {
+            try
+            {
+                Users user = db.Users.SingleOrDefault(u => u.id == uId);
+                User validUser = getUserData(user);
+
                 return validUser;
             }
             catch (Exception e)
@@ -199,6 +327,8 @@ namespace OXXGame
         // Henter totalresultat ved bruker-id. Har ikke brukeren noen oppføring i resultattabellen (bruker har ikke utført test) returneres null
         public Result resultTot(int uid)
         {
+            // Metode i TestController sender inn uid=-1 hvis ikke uid av en eller annen grunn ikke skulle finnes.
+            // Dette tilfellet bør behandles her(?) på et eller annet vis.
             try
             {
                 Results resultRow = db.Results.SingleOrDefault(r => r.UserId == uid);
@@ -216,7 +346,7 @@ namespace OXXGame
 
         // Henter resultater fra alle enkelt-tasks brukeren har utført ved bruker-id.
         // Har ikke brukeren noen oppføring i singelresultat-tabellen (bruker har ikke utført noen tasks) returneres en tom liste
-        public List<SingleTestResult> allSingleTestResults(int uId)
+        public List<SingleTestResult> getSingleTestResults(int uId)
         {
             List<SingleTestResults> results = db.SingleTestResults.Where(r => r.UserId == uId).ToList();
             List<SingleTestResult> result = new List<SingleTestResult>();
@@ -274,7 +404,7 @@ namespace OXXGame
                 singleResult.Passed = uSingleResult.passed;
                 singleResult.Attempts = uSingleResult.tries;
                 singleResult.TimeUsed += uSingleResult.timeSpent;
-                singleResult.Submitted = uSingleResult.submitted;
+                //singleResult.Submitted = uSingleResult.submitted;
             }
             else
             {
@@ -295,6 +425,52 @@ namespace OXXGame
             }
         }
 
+        public bool updateResultsPerCategory(List<ResultPerCategory> resPerCat)
+        {
+
+            try
+            {
+                foreach (ResultPerCategory result in resPerCat)
+                {
+                    db.Update(new ResultsPerCategory()
+                    {
+                        UserId = result.userId,
+                        Category = result.category,
+                        Lvl = result.lvl,
+                        Counter = result.counter
+                    });
+                }
+
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public bool editTask(int testId, Models.Task inTask)
+        {
+            try
+            {
+                var editTsk = db.Tasks.Find(testId);
+                editTsk.Test = inTask.test;
+                editTsk.Difficulty = inTask.difficulty;
+                editTsk.Category = inTask.category;
+
+                db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                Debug.WriteLine("Edit task failed.");
+                return false;
+            }
+        }
+
         /* -------------------------------------------------------------------------------------------------------------------------------- */
         // Hjelpemetode for opprettelse av ny brukermodellobjekt basert på tabellrad (Users)
         private static User getUserData(Users user)
@@ -308,16 +484,6 @@ namespace OXXGame
                 lastname = user.Lastname,
                 email = user.Email,
                 isAdmin = user.IsAdmin,
-                knowHtml = user.KnowHtml,
-                knowCss = user.KnowCss,
-                knowJavascript = user.KnowJavascript,
-                knowCsharp = user.KnowCsharp,
-                knowMvc = user.KnowMvc,
-                knowNetframework = user.KnowNetframework,
-                knowTypescript = user.KnowTypescript,
-                knowVue = user.KnowVue,
-                knowReact = user.KnowReact,
-                knowAngular = user.KnowAngular
             };
         }
 
@@ -342,26 +508,43 @@ namespace OXXGame
                 timeSpent = sResult.TimeUsed,
                 userId = sResult.UserId,
                 testId = sResult.TestId,
-                submitted = sResult.Submitted
+                //submitted = sResult.Submitted
             };
         }
 
-        // Metode til bruk for testing (Andreas).
-        public bool checkIfExist(string uname)
+         /*----------------------------------------------------- Slett metoder -------------------------------------------------------------*/
+
+        public bool deleteUser(int deleteId)
         {
-
-            bool exist;
-
             try
             {
-                Users user = db.Users.SingleOrDefault(u => u.Email == uname);
-                exist = true;
-                return exist;
+                Users deleteUsr = db.Users.Find(deleteId);
+                db.Users.Remove(deleteUsr);
+                db.SaveChanges();
+                return true;
             }
             catch (Exception e)
             {
-                exist = false;
-                return exist;
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine("Detta gikk dårlig");
+                return false; 
+            }
+        }
+
+        public bool deleteTask(int deleteId)
+        {
+            try
+            {
+                Tasks deleteTsk = db.Tasks.Find(deleteId);
+                db.Tasks.Remove(deleteTsk);
+                db.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine("Detta gikk dårlig");
+                return false;
             }
         }
     }

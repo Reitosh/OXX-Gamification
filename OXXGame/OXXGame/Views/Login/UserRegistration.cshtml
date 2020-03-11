@@ -14,7 +14,8 @@
     <title>OXXGame - @ViewData["Title"]</title>
 
     <!-- Linked Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
@@ -52,122 +53,109 @@
         </nav>
     </header>
     <!-- END HEADER -->
-    <!-- USER REGISTRATION -->
 
-    <div class="section section-registrer" id="section-registrer-1">
-        <div class="container">
+
+    <!-- USER REGISTRATION -->
+    <div class="section section-user-reg">
+        <div class="container container-user-reg">
             <h2>Brukerregistrering</h2>
             <span class="underline"></span>
-            <h5>Fyll inn dine personopplysninger i skjemaet under</h5>
-
+            <h5>Vennligst fyll ut registreringsskjemaet under</h5>
 
             <!-- Registration Form -->
             <div class="wrapper wrapper-form" id="wrapper-form-reg">
-                @using (Html.BeginForm("UserRegistration", "Login", FormMethod.Post))
+
+                @using (Html.BeginForm("UserRegistration", "Login", FormMethod.Post,
+                    new { name = "formReg", id = "form-reg", onsubmit = "return regAll()", novalidate = "true" }))
+
                 {
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <input asp-for="firstname" type="text" name="firstname" class="form-control"
-                                       id="reg-form-firstname" placeholder="Fornavn">
+                                       id="form-reg-firstname" onchange="regFirstname()" required>
+                                <label class="float-label" for="form-reg-firstname">Fornavn</label>
                                 <div class="form-error form-error-reg" id="form-error-reg-firstname"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <input asp-for="lastname" type="text" name="lastname" class="form-control"
-                                       id="reg-form-lastname" placeholder="Etternavn">
+                                       id="form-reg-lastname" onchange="regLastname()" required>
+                                <label class="float-label" for="form-reg-lastname">Etternavn</label>
                                 <div class="form-error form-error-reg" id="form-error-reg-lastname"></div>
                             </div>
+
                         </div>
                     </div>
+
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <input asp-for="email" type="email" name="email" class="form-control"
-                                       id="reg-form-email" placeholder="E-post">
+
+                                       id="form-reg-email" onchange="regEmail()" required>
+                                <label class="float-label" for="form-reg-email">E-post</label>
                                 <div class="form-error form-error-reg" id="form-error-reg-email"></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <input asp-for="password" type="password" name="password" class="form-control"
-                                       id="reg-form-password" placeholder="Passord">
-                                <span class="fas fa-eye passwd-toggle" toggle="#reg-form-password"></span>
-                                <div class="form-error form-error-reg" id="form-error-reg-password"></div>
+                                <!-- Husk å legge til asp-tilleg for tlf når Sivert har oppdatert databasen -->
+                                <input name="tlf" class="form-control"
+                                       id="form-reg-tlf" onchange="" required>
+                                <label class="float-label" for="form-reg-tlf">Telefon</label>
+                                <div class="form-error form-error-reg" id="form-error-reg-tlf"></div>
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input asp-for="password" type="password" name="password" class="form-control"
+                                       id="form-reg-password" onchange="regPasswd()" required>
+                                <label class="float-label" for="form-reg-password">Passord</label>
+                                <span class="fas fa-eye passwd-toggle" toggle="#form-reg-password"></span>
+                                <div class="form-error form-error-reg" id="form-error-reg-password"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <input asp-for="passwordRepeat" type="password" name="passwordRepeat" class="form-control"
-                                       id="reg-form-passwordRepeat" placeholder="Gjenta passord">
-                                <span class="fas fa-eye passwd-toggle" toggle="#reg-form-passwordRepeat"></span>
+                                       id="form-reg-passwordRepeat" onchange="regPasswdRepeat()" required>
+                                <label class="float-label" for="form-reg-passwordRepeat">Gjenta passord</label>
+                                <span class="fas fa-eye passwd-toggle" toggle="#form-reg-passwordRepeat"></span>
                                 <div class="form-error form-error-reg" id="form-error-reg-passwordRepeat"></div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="reg-form-content">
-                        <h6>Velg teknologier og programmeringsspråk du har kompetanse innen?</h6>
-                        <div class="row">
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowHtml)
-                                <label asp-for="knowHtml">HTML</label>
+                    <span class="divider"></span>
+
+                    <div class="form-reg-content">
+                        <h6>Hvilke teknologier og programmeringsspråk har du kompetanse innen?</h6>
+
+                        @{
+                            int i = -1;
+                        }
+
+                        <!-- Loop that retrieves categories from the database  -->
+                        @while (++i < Model.categoryLvls.Count())
+                        {
+                            <div class="form-group">
+                                <label class="form-reg-checkbox">
+                                    @Html.HiddenFor(model => model.categoryLvls[i].category)
+
+                                    @Html.CheckBoxFor(model => model.categoryLvls[i].lvl, new { @class = "checkbox-category" })
+                                    <span>@Model.categoryLvls[i].category</span>
+                                </label>
+
                             </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowCss)
-                                <label asp-for="knowCss">CSS</label>
-                            </div>
-                            <div class="form-group form-check">
-                                <input type="checkbox" name="knowBootstrap" value="bootstrap">
-                                <label for="vehicle3">Bootstrap</label>
-                            </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowJavascript)
-                                <label asp-for="knowJavascript">JavaScript</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowTypescript)
-                                <label asp-for="knowTypescript">TypeScript</label>
-                            </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowVue)
-                                <label asp-for="knowVue">Vue.js</label>
-                            </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowReact)
-                                <label asp-for="knowReact">React</label>
-                            </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowAngular)
-                                <label asp-for="knowAngular">Angular</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowCsharp)
-                                <label asp-for="knowCsharp">C#</label>
-                            </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowMvc)
-                                <label asp-for="knowMvc">MVC</label>
-                            </div>
-                            <div class="form-group form-check">
-                                @Html.CheckBoxFor(model => model.knowNetframework)
-                                <label asp-for="knowNetframework">.NET Framework</label>
-                            </div>
-                            <div class="form-group form-check">
-                                <input type="checkbox" name="knowSql" value="sql">
-                                <label for="vehicle3">SQL</label>
-                            </div>
-                        </div>
+                        }
                     </div>
+
+                    <span class="divider"></span>
 
                     <div class="row">
                         <div class="col-md-12">
@@ -180,6 +168,7 @@
         </div>
     </div>
     <!-- END USER REGISTRATION -->
+    
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
@@ -187,12 +176,14 @@
         </div>
     </footer>
     <!-- END FOOTER -->
+
     <!-- Bootstrap Script Files -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Linked Script Files -->
-    <script src="~/js/nav_scroll.js" asp-append-version="true"></script>
+    <script src="~/js/nav_scroll.js"></script>
     <script src="~/js/toggle_passwd.js"></script>
+    <script src="~/js/client_validation.js"></script>
 </body>
 </html>
