@@ -46,6 +46,7 @@
                     @Html.HiddenFor(model => model.testId)
                     <div class="row">
                         <div class="col-md-6">
+                            <label for="form-reg-test">Kategori</label>
                             <div class="form-group">
                                 <select asp-for="category">
                                     @foreach (var category in categories)
@@ -56,6 +57,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
+                            <label for="form-reg-test">Kategori</label>
                             <div class="form-group">
                                 <select asp-for="difficulty">
                                     <option>0</option>

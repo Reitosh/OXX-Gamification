@@ -29,7 +29,7 @@ namespace OXXGame.Models
                 host, user, new PasswordAuthenticationMethod(user, password))))
             {
                 DB category = new DB(db);
-                List<Task> tasks = category.getTasks("TypeScript", 1);
+                List<Task> tasks = category.getTasks("CSharp", 2);
 
 
                 client.Connect();
