@@ -456,6 +456,7 @@ namespace OXXGame
             try
             {
                 var editTsk = db.Tasks.Find(testId);
+                Debug.WriteLine("Test id er funnet og vi endrer de andre verdiene");
                 editTsk.Test = inTask.test;
                 editTsk.Difficulty = inTask.difficulty;
                 editTsk.Category = inTask.category;
