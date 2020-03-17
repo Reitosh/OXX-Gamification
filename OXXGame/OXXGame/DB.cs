@@ -373,7 +373,22 @@ namespace OXXGame
                 return false;
             }
         }
+        /*
+        public bool updateSingleTestResult2(int userId, int taskId, SingleTestResult inSingleTestResult)
+        {
+            try
+            {
+                SingleTestResults result = db.SingleTestResults.Find(userId, taskId);
 
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+        */
         public bool updateSingleTestResult(int uId, int tId, SingleTestResult uSingleResult)
         {
             var singleResult = db.SingleTestResults.SingleOrDefault(t => (t.UserId == uId && t.TestId == tId));
@@ -382,7 +397,7 @@ namespace OXXGame
             {
                 singleResult.Passed = uSingleResult.passed;
                 singleResult.Attempts = uSingleResult.tries;
-                singleResult.TimeUsed += uSingleResult.timeSpent;
+                singleResult.TimeUsed = uSingleResult.timeSpent;
                 //singleResult.Submitted = uSingleResult.submitted;
             }
             else
@@ -392,7 +407,7 @@ namespace OXXGame
             
             try
             {
-                    db.SingleTestResults.Update(singleResult);
+                    //db.SingleTestResults.Update(singleResult);
                     db.SaveChanges();
                     return true;
             }
@@ -406,11 +421,15 @@ namespace OXXGame
 
         public bool updateResultsPerCategory(List<ResultPerCategory> resPerCat)
         {
-
             try
             {
-                foreach (ResultPerCategory result in resPerCat)
+                foreach (ResultPerCategory updateResult in resPerCat)
                 {
+                    ResultsPerCategory result = db.ResultsPerCategory.Find(updateResult.userId, updateResult.category);
+                    result.Lvl = updateResult.lvl;
+                    result.Counter = updateResult.counter;
+
+                    /*
                     db.Update(new ResultsPerCategory()
                     {
                         UserId = result.userId,
@@ -418,6 +437,7 @@ namespace OXXGame
                         Lvl = result.lvl,
                         Counter = result.counter
                     });
+                    */
                 }
 
                 db.SaveChanges();
