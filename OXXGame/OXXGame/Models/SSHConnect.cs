@@ -14,71 +14,33 @@ namespace OXXGame.Models
         private string user = "Markus";
         private string password = "Plainsmuchj0urney";
         private string host = "51.140.218.174";
-        private OXXGameDBContext db;
+        //private OXXGameDBContext db;
 
-        public SSHConnect(string user, string password, string host, OXXGameDBContext db)
+        public SSHConnect(string user, string password, string host /*, OXXGameDBContext db*/)
         {
             this.user = user;
             this.password = password;
             this.host = host;
-            this.db = db;
+            //this.db = db;
         }
-        public string RunCode(string Code, int? userId)
+
+        public string RunCode2(TestModel testModel)
         {
-            using (var client = new SshClient(new ConnectionInfo(
-                host, user, new PasswordAuthenticationMethod(user, password))))
+            using (SshClient client = new SshClient(new ConnectionInfo(
+                host,user,new PasswordAuthenticationMethod(user,password))))
             {
-                DB category = new DB(db);
-                List<Task> tasks = category.allTasks();
-
-
                 client.Connect();
 
-                foreach (Task task in tasks)
-                {
-                    string scriptPath = "sudo sh /home/Markus/Scripts/";
+                string command = string.Format("sudo sh /home/Markus/Testing/{0}.sh '{1}' '{2}' '{3}'",
+                    testModel.task.category, testModel.singleTestResult.userId, testModel.task.testId, testModel.code);
 
-                    switch (task.category)
-                    {
-                        case "CSharp":
-                            var CSharpCommand = client.RunCommand(scriptPath + "CSharp.sh" + " '" + Code + "' " + "'" + userId + "'");
-                            string CSharpOutput = CSharpCommand.Result;
-                            Debug.WriteLine("ja her valgte CSharp da");
-                            Debug.WriteLine(CSharpOutput);
-                            client.Disconnect();
-                            return CSharpOutput;
+                SshCommand runCommand = client.RunCommand(command);
+                string output = runCommand.Result;
 
-                        case "JavaScript":
-                            var JavaScriptCommand = client.RunCommand(scriptPath + "JavaScript.sh" + " '" + Code + "' " + "'" + userId + "'");
-                            string JavaScriptOutput = JavaScriptCommand.Result;
-                            Debug.WriteLine("ja her valgte javascript da");
-                            Debug.WriteLine(JavaScriptOutput);
-                            client.Disconnect();
-                            return JavaScriptOutput;
-
-                        case "vue.js":
-                            Debug.WriteLine("ja her valgte vue.js da");
-                            return "ikke laget";
-
-                        case "MVC":
-                            return "ikke laget";
-
-                        case "TypeScript":
-                            return "ikke laget";
-
-                        case "DotNetFramework":
-                            return "ikke laget";
-
-                        case "React":
-                            return "ikke laget";
-
-                        case "Angular":
-                            return "ikke laget";
-
-
-                    }
-                }
-                return "No task specified";
+                Debug.WriteLine("ja her valgte {0} da", testModel.task.category);
+                Debug.WriteLine(output);
+                client.Disconnect();
+                return output;
             }
         }
     }
