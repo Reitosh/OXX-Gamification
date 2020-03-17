@@ -95,7 +95,19 @@ namespace OXXGame.Controllers
         {
             if (loggedIn())
             {
+                if (setStartTestValues())
+                {
+                    try
+                    {
+                        ViewData["Task"] = getTask();
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e.Message);
+                        return RedirectToAction("Index", "Login");
+                    }
 
+                }
                 Submission submission = new Submission()
                 {
                     Code = @"using System;
@@ -117,25 +129,7 @@ namespace CSharp
             else
             {
                 return RedirectToAction("Index", "Login");
-
-                /*if (setStartTestValues())
-                {
-                    try
-                    {
-                        ViewData["Task"] = getTask();
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine(e.Message);
-                        return RedirectToAction("Index", "Login");
-                    }
-
-                    return View("TestView");
-                }
-                
             }
-
-            return RedirectToAction("Index", "Login");*/
         }
 
         public ActionResult RunTypeScript(Submission submission)

@@ -261,27 +261,6 @@ namespace OXXGame
             }
         }
 
-        public List<Models.Task> getTasks(string category, int difficulty)
-        {
-            List<Tasks> tasksPerCategory = db.Tasks.Where(
-                task => task.Category == category && task.Difficulty == difficulty).ToList();
-
-            List<Models.Task> tasks = new List<Models.Task>();
-
-            foreach (Tasks task in tasksPerCategory)
-            {
-                tasks.Add(new Models.Task()
-                {
-                    testId = task.id,
-                    test = task.Test,
-                    difficulty = task.Difficulty,
-                    category = task.Category
-                });
-            }
-
-            return tasks;
-        }
-
         public List<Result> allResults()
         {
             List<Result> results = db.Results.Select(result => getResultData(result)).ToList();
