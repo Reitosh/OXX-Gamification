@@ -608,7 +608,7 @@ namespace OXXGame.test
                 DB db = new DB(context);
                 
                 // Test
-                db.updateTask(id, new Models.Task()
+                db.editTask(id, new Models.Task()
                 {
                     test = test_update,
                     difficulty = difficulty_update,
@@ -669,10 +669,9 @@ namespace OXXGame.test
 
                 context.SaveChanges();
 
-                int[] key = { id, id };
-                Assert.Equal(tries_update, context.SingleTestResults.Find(key).Attempts);
-                Assert.Equal(timeSpent_update, context.SingleTestResults.Find(key).TimeUsed);
-                Assert.True(context.SingleTestResults.Find(key).Passed);
+                Assert.Equal(tries_update, context.SingleTestResults.Find(id,id).Attempts);
+                Assert.Equal(timeSpent_update, context.SingleTestResults.Find(id,id).TimeUsed);
+                Assert.True(context.SingleTestResults.Find(id,id).Passed);
             }
         }
 
@@ -735,6 +734,7 @@ namespace OXXGame.test
                 {
                     Assert.Equal(lvl_update, resPerCat.lvl);
                     Assert.Equal(taskCounter_update, resPerCat.counter);
+                    Assert.Equal(list_original.Count, list.Count());
                 }
             }
         }

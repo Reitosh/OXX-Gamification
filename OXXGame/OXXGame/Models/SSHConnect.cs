@@ -14,77 +14,35 @@ namespace OXXGame.Models
         private string user = "Markus";
         private string password = "Plainsmuchj0urney";
         private string host = "51.140.218.174";
-        private OXXGameDBContext db;
+        //private OXXGameDBContext db;
 
-        public SSHConnect(string user, string password, string host, OXXGameDBContext db)
+        public SSHConnect(string user, string password, string host /*, OXXGameDBContext db*/)
         {
             this.user = user;
             this.password = password;
             this.host = host;
-            this.db = db;
+            //this.db = db;
         }
-        public string RunCode(string Code, int? userId)
-        {
-            using (var client = new SshClient(new ConnectionInfo(
-                host, user, new PasswordAuthenticationMethod(user, password))))
-            {
-                DB category = new DB(db);
-                List<Task> tasks = category.getTasks("C#", 2);
 
+        public string RunCode2(TestModel testModel)
+        {
+            using (SshClient client = new SshClient(new ConnectionInfo(
+                host,user,new PasswordAuthenticationMethod(user,password))))
+            {
 
                 client.Connect();
 
-                foreach (Task task in tasks)
-                {
-                    string scriptPath = "sudo sh /home/Markus/Scripts/";
-
-                    switch (task.category)
-                    {
-                        case "CSharp":
-                            var CSharpCommand = client.RunCommand(scriptPath + "CSharp.sh" + " '" + Code + "' " + "'" + userId + "'");
-                            string CSharpOutput = CSharpCommand.Result;
-                            Debug.WriteLine("ja her valgte CSharp da");
-                            Debug.WriteLine(CSharpOutput);
-                            client.Disconnect();
-                            return CSharpOutput;
-
-                        case "JavaScript":
-                            var JavaScriptCommand = client.RunCommand(scriptPath + "JavaScript.sh" + " '" + Code + "' " + "'" + userId + "'");
-                            string JavaScriptOutput = JavaScriptCommand.Result;
-                            Debug.WriteLine("ja her valgte javascript da");
-                            Debug.WriteLine(JavaScriptOutput);
-                            client.Disconnect();
-                            return JavaScriptOutput;
-
-                        case "vue.js":
-                            Debug.WriteLine("ja her valgte vue.js da");
-                            return "ikke laget";
-
-                        case "MVC":
-                            return "ikke laget";
-
-                        case "TypeScript":
-                            var kuk = client.RunCommand("cd /home/Markus/Scripts && ./TypeScript.sh" + " '" + Code + "' " + "'" + userId + "'");
-                            var typeScriptCommand = client.RunCommand("sudo cat /home/Markus/OXXGame/TypeScript-" + userId + ".js");
-                            client.RunCommand("rm -f /home/Markus/OXXGame/TypeScript-" + userId + ".ts " + "TypeScript-" + userId + ".js");
-                            var TypeScriptOutput = typeScriptCommand.Result;
-                            client.Disconnect();
-                            Debug.WriteLine(TypeScriptOutput);
-                            return TypeScriptOutput;
-
-                        case "DotNetFramework":
-                            return "ikke laget";
-
-                        case "React":
-                            return "ikke laget";
-
-                        case "Angular":
-                            return "ikke laget";
+                string command = string.Format("sudo sh /home/Markus/Testing/{0}.sh '{1}' '{2}' '{3}'",
+                    testModel.task.category, testModel.singleTestResult.userId, testModel.task.testId, testModel.code);
 
 
-                    }
-                }
-                return "No task specified";
+                SshCommand runCommand = client.RunCommand(command);
+                string output = runCommand.Result;
+
+                Debug.WriteLine("ja her valgte {0} da", testModel.task.category);
+                Debug.WriteLine(output);
+                client.Disconnect();
+                return output;
             }
         }
     }

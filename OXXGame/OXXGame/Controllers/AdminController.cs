@@ -156,6 +156,7 @@ namespace OXXGame.Controllers
             if (AdminLoggedIn())
             {
                 var db = new DB(dbContext);
+                ViewData["Categories"] = db.allCategories();
                 bool editOK = db.editTask(testId, editTask);
                 if (editOK)
                 {

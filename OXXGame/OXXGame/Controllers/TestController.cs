@@ -22,12 +22,14 @@ namespace OXXGame.Controllers
 
         public readonly int MAX_LVL = 2;
         public readonly int MIN_LVL = 0;
-        public readonly int MAX_TASK_COUNT = 3;
+        public readonly int MAX_TASK_COUNT = 1;
 
         public TestController(OXXGameDBContext context)
         {
             dbContext = context;
         }
+
+        //-------------------------------------------------- ActionResults --------------------------------------------------//
 
         public ActionResult TestInfo(object p)
         {
@@ -42,99 +44,64 @@ namespace OXXGame.Controllers
             }
         }
 
-        public ActionResult TestView(SingleTestResult singleTest)
+        public ActionResult StartTest()
         {
             if (loggedIn())
             {
-                DB db = new DB(dbContext);
-                string category = getTestCategory(singleTest.testId, db);
 
-                if (category != null)
+                if (setStartTestValues())
+
                 {
-                    if (updateTestValues(category, singleTest.passed))
+                    TestModel model = getModel();
+
+                    if (model == null)
                     {
-                        db.addSingleResult(singleTest);
-                        return View();
+                        return RedirectToAction("Index", "Login");
                     }
-                    else
-                    {
-                        Debug.WriteLine("Error: could not update session variables; Session variables were not defined.");
-                    }
+
+                    return View("TestView",model);
                 }
-                else
-                {
-                    Debug.WriteLine("Error: Could not identify category.");
-                }
-            }
-            else
-            {
-                Debug.WriteLine("Ikke logget inn");
             }
 
             return RedirectToAction("Index", "Login");
         }
 
-        private string getTestCategory(int testId, DB database)
+        public ActionResult KjorKode(TestModel testModel)
         {
-            List<Models.Task> tasks = database.allTasks();
+            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
+            testModel.singleTestResult.tries++;
 
-            foreach (Models.Task task in tasks)
-            {
-                if (testId == task.testId)
-                {
-                    return task.category;
-                }
-            }
-
-            // Dette tilfellet bør ikke forekomme, ettersom databasen vil sørge for at kategorier som ikke
-            // ligger i Categories-tabellen heller ikke vil kunne brukes som kategori til en oppgave.
-            return null;
+            ViewData["Output"] = ssh.RunCode2(testModel);
+            return View("TestView",testModel);
         }
 
-        public ActionResult StartTest()
+        public ActionResult Neste(TestModel inModel)
         {
 
 
             if (loggedIn())
             {
 
-                if (setStartTestValues())
+                if (updateTestValues(inModel.task.category, inModel.singleTestResult.passed))
                 {
-                    try
+                    DB db = new DB(dbContext);
+                    if (db.addSingleResult(inModel.singleTestResult))
                     {
-                        ViewData["Task"] = getTask();
+                        saveResultsPerCategory();
+                        ModelState.Clear();
                     }
-                    catch (Exception e)
+
+                    TestModel model = getModel();
+
+                    if (model == null)
                     {
-                        Debug.WriteLine(e.Message);
                         return RedirectToAction("Index", "Login");
                     }
 
-
+                    return View("TestView", model);
                 }
 
-                Submission submission = new Submission()
-                {
-                    Code = @"using System;
-
-namespace CSharp 
-{
-	class Solution 
-	{
-		static void Main(string[] args) 
-		{
-			
-		}
-	}	
-}"
-
-                };
-                return View("TestView", submission);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login");
-
+                return View("TestView", inModel);
 
             }
         }
@@ -148,11 +115,15 @@ namespace CSharp
 
             }
 
+
+        }
+
             public ActionResult RunCSharp(Submission submission)
             {
                 SSHConnect CSharp = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
                 ViewData["CSharpOutput"] = CSharp.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
                 return View("TestView", submission);
+
 
             }
             public ActionResult Neste()
@@ -169,13 +140,18 @@ namespace CSharp
             {
                 return View("TypeScriptView");
             }
-
+    
             public ActionResult Avbryt()
             {
                 HttpContext.Session.SetInt32(LoggedIn, FALSE);
                 Debug.WriteLine("Logger ut...");
                 return RedirectToAction("Index", "Login");
             }
+
+
+        //-------------------------------------------------- Andre metoder --------------------------------------------------//
+
+          
 
             private bool saveResultsPerCategory()
             {
@@ -227,6 +203,7 @@ namespace CSharp
             public bool loggedIn()
             {
                 bool loggetInn;
+
 
                 if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
                 {
@@ -300,11 +277,21 @@ namespace CSharp
                     }
                 }
 
-                // Hvis det skulle oppstå problemer med uthenting fra databasen vil denne linjen nås. 
-                // Løs dette med en if der denne metoden kalles hvor antall oppgaver utført sjekkes. 
-                // Er antall oppgaver == max oppgaver -> good, testen er ferdig.
-                return null;
-            }
+
+            // Hvis det skulle oppstå problemer med uthenting fra databasen vil denne linjen nås. 
+            // Løs dette med en if der denne metoden kalles hvor antall oppgaver utført sjekkes. 
+            // Er antall oppgaver == max oppgaver -> good, testen er ferdig.
+            return null;
+        }
+
+        // Setter startverdier for sessionvariabler for nivå- og antall oppgaver per kategori.
+        // Henter ut resultater fra databasen (har kandidaten ikke tatt noen tester ennå, vil verdiene
+        // brukeren satt 
+        private bool setStartTestValues()
+        {
+            DB db = new DB(dbContext);
+            int? uid = HttpContext.Session.GetInt32(userId);
+
 
             // Hjelpemetode som sjekker at oppgaven ikke allerede er løst
             private bool isNewTask(Models.Task task, List<SingleTestResult> list)
@@ -383,4 +370,140 @@ namespace CSharp
             }
 
         }
+
+
+        // Metode som looper over kategorier og tar inn beregnede session-variabler og lagrer de til database.
+        // Denne metoden bør også kunne brukes for å oppdatere gamle brukere etter eventuell opprettelse av ny kategori.
+        private bool saveResultsPerCategory()
+        {
+            int? uid = HttpContext.Session.GetInt32(userId);
+
+            if (uid != null)
+            {
+                DB db = new DB(dbContext);
+                List<Category> categories = db.allCategories();
+                List<ResultPerCategory> resultsPerCategory = db.allResultsPerCategory((int)uid);
+                bool existingResults = resultsPerCategory.Count != 0;
+
+                if (existingResults)
+                {
+                    resultsPerCategory = new List<ResultPerCategory>();
+                }
+
+                foreach (Category category in categories)
+                {
+                    resultsPerCategory.Add(new ResultPerCategory()
+                    {
+                        userId = (int)uid,
+                        category = category.category,
+                        lvl = HttpContext.Session.GetInt32(category.category + "_lvl_key") ?? 0,
+                        counter = HttpContext.Session.GetInt32(category.category + "_count_key") ?? 0
+                    });
+                }
+
+                if (existingResults)
+                {
+                    if (db.updateResultsPerCategory(resultsPerCategory))
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (db.addResultPerCategory(resultsPerCategory))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        // Metode som returnerer et TestModel-objekt klargjort med startverdier og ny oppgave
+        private TestModel getModel()
+        {
+            TestModel model = new TestModel();
+
+            try
+            {
+                model.task = getTask();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return null;
+            }
+
+            if (model.task != null)
+            {
+                model.singleTestResult = new SingleTestResult()
+                {
+                    userId = (int)HttpContext.Session.GetInt32(userId),
+                    testId = model.task.testId,
+                    tries = 0
+                };
+
+                model.startTime = DateTime.Now;
+                return model;
+            }
+
+            return null;
+        }
+
+        // Hjelpemetode som genererer tilfeldig tall til oppgaveutvelgelse
+        private int getRandomNum(int max)
+        {
+            Random randGen = new Random();
+            return randGen.Next(0, max);
+        }
+
+
+        private string getTestCategory(int testId, DB database)
+        {
+            List<Models.Task> tasks = database.allTasks();
+
+            foreach (Models.Task task in tasks)
+            {
+                if (testId == task.testId)
+                {
+                    return task.category;
+                }
+            }
+
+            return null;
+        }
+
+
+        // Hjelpemetode som sjekker at oppgaven ikke allerede er løst
+        private bool isNewTask(Models.Task task, List<SingleTestResult> list)
+        {
+            foreach (SingleTestResult doneTask in list)
+            {
+                if (task.testId == doneTask.testId)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool loggedIn()
+        {
+            bool loggetInn;
+
+            if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
+            {
+                loggetInn = true;
+            }
+            else
+            {
+                HttpContext.Session.SetInt32(LoggedIn, FALSE);
+                loggetInn = false;
+            }
+
+            return loggetInn;
+        }
     }
+}
+
