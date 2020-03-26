@@ -69,7 +69,7 @@ namespace OXXGame.Controllers
         public ActionResult KjorKode(TestModel testModel)
         {
             SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
-            string output = ssh.RunCode2(testModel);
+            string output = ssh.RunCode(testModel);
             
             testModel.singleTestResult.tries++;
             if (output.Contains("Compilation failed:"))
@@ -114,11 +114,11 @@ namespace OXXGame.Controllers
 
             return RedirectToAction("Index", "Login");
         }
-
+        /*
         public ActionResult RunTypeScript(Submission submission)
         {
 
-            SSHConnect TypeScript = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
+            SSHConnect TypeScript = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
             ViewData["TypeScriptOutput"] = TypeScript.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
             return View("TypeScriptView", submission);
             
@@ -126,12 +126,12 @@ namespace OXXGame.Controllers
 
         public ActionResult RunCSharp(Submission submission)
         {
-            SSHConnect CSharp = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
+            SSHConnect CSharp = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
             ViewData["CSharpOutput"] = CSharp.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
             return View("TestView", submission);
 
         }
-
+        */
         public ActionResult HTMLCSS()
         {
             return View("TestViewHTMLCSS");
@@ -359,23 +359,6 @@ namespace OXXGame.Controllers
             Random randGen = new Random();
             return randGen.Next(0, max);
         }
-
-
-        private string getTestCategory(int testId, DB database)
-        {
-            List<Models.Task> tasks = database.allTasks();
-
-            foreach (Models.Task task in tasks)
-            {
-                if (testId == task.testId)
-                {
-                    return task.category;
-                }
-            }
-
-            return null;
-        }
-
 
         // Hjelpemetode som sjekker at oppgaven ikke allerede er løst
         private bool isNewTask(Models.Task task, List<SingleTestResult> list)
