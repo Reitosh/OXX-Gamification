@@ -1,7 +1,7 @@
 ﻿@model Submission
 @{
     ViewData["Title"] = "TypeScriptView";
-    string output = (string) ViewData["TypeScriptOutput"];
+    var output = ViewData["TypeScriptOutput"];
 }
 
 
@@ -78,8 +78,9 @@
             });
 
             function showTypeScript() {
-                var srcTypeScript = "@output";
+                var srcTypeScript = "<script>" + "@output" + "<" + "/" + "script>";
                 document.getElementById('TSiframe').srcdoc = srcTypeScript;
+                
             }
         </script>
     </body>

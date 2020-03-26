@@ -48,7 +48,9 @@ namespace OXXGame.Controllers
         {
             if (loggedIn())
             {
+
                 if (setStartTestValues())
+
                 {
                     TestModel model = getModel();
 
@@ -121,9 +123,11 @@ namespace OXXGame.Controllers
             SSHConnect TypeScript = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
             ViewData["TypeScriptOutput"] = TypeScript.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
             return View("TypeScriptView", submission);
-            
-        }
 
+            
+            return RedirectToAction("Index", "Login");
+        }
+  
         public ActionResult RunCSharp(Submission submission)
         {
             SSHConnect CSharp = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
@@ -141,7 +145,7 @@ namespace OXXGame.Controllers
         {
             return View("TypeScriptView");
         }
-
+    
         public ActionResult Avbryt()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
@@ -149,66 +153,68 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+
         //-------------------------------------------------- Andre metoder --------------------------------------------------//
 
-        // Metoden henter ut en "tilfeldig" oppgave fra listen basert på noen parametre:
-        //    *Kategori
-        //    *Nivå (per kategori)
-        //    *Oppgaver allerede utført
-        //    *Antall oppgaver utført (per kategori)
-        //
-        // Det kastes Exception dersom:
-        //    *uid ikke er satt
-        //    *kategorinivå eller oppgavetelleren ikke er satt
-        //
-        // Det returneres et Models.Task objekt dersom en passende oppgave finnes, hvis ikke returneres null.
-        private Models.Task getTask()
-        {
-            DB db = new DB(dbContext);
-            List<SingleTestResult> testResults;
-            int? uid = HttpContext.Session.GetInt32(userId);
-
-            if (uid != null)
+            // Metoden henter ut en "tilfeldig" oppgave fra listen basert på noen parametre:
+            //    *Kategori
+            //    *Nivå (per kategori)
+            //    *Oppgaver allerede utført
+            //    *Antall oppgaver utført (per kategori)
+            //
+            // Det kastes Exception dersom:
+            //    *uid ikke er satt
+            //    *kategorinivå eller oppgavetelleren ikke er satt
+            //
+            // Det returneres et Models.Task objekt dersom en passende oppgave finnes, hvis ikke returneres null.
+            private Models.Task getTask()
             {
-                testResults = db.getSingleTestResults((int)uid); // alle tidligere testresultater til sammenligning med nye oppgaver
-            }
-            else
-            {
-                throw new Exception("Session variable [" + userId + "] is not set.");
-            }
+                DB db = new DB(dbContext);
+                List<SingleTestResult> testResults;
+                int? uid = HttpContext.Session.GetInt32(userId);
 
-            List<Category> categories = db.allCategories();
-            foreach (Category category in categories)
-            {
-                int? taskCount = HttpContext.Session.GetInt32(category.category + "_count_key");
-                int? categoryLvl = HttpContext.Session.GetInt32(category.category + "_lvl_key");
-
-                if (taskCount != null && categoryLvl != null) // sjekker om session-variablene er satt (hvis ikke har du focket opp man)
+                if (uid != null)
                 {
-                    if (taskCount < MAX_TASK_COUNT) // sjekker om brukeren har igjen oppgaver i den gitte kategorien
-                    {
-                        List<Models.Task> tasks = db.getTasks(category.category, (int)categoryLvl);
-
-                        while (tasks.Count > 0)
-                        {
-                            Models.Task task = tasks[getRandomNum(tasks.Count)];
-                            if (isNewTask(task, testResults)) // sjekker om ny oppgave allerede er utført
-                            {
-                                return task;
-                            }
-                            else
-                            {
-                                tasks.Remove(task);
-                            }
-                        }
-                    }
+                    testResults = db.getSingleTestResults((int)uid); // alle tidligere testresultater til sammenligning med nye oppgaver
                 }
                 else
                 {
-                    throw new Exception("Session variable(s) [" + category.category + "_count_key" 
-                        + "] and/or [" + category.category + "_lvl_key" + "] are/is not set.");
+                    throw new Exception("Session variable [" + userId + "] is not set.");
                 }
-            }
+
+                List<Category> categories = db.allCategories();
+                foreach (Category category in categories)
+                {
+                    int? taskCount = HttpContext.Session.GetInt32(category.category + "_count_key");
+                    int? categoryLvl = HttpContext.Session.GetInt32(category.category + "_lvl_key");
+
+                    if (taskCount != null && categoryLvl != null) // sjekker om session-variablene er satt (hvis ikke har du focket opp man)
+                    {
+                        if (taskCount < MAX_TASK_COUNT) // sjekker om brukeren har igjen oppgaver i den gitte kategorien
+                        {
+                            List<Models.Task> tasks = db.getTasks(category.category, (int)categoryLvl);
+
+                            while (tasks.Count > 0)
+                            {
+                                Models.Task task = tasks[getRandomNum(tasks.Count)];
+                                if (isNewTask(task, testResults)) // sjekker om ny oppgave allerede er utført
+                                {
+                                    return task;
+                                }
+                                else
+                                {
+                                    tasks.Remove(task);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Session variable(s) [" + category.category + "_count_key"
+                            + "] and/or [" + category.category + "_lvl_key" + "] are/is not set.");
+                    }
+                }
+
 
             // Hvis det skulle oppstå problemer med uthenting fra databasen vil denne linjen nås. 
             // Løs dette med en if der denne metoden kalles hvor antall oppgaver utført sjekkes. 
@@ -216,61 +222,64 @@ namespace OXXGame.Controllers
             return null;
         }
 
-        // Setter startverdier for sessionvariabler for nivå- og antall oppgaver per kategori.
-        // Henter ut resultater fra databasen (har kandidaten ikke tatt noen tester ennå, vil verdiene
-        // brukeren satt 
-        private bool setStartTestValues()
-        {
-            DB db = new DB(dbContext);
-            int? uid = HttpContext.Session.GetInt32(userId);
-
-            if (uid != null)
+            // Setter startverdier for sessionvariabler for nivå- og antall oppgaver per kategori.
+            // Henter ut resultater fra databasen (har kandidaten ikke tatt noen tester ennå, vil verdiene
+            // brukeren satt 
+            private bool setStartTestValues()
             {
-                List<ResultPerCategory> resPerCategory = db.allResultsPerCategory((int)uid);
-                foreach (ResultPerCategory result in resPerCategory)
+                DB db = new DB(dbContext);
+                int? uid = HttpContext.Session.GetInt32(userId);
+
+                if (uid != null)
                 {
-                    HttpContext.Session.SetInt32(result.category + "_lvl_key", result.lvl);
-                    HttpContext.Session.SetInt32(result.category + "_count_key", result.counter);
+                    List<ResultPerCategory> resPerCategory = db.allResultsPerCategory((int)uid);
+                    foreach (ResultPerCategory result in resPerCategory)
+                    {
+                        HttpContext.Session.SetInt32(result.category + "_lvl_key", result.lvl);
+                        HttpContext.Session.SetInt32(result.category + "_count_key", result.counter);
+                    }
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            // Metode som oppdaterer session-variabler for nivå- og antall oppgaver per kategori.
+            // Metoden tar inn den aktuelle kategorien og en bool som representerer om kandidaten har 
+            // bestått den aktuelle oppgaven, og oppdaterer variablene deretter.
+            // Metoden returnerer false dersom variablene ikke er satt ennå.
+            private bool updateTestValues(string category, bool passed)
+            {
+                int? lvl = HttpContext.Session.GetInt32(category + "_lvl_key");
+                int? count = HttpContext.Session.GetInt32(category + "_count_key");
+
+                if (lvl != null && count != null)
+                {
+                    count++;
+
+                    if (passed && lvl < MAX_LVL)
+                    {
+                        lvl++;
+                    }
+                    else if (!passed && lvl > MIN_LVL)
+                    {
+                        lvl--;
+                    }
+
+                    HttpContext.Session.SetInt32(category + "_lvl_key", (int)lvl);
+                    HttpContext.Session.SetInt32(category + "_count_key", (int)count);
+
+                    return true;
                 }
 
-                return true;
-            }
-            else
-            {
                 return false;
             }
+
         }
 
-        // Metode som oppdaterer session-variabler for nivå- og antall oppgaver per kategori.
-        // Metoden tar inn den aktuelle kategorien og en bool som representerer om kandidaten har 
-        // bestått den aktuelle oppgaven, og oppdaterer variablene deretter.
-        // Metoden returnerer false dersom variablene ikke er satt ennå.
-        private bool updateTestValues(string category, bool passed)
-        {
-            int? lvl = HttpContext.Session.GetInt32(category + "_lvl_key");
-            int? count = HttpContext.Session.GetInt32(category + "_count_key");
-
-            if (lvl != null && count != null)
-            {
-                count++;
-
-                if (passed && lvl < MAX_LVL)
-                {
-                    lvl++;
-                }
-                else if (!passed && lvl > MIN_LVL)
-                {
-                    lvl--;
-                }
-
-                HttpContext.Session.SetInt32(category + "_lvl_key", (int)lvl);
-                HttpContext.Session.SetInt32(category + "_count_key", (int)count);
-
-                return true;
-            }
-
-            return false;
-        }
 
         // Metode som looper over kategorier og tar inn beregnede session-variabler og lagrer de til database.
         // Denne metoden bør også kunne brukes for å oppdatere gamle brukere etter eventuell opprettelse av ny kategori.
@@ -391,3 +400,4 @@ namespace OXXGame.Controllers
         }
     }
 }
+

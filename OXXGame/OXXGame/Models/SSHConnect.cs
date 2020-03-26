@@ -27,10 +27,12 @@ namespace OXXGame.Models
             using (SshClient client = new SshClient(new ConnectionInfo(
                 host,user,new PasswordAuthenticationMethod(user,password))))
             {
+
                 client.Connect();
 
                 string command = string.Format("sudo sh /home/Markus/Testing/{0}.sh '{1}' '{2}' '{3}'",
                     testModel.task.category, testModel.singleTestResult.userId, testModel.task.testId, testModel.code);
+
 
                 SshCommand runCommand = client.RunCommand(command);
                 string output = runCommand.Result;
