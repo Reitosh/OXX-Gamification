@@ -12,6 +12,7 @@ namespace OXXGame.Models
     {
         public int id { get; set; }
         public string Email { get; set; }
+        public string Tlf { get; set; }
         public byte[] Password { get; set; }
         public int LoginCounter { get; set; }
         public string Firstname { get; set; }
@@ -55,10 +56,10 @@ namespace OXXGame.Models
     {
         public int UserId { get; set; }
         public int TestId { get; set; }
-        public bool Passed { get; set; }
+        public string Passed { get; set; }
         public int Attempts { get; set; }
         public string TimeUsed { get; set; }
-        public bool Submitted { get; set; }
+        public string CodeLink { get; set; }
     }
 
     public class OXXGameDBContext : DbContext

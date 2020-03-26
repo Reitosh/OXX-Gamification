@@ -66,25 +66,35 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        // Setter her passed-variabel i testModel.singleTestResult KUN basert på om koden kompilerer.
+        // Hvis koden kompilerer forblir resultatet UNDEFINED
         public ActionResult KjorKode(TestModel testModel)
         {
             SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
+            string output = ssh.RunCode2(testModel);
+            
             testModel.singleTestResult.tries++;
+            if (output.Contains("Compilation failed:"))
+            {
+                testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
+            }
 
-            ViewData["Output"] = ssh.RunCode2(testModel);
+            ViewData["Output"] = output;
             return View("TestView",testModel);
         }
 
         public ActionResult Neste(TestModel inModel)
         {
-
-
             if (loggedIn())
             {
-
-                if (updateTestValues(inModel.task.category, inModel.singleTestResult.passed))
+                if (updateTestValues(inModel.task.category, 
+                    ! inModel.singleTestResult.passed.Equals(SingleTestResult.NOT_PASSED)))
                 {
                     DB db = new DB(dbContext);
+
+                    inModel.endTime = DateTime.Now;
+                    inModel.singleTestResult.timeSpent = (inModel.endTime - inModel.startTime).ToString(@"hh\:mm\:ss");
+
                     if (db.addSingleResult(inModel.singleTestResult))
                     {
                         saveResultsPerCategory();
@@ -102,10 +112,11 @@ namespace OXXGame.Controllers
                 }
 
                 return View("TestView", inModel);
-
             }
+            
+            return RedirectToAction("Index", "Login");
         }
-
+/*
             public ActionResult RunTypeScript(Submission submission)
             {
 
@@ -123,13 +134,7 @@ namespace OXXGame.Controllers
                 SSHConnect CSharp = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
                 ViewData["CSharpOutput"] = CSharp.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
                 return View("TestView", submission);
-
-
-            }
-            public ActionResult Neste()
-            {
-                return View("TestView");
-            }
+*/
 
             public ActionResult HTMLCSS()
             {
@@ -150,73 +155,6 @@ namespace OXXGame.Controllers
 
 
         //-------------------------------------------------- Andre metoder --------------------------------------------------//
-
-          
-
-            private bool saveResultsPerCategory()
-            {
-                int? uid = HttpContext.Session.GetInt32(userId);
-
-                if (uid != null)
-                {
-                    DB db = new DB(dbContext);
-                    List<Category> categories = db.allCategories();
-                    List<ResultPerCategory> resultsPerCategory = db.allResultsPerCategory((int)uid);
-                    bool existingResults = resultsPerCategory.Count != 0;
-
-                    if (existingResults)
-                    {
-                        resultsPerCategory = new List<ResultPerCategory>();
-                    }
-
-                    foreach (Category category in categories)
-                    {
-                        resultsPerCategory.Add(new ResultPerCategory()
-                        {
-                            userId = (int)uid,
-                            category = category.category,
-                            lvl = HttpContext.Session.GetInt32(category.category + "_lvl_key") ?? 0,
-                            counter = HttpContext.Session.GetInt32(category.category + "_count_key") ?? 0
-                        });
-                    }
-
-                    if (existingResults)
-                    {
-                        if (db.updateResultsPerCategory(resultsPerCategory))
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (db.addResultPerCategory(resultsPerCategory))
-                        {
-                            return true;
-                        }
-                    }
-
-                }
-
-                return false;
-            }
-
-            public bool loggedIn()
-            {
-                bool loggetInn;
-
-
-                if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
-                {
-                    loggetInn = true;
-                }
-                else
-                {
-                    HttpContext.Session.SetInt32(LoggedIn, FALSE);
-                    loggetInn = false;
-                }
-
-                return loggetInn;
-            }
 
             // Metoden henter ut en "tilfeldig" oppgave fra listen basert på noen parametre:
             //    *Kategori
@@ -283,35 +221,6 @@ namespace OXXGame.Controllers
             // Er antall oppgaver == max oppgaver -> good, testen er ferdig.
             return null;
         }
-
-        // Setter startverdier for sessionvariabler for nivå- og antall oppgaver per kategori.
-        // Henter ut resultater fra databasen (har kandidaten ikke tatt noen tester ennå, vil verdiene
-        // brukeren satt 
-        private bool setStartTestValues()
-        {
-            DB db = new DB(dbContext);
-            int? uid = HttpContext.Session.GetInt32(userId);
-
-
-            // Hjelpemetode som sjekker at oppgaven ikke allerede er løst
-            private bool isNewTask(Models.Task task, List<SingleTestResult> list)
-            {
-                foreach (SingleTestResult doneTask in list)
-                {
-                    if (task.testId == doneTask.testId)
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-            // Hjelpemetode som genererer tilfeldig tall til oppgaveutvelgelse
-            private int getRandomNum(int max)
-            {
-                Random randGen = new Random();
-                return randGen.Next(0, max);
-            }
 
             // Setter startverdier for sessionvariabler for nivå- og antall oppgaver per kategori.
             // Henter ut resultater fra databasen (har kandidaten ikke tatt noen tester ennå, vil verdiene
@@ -421,6 +330,7 @@ namespace OXXGame.Controllers
         }
 
         // Metode som returnerer et TestModel-objekt klargjort med startverdier og ny oppgave
+        // Returnerer null dersom getTask() enten returner null eller kaster unntak
         private TestModel getModel()
         {
             TestModel model = new TestModel();
@@ -441,7 +351,8 @@ namespace OXXGame.Controllers
                 {
                     userId = (int)HttpContext.Session.GetInt32(userId),
                     testId = model.task.testId,
-                    tries = 0
+                    tries = 0,
+                    passed = SingleTestResult.UNDEFINED
                 };
 
                 model.startTime = DateTime.Now;
