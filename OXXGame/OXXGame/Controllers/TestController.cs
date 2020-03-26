@@ -64,12 +64,20 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        // Setter her passed-variabel i testModel.singleTestResult KUN basert på om koden kompilerer.
+        // Hvis koden kompilerer forblir resultatet UNDEFINED
         public ActionResult KjorKode(TestModel testModel)
         {
             SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
+            string output = ssh.RunCode2(testModel);
+            
             testModel.singleTestResult.tries++;
+            if (output.Contains("Compilation failed:"))
+            {
+                testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
+            }
 
-            ViewData["Output"] = ssh.RunCode2(testModel);
+            ViewData["Output"] = output;
             return View("TestView",testModel);
         }
 
@@ -77,9 +85,14 @@ namespace OXXGame.Controllers
         {
             if (loggedIn())
             {
-                if (updateTestValues(inModel.task.category, inModel.singleTestResult.passed))
+                if (updateTestValues(inModel.task.category, 
+                    ! inModel.singleTestResult.passed.Equals(SingleTestResult.NOT_PASSED)))
                 {
                     DB db = new DB(dbContext);
+
+                    inModel.endTime = DateTime.Now;
+                    inModel.singleTestResult.timeSpent = (inModel.endTime - inModel.startTime).ToString(@"hh\:mm\:ss");
+
                     if (db.addSingleResult(inModel.singleTestResult))
                     {
                         saveResultsPerCategory();
@@ -210,7 +223,7 @@ namespace OXXGame.Controllers
         // Metoden tar inn den aktuelle kategorien og en bool som representerer om kandidaten har 
         // bestått den aktuelle oppgaven, og oppdaterer variablene deretter.
         // Metoden returnerer false dersom variablene ikke er satt ennå.
-        private bool updateTestValues(string category,bool passed)
+        private bool updateTestValues(string category, bool passed)
         {
             int? lvl = HttpContext.Session.GetInt32(category + "_lvl_key");
             int? count = HttpContext.Session.GetInt32(category + "_count_key");
@@ -286,6 +299,7 @@ namespace OXXGame.Controllers
         }
 
         // Metode som returnerer et TestModel-objekt klargjort med startverdier og ny oppgave
+        // Returnerer null dersom getTask() enten returner null eller kaster unntak
         private TestModel getModel()
         {
             TestModel model = new TestModel();
@@ -306,7 +320,8 @@ namespace OXXGame.Controllers
                 {
                     userId = (int)HttpContext.Session.GetInt32(userId),
                     testId = model.task.testId,
-                    tries = 0
+                    tries = 0,
+                    passed = SingleTestResult.UNDEFINED
                 };
 
                 model.startTime = DateTime.Now;

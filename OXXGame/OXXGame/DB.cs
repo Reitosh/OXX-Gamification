@@ -27,6 +27,7 @@ namespace OXXGame
                 Firstname = user.firstname,
                 Lastname = user.lastname,
                 Email = user.email,
+                Tlf = user.tlf,
                 IsAdmin = false,
             };
             
@@ -482,6 +483,7 @@ namespace OXXGame
                 firstname = user.Firstname,
                 lastname = user.Lastname,
                 email = user.Email,
+                tlf = user.Tlf,
                 isAdmin = user.IsAdmin,
             };
         }
