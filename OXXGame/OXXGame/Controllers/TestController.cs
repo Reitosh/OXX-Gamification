@@ -111,6 +111,8 @@ namespace OXXGame.Controllers
 
                 return View("TestView", inModel);
             }
+
+            return RedirectToAction("Index", "Login");
         }
 
         public ActionResult RunTypeScript(Submission submission)
