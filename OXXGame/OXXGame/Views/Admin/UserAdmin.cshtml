@@ -20,6 +20,7 @@
         </tr>
     </thread>
     <tbody>
+        @{ int i = 0;}
         @foreach (User user in users)
         {
             <tr>
@@ -27,7 +28,7 @@
                 <th>@user.lastname</th>
                 <th>@user.email</th>
                 <th>
-                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#info">
+                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#info_@i">
                         Resultater
                     </button>
                 </th>
@@ -40,7 +41,7 @@
             {
                 if (result.userId == user.userId)
                 {
-                    <tr id="info" class="collapse">
+                    <tr id="info_@i" class="collapse">
                         <th>Tests: @result.tests</th>
                         <th>Failed: @result.testsFailed</th>
                         <th>Passed: @result.testsPassed</th>
@@ -48,6 +49,7 @@
                     </tr>
                 }
             }
+            i++;
         }
     </tbody>
 </table>

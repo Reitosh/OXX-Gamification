@@ -111,13 +111,33 @@ namespace OXXGame.Controllers
 
                 return View("TestView", inModel);
             }
+        }
 
-            return RedirectToAction("Index", "Login");
+        public ActionResult RunTypeScript(Submission submission)
+        {
+
+            SSHConnect TypeScript = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
+            ViewData["TypeScriptOutput"] = TypeScript.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
+            return View("TypeScriptView", submission);
+            
+        }
+
+        public ActionResult RunCSharp(Submission submission)
+        {
+            SSHConnect CSharp = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
+            ViewData["CSharpOutput"] = CSharp.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
+            return View("TestView", submission);
+
         }
 
         public ActionResult HTMLCSS()
         {
             return View("TestViewHTMLCSS");
+        }
+
+        public ActionResult TypeScript()
+        {
+            return View("TypeScriptView");
         }
 
         public ActionResult Avbryt()
