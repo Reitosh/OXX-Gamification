@@ -50,7 +50,9 @@
                 @Html.HiddenFor(model => model.task.difficulty)
                 @Html.HiddenFor(model => model.task.test)
                 @Html.HiddenFor(model => model.singleTestResult.tries)
-
+                @Html.HiddenFor(model => model.singleTestResult.passed)
+                @Html.HiddenFor(model => model.startTime)
+                @Html.HiddenFor(model => model.endTime)
             }
 
             @using (Html.BeginForm("Neste", "Test", FormMethod.Get))
@@ -62,6 +64,9 @@
                 @Html.HiddenFor(model => model.task.difficulty)
                 @Html.HiddenFor(model => model.task.test)
                 @Html.HiddenFor(model => model.singleTestResult.tries)
+                @Html.HiddenFor(model => model.singleTestResult.passed)
+                @Html.HiddenFor(model => model.startTime)
+                @Html.HiddenFor(model => model.endTime)
 
                 <input type="submit" value="Neste" />
             }
