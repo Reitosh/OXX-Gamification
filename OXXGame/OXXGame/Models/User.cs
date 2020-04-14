@@ -13,6 +13,7 @@ namespace OXXGame.Models
         public byte[] _pwdHash;
 
         public int userId { get; set; }
+        public string tlf { get; set; }
 
         [Required(ErrorMessage ="Vennligst skriv inn passord")]
         public string password { get; set; }
