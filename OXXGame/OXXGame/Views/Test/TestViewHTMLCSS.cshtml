@@ -42,7 +42,9 @@
         <label class="test-text">Oppgave:</label><br />
 
         <div id="container">
-            <textarea id="htmlEditor"></textarea>
+            <textarea id="htmlEditor" placeholder="HTML"></textarea>
+            <textarea id="CSSEditor" placeholder="CSS"></textarea>
+            <textarea id="Js" placeholder="JavaScript"></textarea>
             <input type="submit" onclick="showHtml();" value="Run" />
             <iframe id="iframe"></iframe>
         </div>
@@ -71,9 +73,38 @@
                 scrollbarStyle: "overlay",
             });
 
+            
+            var CSSeditor = CodeMirror.fromTextArea(
+                document.getElementById('CSSEditor'), {
+                mode: "htmlmixed",
+                theme: "base16-dark",
+                lineNumbers: true,
+                indentUnit: 4,
+                indentWithTabs: true,
+                autoCloseTags: true,
+                autoCloseBrackets: true,
+                scrollbarStyle: "overlay",
+            });
+
+            var JSeditor = CodeMirror.fromTextArea(
+                document.getElementById('Js'), {
+                mode: "htmlmixed",
+                theme: "base16-dark",
+                lineNumbers: true,
+                indentUnit: 4,
+                indentWithTabs: true,
+                autoCloseTags: true,
+                autoCloseBrackets: true,
+                scrollbarStyle: "overlay",
+            });
+
             function showHtml() {
+
                 var srcHtml = HTMLeditor.getValue();
-                document.getElementById('iframe').srcdoc = srcHtml;
+                var srcCSS = CSSeditor.getValue();
+                var srcJs = JSeditor.getValue();
+
+                document.getElementById('iframe').srcdoc = srcHtml + "<style type=text/css>" + srcCSS + "</style>" + "<script>" + srcJs + "<" + "/" + "script>"
             }
         </script>
     </body>
