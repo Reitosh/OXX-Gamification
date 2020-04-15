@@ -1,0 +1,106 @@
+﻿@model TestModel
+@{
+    ViewData["Title"] = "Evnetest";
+    var output = ViewData["Output"];
+
+}
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>OXXGame - @ViewData["Title"]</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Linked CSS Files -->
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/mobile.css" />
+    <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
+    <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
+    <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
+    <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
+
+    <!-- Linked Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="main">
+        <div class="form-group">
+            @using (Html.BeginForm("RunCSharp", "Test", FormMethod.Post))
+            {
+
+                <label class="test-text">Kategori: @Model.task.category</label><br />
+                <label class="test-text">Vanskelighetsgrad: @Model.task.difficulty</label><br />
+                <label class="test-text">Oppgave: @Model.task.test</label><br />
+
+
+                <textarea class="editor" asp-for="code" id="input" name="code" rows="10">@Model.code</textarea>
+                <input type="submit" value="Kjør kode" id="codeBtn" onclick="DisableButton(); submit();" />
+
+                <textarea readonly class="output" id="output" rows="5">@output</textarea>
+
+                @Html.HiddenFor(model => model.singleTestResult.userId)
+                @Html.HiddenFor(model => model.singleTestResult.testId)
+                @Html.HiddenFor(model => model.task.testId)
+                @Html.HiddenFor(model => model.task.category)
+                @Html.HiddenFor(model => model.task.difficulty)
+                @Html.HiddenFor(model => model.task.test)
+                @Html.HiddenFor(model => model.singleTestResult.tries)
+                @Html.HiddenFor(model => model.singleTestResult.passed)
+                @Html.HiddenFor(model => model.startTime)
+                @Html.HiddenFor(model => model.endTime)
+            }
+
+            @using (Html.BeginForm("Neste", "Test", FormMethod.Get))
+            {
+                @Html.HiddenFor(model => model.singleTestResult.userId)
+                @Html.HiddenFor(model => model.singleTestResult.testId)
+                @Html.HiddenFor(model => model.task.testId)
+                @Html.HiddenFor(model => model.task.category)
+                @Html.HiddenFor(model => model.task.difficulty)
+                @Html.HiddenFor(model => model.task.test)
+                @Html.HiddenFor(model => model.singleTestResult.tries)
+                @Html.HiddenFor(model => model.singleTestResult.passed)
+                @Html.HiddenFor(model => model.startTime)
+                @Html.HiddenFor(model => model.endTime)
+
+                <input type="submit" value="Neste" />
+            }
+
+            @using (Html.BeginForm("HTMLCSS", "Test", FormMethod.Get))
+            {
+                <input type="submit" value="HTMLCSS" />
+            }
+
+            @using (Html.BeginForm("TypeScript", "Test", FormMethod.Get))
+            {
+                <input type="submit" value="TypeScript" />
+            }
+
+            @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
+
+            {
+                <button id="btn-login" new { onclick="return confirm('Er du sikker på at du vil kaste inn håndklet? Du vil bli logget ut og tatt tilbake til innlogging.');" })>
+                    Gi opp
+                </button>
+            }
+        </div>
+    </div>
+
+    <!-- Codemirror-->
+
+    <script src="~/codemirror/lib/codemirror.js"></script>
+    <script src="~/codemirror/mode/javascript/javascript.js"></script>
+    <script src="~/codemirror/mode/xml/xml.js"></script>
+    <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+    <script src="~/codemirror/mode/clike/clike.js"></script>
+    <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
+    <script src="~/js/TestViewConfiguration.js"></script>
+
+</body>
+</html>

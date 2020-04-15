@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj": {}
+    "C:\\Users\\Andreas\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj": {}
   },
   "projects": {
-    "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj": {
+    "C:\\Users\\Andreas\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
+        "projectUniqueName": "C:\\Users\\Andreas\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
         "projectName": "OXXGame",
-        "projectPath": "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
-        "packagesPath": "C:\\Users\\testor\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\testor\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\obj\\",
+        "projectPath": "C:\\Users\\Andreas\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\OXXGame.csproj",
+        "packagesPath": "C:\\Users\\Andreas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Andreas\\Documents\\GitHub\\OXX-Gamification\\OXXGame\\OXXGame\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\testor\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Andreas\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -40,6 +40,36 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Logging.Debug": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "SSH.NET": {
+              "target": "Package",
+              "version": "[2016.1.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

@@ -1,0 +1,87 @@
+﻿@model Submission
+@{
+    ViewData["Title"] = "TypeScriptView";
+    var output = ViewData["TypeScriptOutput"];
+}
+
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/mobile.css" />
+    <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
+    <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
+    <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
+
+    <style>
+        .CodeMirror {
+            float: left;
+            width: 47%;
+            height: 500px;
+            border: 1px solid black;
+        }
+
+        iframe {
+            width: 47%;
+            height: 500px;
+            border: 1px;
+            border-left: 0px;
+            background-color: white;
+        }
+
+        #TScontainer {
+            padding-top: 5%;
+        }
+    </style>
+
+</head>
+<body>
+    @using (Html.BeginForm("RunTypeScript", "Test", FormMethod.Post))
+    {
+        <label class="test-text">Kategori: </label><br />
+        <label class="test-text">Vanskelighetsgrad:</label><br />
+        <label class="test-text">Oppgave:</label><br />
+
+        <div id="TSContainer">
+            <textarea asp-for="Code" id="TypeScriptEditor">@Model.Code</textarea>
+            <input type="submit" onclick="showTypeScript()" value="Run" />
+            <iframe id="TSiframe"></iframe>
+        </div>
+    }
+        <!-- Scripts -->
+        <script src="~/codemirror/lib/codemirror.js"></script>
+        <script src="~/codemirror/mode/xml/xml.js"></script>
+        <script src="~/codemirror/mode/javascript/javascript.js"></script>
+        <script src="~/codemirror/mode/css/css.js"></script>
+        <script src="~/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+        <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+        <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
+        <script src="~/codemirror/addon/edit/matchtags.js"></script>
+        <script src="~/codemirror/addon/edit/closetag.js"></script>
+       
+
+        <script>
+            var TypeScriptEditor = CodeMirror.fromTextArea(
+                document.getElementById('TypeScriptEditor'), {
+                mode: "htmlmixed",
+                theme: "base16-dark",
+                lineNumbers: true,
+                indentUnit: 4,
+                indentWithTabs: true,
+                autoCloseTags: true,
+                autoCloseBrackets: true,
+                scrollbarStyle: "overlay",
+            });
+
+            function showTypeScript() {
+                var srcTypeScript = "<script>" + "@output" + "<" + "/" + "script>";
+                document.getElementById('TSiframe').srcdoc = srcTypeScript;
+                
+            }
+        </script>
+    </body>
+</html>

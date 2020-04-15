@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OXXGame.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace OXXGame
 {
@@ -24,6 +26,11 @@ namespace OXXGame
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<OXXGameDBContext>(options => {
+                options.UseSqlServer(Configuration.GetConnectionString("DBConnection"));
+                });
+            services.AddDistributedMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,9 +46,12 @@ namespace OXXGame
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            //-------------------------------//
+            app.UseSession();
+            //-------------------------------//
             app.UseRouting();
 
             app.UseAuthorization();
@@ -50,7 +60,7 @@ namespace OXXGame
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=Index}/{id?}");
             });
         }
     }

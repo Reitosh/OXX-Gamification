@@ -1,0 +1,55 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "UserAdmin";
+}
+
+<h1>UserAdmin</h1>
+
+@{ 
+    var users = (List<User>) ViewData["Users"];
+    var results = (List<Result>) ViewData["Results"];
+}
+
+<table class="table" style="color:#ffffff">
+    <thread><
+        <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+        </tr>
+    </thread>
+    <tbody>
+        @{ int i = 0;}
+        @foreach (User user in users)
+        {
+            <tr>
+                <th>@user.firstname</th>
+                <th>@user.lastname</th>
+                <th>@user.email</th>
+                <th>
+                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#info_@i">
+                        Resultater
+                    </button>
+                </th>
+                <th>
+                    @Html.ActionLink("Slett", "DeleteUser", "Admin", new { userId = user.userId }, null)
+                </th>
+            </tr>
+
+            @foreach (Result result in results)
+            {
+                if (result.userId == user.userId)
+                {
+                    <tr id="info_@i" class="collapse">
+                        <th>Tests: @result.tests</th>
+                        <th>Failed: @result.testsFailed</th>
+                        <th>Passed: @result.testsPassed</th>
+                        <th>Time: @result.timeUsed</th>
+                    </tr>
+                }
+            }
+            i++;
+        }
+    </tbody>
+</table>
