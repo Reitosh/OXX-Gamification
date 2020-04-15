@@ -14,25 +14,25 @@ namespace OXXGame.Models
         private string user = "Markus";
         private string password = "Plainsmuchj0urney";
         private string host = "51.140.218.174";
-        //private OXXGameDBContext db;
 
-        public SSHConnect(string user, string password, string host /*, OXXGameDBContext db*/)
+        public SSHConnect(string user, string password, string host)
         {
             this.user = user;
             this.password = password;
             this.host = host;
-            //this.db = db;
         }
 
-        public string RunCode2(TestModel testModel)
+        public string RunCode(TestModel testModel)
         {
             using (SshClient client = new SshClient(new ConnectionInfo(
                 host,user,new PasswordAuthenticationMethod(user,password))))
             {
+
                 client.Connect();
 
                 string command = string.Format("sudo sh /home/Markus/Testing/{0}.sh '{1}' '{2}' '{3}'",
                     testModel.task.category, testModel.singleTestResult.userId, testModel.task.testId, testModel.code);
+
 
                 SshCommand runCommand = client.RunCommand(command);
                 string output = runCommand.Result;

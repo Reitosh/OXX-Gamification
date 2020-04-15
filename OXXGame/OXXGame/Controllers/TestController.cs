@@ -48,7 +48,9 @@ namespace OXXGame.Controllers
         {
             if (loggedIn())
             {
+
                 if (setStartTestValues())
+
                 {
                     TestModel model = getModel();
 
@@ -64,12 +66,20 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        // Setter her passed-variabel i testModel.singleTestResult KUN basert på om koden kompilerer.
+        // Hvis koden kompilerer forblir resultatet UNDEFINED
         public ActionResult KjorKode(TestModel testModel)
         {
             SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
+            string output = ssh.RunCode(testModel);
+            
             testModel.singleTestResult.tries++;
+            if (output.Contains("Compilation failed:"))
+            {
+                testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
+            }
 
-            ViewData["Output"] = ssh.RunCode2(testModel);
+            ViewData["Output"] = output;
             return View("TestView",testModel);
         }
 
@@ -77,9 +87,14 @@ namespace OXXGame.Controllers
         {
             if (loggedIn())
             {
-                if (updateTestValues(inModel.task.category, inModel.singleTestResult.passed))
+                if (updateTestValues(inModel.task.category, 
+                    ! inModel.singleTestResult.passed.Equals(SingleTestResult.NOT_PASSED)))
                 {
                     DB db = new DB(dbContext);
+
+                    inModel.endTime = DateTime.Now;
+                    inModel.singleTestResult.timeSpent = (inModel.endTime - inModel.startTime).ToString(@"hh\:mm\:ss");
+
                     if (db.addSingleResult(inModel.singleTestResult))
                     {
                         saveResultsPerCategory();
@@ -98,25 +113,29 @@ namespace OXXGame.Controllers
 
                 return View("TestView", inModel);
             }
-        }
 
+            return RedirectToAction("Index", "Login");
+        }
+        /*
         public ActionResult RunTypeScript(Submission submission)
         {
 
-            SSHConnect TypeScript = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
+            SSHConnect TypeScript = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
             ViewData["TypeScriptOutput"] = TypeScript.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
             return View("TypeScriptView", submission);
-            
-        }
 
+            
+            return RedirectToAction("Index", "Login");
+        }
+  
         public ActionResult RunCSharp(Submission submission)
         {
-            SSHConnect CSharp = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174", dbContext);
+            SSHConnect CSharp = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
             ViewData["CSharpOutput"] = CSharp.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
             return View("TestView", submission);
 
         }
-
+        */
         public ActionResult HTMLCSS()
         {
             return View("TestViewHTMLCSS");
@@ -126,13 +145,14 @@ namespace OXXGame.Controllers
         {
             return View("TypeScriptView");
         }
-
+    
         public ActionResult Avbryt()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
             Debug.WriteLine("Logger ut...");
             return RedirectToAction("Index", "Login");
         }
+
 
         //-------------------------------------------------- Andre metoder --------------------------------------------------//
 
@@ -190,7 +210,7 @@ namespace OXXGame.Controllers
                 }
                 else
                 {
-                    throw new Exception("Session variable(s) [" + category.category + "_count_key" 
+                    throw new Exception("Session variable(s) [" + category.category + "_count_key"
                         + "] and/or [" + category.category + "_lvl_key" + "] are/is not set.");
                 }
             }
@@ -218,7 +238,7 @@ namespace OXXGame.Controllers
                     HttpContext.Session.SetInt32(result.category + "_count_key", result.counter);
                 }
 
-                return true;
+                    return true;
             }
             else
             {
@@ -230,7 +250,7 @@ namespace OXXGame.Controllers
         // Metoden tar inn den aktuelle kategorien og en bool som representerer om kandidaten har 
         // bestått den aktuelle oppgaven, og oppdaterer variablene deretter.
         // Metoden returnerer false dersom variablene ikke er satt ennå.
-        private bool updateTestValues(string category,bool passed)
+        private bool updateTestValues(string category, bool passed)
         {
             int? lvl = HttpContext.Session.GetInt32(category + "_lvl_key");
             int? count = HttpContext.Session.GetInt32(category + "_count_key");
@@ -306,6 +326,7 @@ namespace OXXGame.Controllers
         }
 
         // Metode som returnerer et TestModel-objekt klargjort med startverdier og ny oppgave
+        // Returnerer null dersom getTask() enten returner null eller kaster unntak
         private TestModel getModel()
         {
             TestModel model = new TestModel();
@@ -326,7 +347,8 @@ namespace OXXGame.Controllers
                 {
                     userId = (int)HttpContext.Session.GetInt32(userId),
                     testId = model.task.testId,
-                    tries = 0
+                    tries = 0,
+                    passed = SingleTestResult.UNDEFINED
                 };
 
                 model.startTime = DateTime.Now;
@@ -342,23 +364,6 @@ namespace OXXGame.Controllers
             Random randGen = new Random();
             return randGen.Next(0, max);
         }
-
-
-        private string getTestCategory(int testId, DB database)
-        {
-            List<Models.Task> tasks = database.allTasks();
-
-            foreach (Models.Task task in tasks)
-            {
-                if (testId == task.testId)
-                {
-                    return task.category;
-                }
-            }
-
-            return null;
-        }
-
 
         // Hjelpemetode som sjekker at oppgaven ikke allerede er løst
         private bool isNewTask(Models.Task task, List<SingleTestResult> list)
@@ -391,3 +396,4 @@ namespace OXXGame.Controllers
         }
     }
 }
+

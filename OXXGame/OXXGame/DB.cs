@@ -27,6 +27,7 @@ namespace OXXGame
                 Firstname = user.firstname,
                 Lastname = user.lastname,
                 Email = user.email,
+                Tlf = user.tlf,
                 IsAdmin = false,
             };
             
@@ -219,7 +220,7 @@ namespace OXXGame
             return tasks;
         }
 
-        public List<Models.Task> getTasks(string category,int difficulty)
+        public List<Models.Task> getTasks(string category, int difficulty)
         {
             List<Tasks> tasksPerCategory = db.Tasks.Where(
                 task => task.Category == category && task.Difficulty == difficulty).ToList();
@@ -483,6 +484,7 @@ namespace OXXGame
                 firstname = user.Firstname,
                 lastname = user.Lastname,
                 email = user.Email,
+                tlf = user.Tlf,
                 isAdmin = user.IsAdmin,
             };
         }

@@ -25,7 +25,6 @@ namespace OXXGame.Controllers
 
 
         public LoginController(ILogger<LoginController> logger, OXXGameDBContext context)
-
         {
             _logger = logger;
             dbContext = context;
@@ -81,7 +80,6 @@ namespace OXXGame.Controllers
         public ActionResult UserRegistration()
         {
             DB db = new DB(dbContext);
-            // ViewData["Categories"] = db.allCategories();
             List<Category> categories = db.allCategories();
             User model = new User()
             {
@@ -97,7 +95,6 @@ namespace OXXGame.Controllers
                 });
             }
 
-            // ViewData["UserData"] = model;
             return View("UserRegistration",model);
         }
 
@@ -147,6 +144,7 @@ namespace OXXGame.Controllers
                 {
                     ModelState.Clear();
                     HttpContext.Session.SetInt32(LoggedIn, TRUE);
+                    HttpContext.Session.SetInt32(userId, newUser.id);
                     return RedirectToAction("TestInfo", "Test");
                 }
             }
