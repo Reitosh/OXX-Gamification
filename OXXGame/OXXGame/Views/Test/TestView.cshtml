@@ -31,7 +31,7 @@
 <body>
     <div class="main">
         <div class="form-group">
-            @using (Html.BeginForm("RunCSharp", "Test", FormMethod.Post))
+            @using (Html.BeginForm("SubmitCode", "Test", FormMethod.Post))
             {
 
                 <label class="test-text">Kategori: @Model.task.category</label><br />
@@ -40,7 +40,7 @@
 
 
                 <textarea class="editor" asp-for="code" id="input" name="code" rows="10">@Model.code</textarea>
-                <input type="submit" value="Kjør kode" id="codeBtn" onclick="DisableButton(); submit();" />
+                <input type="submit" name="submitBtn" value="RunCode" id="codeBtn" onclick="DisableButton(); submit();" />
 
                 <textarea readonly class="output" id="output" rows="5">@output</textarea>
 
@@ -54,9 +54,11 @@
                 @Html.HiddenFor(model => model.singleTestResult.passed)
                 @Html.HiddenFor(model => model.startTime)
                 @Html.HiddenFor(model => model.endTime)
+
+                <input type="submit" name="submitBtn" value="NextTask" />
             }
 
-            @using (Html.BeginForm("Neste", "Test", FormMethod.Get))
+            @*@using (Html.BeginForm("Neste", "Test", FormMethod.Post))
             {
                 @Html.HiddenFor(model => model.singleTestResult.userId)
                 @Html.HiddenFor(model => model.singleTestResult.testId)
@@ -68,9 +70,10 @@
                 @Html.HiddenFor(model => model.singleTestResult.passed)
                 @Html.HiddenFor(model => model.startTime)
                 @Html.HiddenFor(model => model.endTime)
+                @Html.HiddenFor(model => model.code)
 
                 <input type="submit" value="Neste" />
-            }
+            }*@
 
             @using (Html.BeginForm("HTMLCSS", "Test", FormMethod.Get))
             {
