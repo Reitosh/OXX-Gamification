@@ -86,9 +86,11 @@ namespace OXXGame.Controllers
             switch (submitBtn)
             {
                 case "RunCode":
-                    return RedirectToAction("KjorKode","Test",testModel);
+                    return KjorKode(testModel);
+                    // return RedirectToAction("KjorKode","Test");
                 case "NextTask":
-                    return RedirectToAction("Neste", "Test", testModel);
+                    return Neste(testModel);
+                    // return RedirectToAction("Neste", "Test");
                 default:
                     return RedirectToAction("Login", "Login");
             }
