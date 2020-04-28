@@ -108,10 +108,10 @@ namespace OXXGame.Controllers
                     testModel.endTime = DateTime.Now;
                     testModel.singleTestResult.timeSpent = (testModel.endTime - testModel.startTime).ToString(@"hh\:mm\:ss");
 
-                    FileHandler fileHandler = new FileHandler();
-                    string relativePath = string.Format("/{0}",HttpContext.Session.GetInt32(userId));
+                    FileHandler fileHandler = new FileHandler(/*@"C:\Users\siver\Desktop\oxxgameFileTest",true*/);
+                    string relativePath = string.Format(@"\{0}",HttpContext.Session.GetInt32(userId));
                     string fileName = string.Format(
-                        "{0}Ex{1}",
+                        "{0}_Ex{1}",
                         testModel.task.category,
                         testModel.task.testId
                         );
