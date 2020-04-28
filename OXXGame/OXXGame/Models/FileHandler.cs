@@ -9,13 +9,16 @@ namespace OXXGame.Models
     public class FileHandler
     {
         private string path = "/home/submission_files";
+        private string extension = ".txt";
+        private bool windows = false;
 
         public FileHandler() { }
 
         // Primært for testing lokalt (kan være nyttig ...?)
-        public FileHandler(string overridePath)
+        public FileHandler(string overridePath, bool windows)
         {
             this.path = overridePath;
+            this.windows = windows;
         }
 
         public string saveFile(string relativePath, string fileName, List<string> fileContent)
@@ -26,9 +29,7 @@ namespace OXXGame.Models
                 Directory.CreateDirectory(absolutePath);
             }
 
-            string fileAbsolutePath = absolutePath + "/" + fileName;
-
-            File.Create(fileAbsolutePath);
+            string fileAbsolutePath = absolutePath + "/" + fileName + extension;
 
             using (StreamWriter file = new StreamWriter(fileAbsolutePath))
             {
@@ -38,12 +39,17 @@ namespace OXXGame.Models
                 }
             }
 
-            return absolutePath + fileName;
+            if (windows)
+            {
+                fileAbsolutePath.Replace("/", @"\");
+            }
+
+            return fileAbsolutePath;
         }
 
         public List<string> getFile(string relativePath, string fileName)
         {
-            string fileAbsolutePath = path + relativePath + "/" + fileName;
+            string fileAbsolutePath = path + relativePath + "/" + fileName + extension;
             List<string> fileContent = new List<string>();
 
             using (StreamReader file = new StreamReader(fileAbsolutePath))
