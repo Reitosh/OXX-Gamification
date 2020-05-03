@@ -15,5 +15,7 @@ namespace OXXGame.Models
         public int difficulty { get; set; }
 
         public string category { get; set; }
+
+        public string template { get; set; }
     }
 }

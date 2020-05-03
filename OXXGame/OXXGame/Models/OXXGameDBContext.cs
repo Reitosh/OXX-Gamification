@@ -40,6 +40,7 @@ namespace OXXGame.Models
         public string Test { get; set; }
         public int Difficulty { get; set; }
         public string Category { get; set; }
+        public string Template { get; set; }
     }
 
     public class Results
