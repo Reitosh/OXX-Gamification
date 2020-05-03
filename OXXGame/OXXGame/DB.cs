@@ -521,6 +521,8 @@ namespace OXXGame
             try
             {
                 Users deleteUsr = db.Users.Find(deleteId);
+                deleteSingleTestResult(deleteId);
+                deleteResPerCategory(deleteId);
                 db.Users.Remove(deleteUsr);
                 db.SaveChanges();
                 return true;
@@ -546,6 +548,39 @@ namespace OXXGame
             {
                 Debug.WriteLine(e.StackTrace);
                 Debug.WriteLine("Detta gikk dårlig");
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public bool deleteResPerCategory(int deleteId)
+        {
+            try
+            {
+                List<ResultsPerCategory> resPerCat = db.ResultsPerCategory.Where(res => res.UserId == deleteId).ToList();
+                db.ResultsPerCategory.RemoveRange(resPerCat);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public bool deleteSingleTestResult(int deleteId)
+        {
+            try
+            {
+                List<SingleTestResults> results = db.SingleTestResults.Where(r => r.UserId == deleteId).ToList();
+                db.SingleTestResults.RemoveRange(results);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
                 return false;
             }
         }

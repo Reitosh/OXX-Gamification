@@ -22,7 +22,7 @@ namespace OXXGame.Controllers
 
         public readonly int MAX_LVL = 2;
         public readonly int MIN_LVL = 0;
-        public readonly int MAX_TASK_COUNT = 1;
+        public readonly int MAX_TASK_COUNT = 3;
 
         public TestController(OXXGameDBContext context)
         {
@@ -48,9 +48,7 @@ namespace OXXGame.Controllers
         {
             if (loggedIn())
             {
-
                 if (setStartTestValues())
-
                 {
                     TestModel model = getModel();
 
@@ -84,38 +82,66 @@ namespace OXXGame.Controllers
             return DecideView(testModel);
         }
 
-        public ActionResult Neste(TestModel inModel)
+        public ActionResult SubmitCode(TestModel testModel, string submitBtn)
+        {
+            switch (submitBtn)
+            {
+                case "RunCode":
+                    return KjorKode(testModel);
+                    // return RedirectToAction("KjorKode","Test");
+                case "NextTask":
+                    return Neste(testModel);
+                    // return RedirectToAction("Neste", "Test");
+                default:
+                    return RedirectToAction("Login", "Login");
+            }
+        }
+
+        public ActionResult Neste(TestModel testModel)
         {
             if (loggedIn())
             {
-                
 
-                if (updateTestValues(inModel.task.category, 
-                    ! inModel.singleTestResult.passed.Equals(SingleTestResult.NOT_PASSED)))
+                if (updateTestValues(testModel.task.category, 
+                    ! testModel.singleTestResult.passed.Equals(SingleTestResult.NOT_PASSED)))
+
                 {
                     DB db = new DB(dbContext);
 
-                    inModel.endTime = DateTime.Now;
-                    inModel.singleTestResult.timeSpent = (inModel.endTime - inModel.startTime).ToString(@"hh\:mm\:ss");
+                    testModel.endTime = DateTime.Now;
+                    testModel.singleTestResult.timeSpent = (testModel.endTime - testModel.startTime).ToString(@"hh\:mm\:ss");
 
-                    if (db.addSingleResult(inModel.singleTestResult))
+                    FileHandler fileHandler = new FileHandler(/*@"C:\Users\siver\Desktop\oxxgameFileTest",true*/);
+                    string relativePath = string.Format("/{0}",HttpContext.Session.GetInt32(userId));
+                    string fileName = string.Format(
+                        "{0}_Ex{1}",
+                        testModel.task.category,
+                        testModel.task.testId
+                        );
+                    List<string> code = FileHandler.stringToList(testModel.code);
+
+                    fileHandler.saveFile(relativePath, fileName, code);
+
+                    if (db.addSingleResult(testModel.singleTestResult))
                     {
                         saveResultsPerCategory();
                         ModelState.Clear();
                     }
                    
 
-                    TestModel model = getModel();
+                    TestModel newModel = getModel();
 
-                    if (model == null)
+                    if (newModel == null)
                     {
                         return RedirectToAction("Index", "Login");
+
                     } 
                     
                     return DecideView(model);
+
                 }
 
-                return View("TestView", inModel);
+                return View("TestView", testModel);
             }
 
             return RedirectToAction("Index", "Login");

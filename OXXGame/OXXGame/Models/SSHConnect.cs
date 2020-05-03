@@ -32,11 +32,13 @@ namespace OXXGame.Models
                 client.Connect();
                 
 
+
                 if (testModel.task.category == "TypeScript")
                 {
                     string tsScript = string.Format("cd /home/Markus/Scripts && ./{0}.sh '{1}' '{2}'", testModel.task.category, testModel.code, testModel.singleTestResult.userId);
                     SshCommand run = client.RunCommand(tsScript);
                     string output = run.Result;
+
 
                     if (output.Contains("error TS"))
                     {
@@ -56,7 +58,11 @@ namespace OXXGame.Models
                 else
                 {
                     string command = string.Format("sudo sh /home/Markus/Testing/{0}.sh '{1}' '{2}' '{3}'",
-                    testModel.task.category, testModel.singleTestResult.userId, testModel.task.testId, testModel.code);
+                    testModel.task.category, 
+                    testModel.singleTestResult.userId, 
+                    testModel.task.testId, 
+                    testModel.code
+                    );
 
                     SshCommand runCommand = client.RunCommand(command);
                     string output = runCommand.Result;
