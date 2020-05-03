@@ -59,7 +59,7 @@ namespace OXXGame.Controllers
                         return RedirectToAction("Index", "Login");
                     }
 
-                    return View("TestView", model);
+                    return DecideView(model);
                 }
             }
 
@@ -74,19 +74,22 @@ namespace OXXGame.Controllers
             string output = ssh.RunCode(testModel);
             
             testModel.singleTestResult.tries++;
-            if (output.Contains("Compilation failed:"))
+            if (output.Contains("Compilation failed:") || output.Contains("error TS"))
             {
                 testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
+                
             }
 
             ViewData["Output"] = output;
-            return View("TestView",testModel);
+            return DecideView(testModel);
         }
 
         public ActionResult Neste(TestModel inModel)
         {
             if (loggedIn())
             {
+                
+
                 if (updateTestValues(inModel.task.category, 
                     ! inModel.singleTestResult.passed.Equals(SingleTestResult.NOT_PASSED)))
                 {
@@ -100,15 +103,16 @@ namespace OXXGame.Controllers
                         saveResultsPerCategory();
                         ModelState.Clear();
                     }
+                   
 
                     TestModel model = getModel();
 
                     if (model == null)
                     {
                         return RedirectToAction("Index", "Login");
-                    }
-
-                    return View("TestView", model);
+                    } 
+                    
+                    return DecideView(model);
                 }
 
                 return View("TestView", inModel);
@@ -116,19 +120,21 @@ namespace OXXGame.Controllers
 
             return RedirectToAction("Index", "Login");
         }
-        /*
-        public ActionResult RunTypeScript(Submission submission)
+
+        public ActionResult DecideView(TestModel dModel) 
         {
-
-            SSHConnect TypeScript = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
-            ViewData["TypeScriptOutput"] = TypeScript.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
-            return View("TypeScriptView", submission);
-
-            
-            return RedirectToAction("Index", "Login");
+            if (dModel.task.category == "HTML" || dModel.task.category == "CSS" || dModel.task.category == "JavaScript" || dModel.task.category == "Vue.js" || dModel.task.category == "React")
+                return View("TestViewHTMLCSS", dModel);
+            else if (dModel.task.category == "TypeScript")
+                return View("TypeScriptView", dModel);
+            else
+                return View("TestView", dModel);
         }
+
+        
+       
   
-        public ActionResult RunCSharp(Submission submission)
+        /*public ActionResult RunCSharp(Submission submission)
         {
             SSHConnect CSharp = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
             ViewData["CSharpOutput"] = CSharp.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
