@@ -1,8 +1,7 @@
 ﻿@model TestModel
-@{
+@{ 
     ViewData["Title"] = "Evnetest";
     var output = ViewData["Output"];
-
 }
 
 <html>
@@ -32,6 +31,7 @@
     <div class="main">
         <div class="form-group">
             @using (Html.BeginForm("SubmitCode", "Test", FormMethod.Post, new { onsubmit="DisableButton(this);" }))
+
             {
 
                 <label class="test-text">Kategori: @Model.task.category</label><br />
@@ -72,16 +72,6 @@
 
             <input type="submit" value="Neste" />
         }*@
-
-            @using (Html.BeginForm("HTMLCSS", "Test", FormMethod.Get))
-            {
-                <input type="submit" value="HTMLCSS" />
-            }
-
-            @using (Html.BeginForm("TypeScript", "Test", FormMethod.Get))
-            {
-                <input type="submit" value="TypeScript" />
-            }
 
             @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
 
