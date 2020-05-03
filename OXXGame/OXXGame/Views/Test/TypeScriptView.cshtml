@@ -1,7 +1,10 @@
-﻿@model Submission
+﻿@model TestModel
 @{
     ViewData["Title"] = "TypeScriptView";
-    var output = ViewData["TypeScriptOutput"];
+    string output = Convert.ToString(ViewData["Output"]);
+
+    
+
 }
 
 
@@ -19,18 +22,16 @@
 
     <style>
         .CodeMirror {
-            float: left;
-            width: 47%;
+            width: 100%;
             height: 500px;
             border: 1px solid black;
         }
 
         iframe {
-            width: 47%;
-            height: 500px;
-            border: 1px;
-            border-left: 0px;
-            background-color: white;
+            width: 0;
+            height: 0;
+            border: 0;
+            border: none;
         }
 
         #TScontainer {
@@ -39,35 +40,84 @@
     </style>
 
 </head>
-<body>
-    @using (Html.BeginForm("RunTypeScript", "Test", FormMethod.Post))
+<body onload="showTypeScript()">
+    @using (Html.BeginForm("KjorKode", "Test", FormMethod.Post))
     {
-        <label class="test-text">Kategori: </label><br />
-        <label class="test-text">Vanskelighetsgrad:</label><br />
-        <label class="test-text">Oppgave:</label><br />
+        <label class="test-text">Kategori:@Model.task.category </label><br />
+        <label class="test-text">Vanskelighetsgrad:@Model.task.difficulty</label><br />
+        <label class="test-text">Oppgave:@Model.task.test</label><br />
 
         <div id="TSContainer">
-            <textarea asp-for="Code" id="TypeScriptEditor">@Model.Code</textarea>
-            <input type="submit" onclick="showTypeScript()" value="Run" />
-            <iframe id="TSiframe"></iframe>
-        </div>
-    }
-        <!-- Scripts -->
-        <script src="~/codemirror/lib/codemirror.js"></script>
-        <script src="~/codemirror/mode/xml/xml.js"></script>
-        <script src="~/codemirror/mode/javascript/javascript.js"></script>
-        <script src="~/codemirror/mode/css/css.js"></script>
-        <script src="~/codemirror/mode/htmlmixed/htmlmixed.js"></script>
-        <script src="~/codemirror/addon/edit/closebrackets.js"></script>
-        <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
-        <script src="~/codemirror/addon/edit/matchtags.js"></script>
-        <script src="~/codemirror/addon/edit/closetag.js"></script>
-       
+            <!--<textarea id="htmlEditor"></textarea>-->
+            <textarea asp-for="code" id="TypeScriptEditor">@Model.code</textarea>
 
-        <script>
-            var TypeScriptEditor = CodeMirror.fromTextArea(
+            <input type="submit" value="Run" />
+        </div>
+        <textarea id="error"></textarea>
+        <iframe id="TSiframe"></iframe>
+
+
+
+
+        @Html.HiddenFor(model => model.singleTestResult.userId)
+        @Html.HiddenFor(model => model.singleTestResult.testId)
+        @Html.HiddenFor(model => model.task.testId)
+        @Html.HiddenFor(model => model.task.category)
+        @Html.HiddenFor(model => model.task.difficulty)
+        @Html.HiddenFor(model => model.task.test)
+        @Html.HiddenFor(model => model.singleTestResult.tries)
+        @Html.HiddenFor(model => model.singleTestResult.passed)
+        @Html.HiddenFor(model => model.startTime)
+        @Html.HiddenFor(model => model.endTime)
+    }
+
+    @using (Html.BeginForm("Neste", "Test", FormMethod.Get))
+    {
+        @Html.HiddenFor(model => model.singleTestResult.userId)
+        @Html.HiddenFor(model => model.singleTestResult.testId)
+        @Html.HiddenFor(model => model.task.testId)
+        @Html.HiddenFor(model => model.task.category)
+        @Html.HiddenFor(model => model.task.difficulty)
+        @Html.HiddenFor(model => model.task.test)
+        @Html.HiddenFor(model => model.singleTestResult.tries)
+        @Html.HiddenFor(model => model.singleTestResult.passed)
+        @Html.HiddenFor(model => model.startTime)
+        @Html.HiddenFor(model => model.endTime)
+
+        <input type="submit" value="Neste" />
+    }
+    <!-- Scripts -->
+    <script src="~/codemirror/lib/codemirror.js"></script>
+    <script src="~/codemirror/mode/xml/xml.js"></script>
+    <script src="~/codemirror/mode/css/css.js"></script>
+    <script src="~/codemirror/mode/javascript/javascript.js"></script>
+    <script src="~/codemirror/mode/css/css.js"></script>
+    <script src="~/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+    <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
+    <script src="~/codemirror/addon/edit/matchtags.js"></script>
+    <script src="~/codemirror/addon/edit/closetag.js"></script>
+    <script src="~/codemirror/addon/display/placeholder.js"></script>
+
+
+    <script>
+
+        /* var HTMLeditor = CodeMirror.fromTextArea(
+            document.getElementById('htmlEditor'), {
+            mode: "htmlmixed",
+            theme: "base16-dark",
+            lineNumbers: true,
+            indentUnit: 4,
+            indentWithTabs: true,
+            autoCloseTags: true,
+            autoCloseBrackets: true,
+            scrollbarStyle: "overlay",
+            placeholder: "HTML"
+        });*/
+
+        var TypeScriptEditor = CodeMirror.fromTextArea(
                 document.getElementById('TypeScriptEditor'), {
-                mode: "htmlmixed",
+                mode: "application/typescript",
                 theme: "base16-dark",
                 lineNumbers: true,
                 indentUnit: 4,
@@ -75,13 +125,35 @@
                 autoCloseTags: true,
                 autoCloseBrackets: true,
                 scrollbarStyle: "overlay",
+                placeholder: "TypeScript"
             });
 
-            function showTypeScript() {
-                var srcTypeScript = "<script>" + "@output" + "<" + "/" + "script>";
+        var errorOutput = CodeMirror.fromTextArea(
+                document.getElementById('error'), {
+                mode: "application/typescript",
+                theme: "base16-dark",
+                readOnly: "nocursor",
+                scrollbarStyle: "overlay",
+        });
+        errorOutput.setSize("521", "150");
+
+        function decodeChars(TypeScript) {
+            var txt = document.createElement("textarea");
+            txt.innerHTML = TypeScript;
+            return txt.value;
+        }
+
+        function showTypeScript() {
+            var decoded = decodeChars("@output");
+
+            if (decoded.includes('error TS')) {
+                errorOutput.getDoc().setValue(decoded);
+            } else {
+                var srcTypeScript = "<script>" + decoded + "<" + "/" + "script>";
                 document.getElementById('TSiframe').srcdoc = srcTypeScript;
-                
             }
-        </script>
-    </body>
+
+        }
+    </script>
+</body>
 </html>

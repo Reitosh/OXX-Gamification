@@ -57,7 +57,7 @@ namespace OXXGame.Controllers
                         return RedirectToAction("Index", "Login");
                     }
 
-                    return View("TestView",model);
+                    return DecideView(model);
                 }
             }
 
@@ -72,13 +72,14 @@ namespace OXXGame.Controllers
             string output = ssh.RunCode(testModel);
             
             testModel.singleTestResult.tries++;
-            if (output.Contains("Compilation failed:"))
+            if (output.Contains("Compilation failed:") || output.Contains("error TS"))
             {
                 testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
+                
             }
 
             ViewData["Output"] = output;
-            return View("TestView",testModel);
+            return DecideView(testModel);
         }
 
         public ActionResult SubmitCode(TestModel testModel, string submitBtn)
@@ -108,13 +109,23 @@ namespace OXXGame.Controllers
                         return RedirectToAction("Index", "Login"); // Dette burde tilsi at testen er ferdig, endre return her
                     }
 
-                    return View("TestView", newModel);
+                    return DecideView(newModel);
                 }
 
                 return View("TestView", testModel);
             }
 
             return RedirectToAction("Index", "Login");
+        }
+
+        public ActionResult DecideView(TestModel dModel) 
+        {
+            if (dModel.task.category == "HTML" || dModel.task.category == "CSS" || dModel.task.category == "JavaScript" || dModel.task.category == "Vue.js" || dModel.task.category == "React")
+                return View("TestViewHTMLCSS", dModel);
+            else if (dModel.task.category == "TypeScript")
+                return View("TypeScriptView", dModel);
+            else
+                return View("TestView", dModel);
         }
 
         public ActionResult Avbryt()
