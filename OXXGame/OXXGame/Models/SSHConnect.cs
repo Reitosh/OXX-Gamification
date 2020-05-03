@@ -34,7 +34,7 @@ namespace OXXGame.Models
                     testModel.task.category, 
                     testModel.singleTestResult.userId, 
                     testModel.task.testId, 
-                    testModel.code
+                    FormatCode(testModel.code,testModel.singleTestResult.userId.ToString(),testModel.task.testId.ToString())
                     );
 
 
@@ -46,6 +46,40 @@ namespace OXXGame.Models
                 client.Disconnect();
                 return output;
             }
+        }
+
+        private static string FormatCode(string code, string userId, string testId) 
+        {
+            string formattedCode = code;
+
+            // Setter inn riktig namespace og klassenavn
+            formattedCode.Replace("OxxTestId", "TId_" + testId);
+            formattedCode.Replace("OxxUId", "UId_" + userId);
+
+            // Fjerner flerlinje-kommentarer (/* lager tull i linux)
+            while (formattedCode.Contains("/*"))
+            {
+                int startIndex = code.IndexOf("/*");
+                int count = 0;
+
+                for (int i = startIndex; i < formattedCode.Length; i++)
+                {
+                    if (formattedCode[i - 1] == '*' && formattedCode[i] == '/' && i != 0)
+                    {
+                        count = i - startIndex;
+                        break;
+                    }
+                }
+
+                code.Remove(startIndex, count);
+            }
+
+            if (formattedCode.Contains("\""))
+            {
+                formattedCode.Replace("\"",@"\" + "\"");
+            }
+
+            return formattedCode;
         }
     }
 }

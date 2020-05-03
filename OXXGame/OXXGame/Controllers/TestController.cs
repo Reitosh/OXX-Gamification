@@ -94,41 +94,6 @@ namespace OXXGame.Controllers
             }
         }
 
-        private bool Submit(TestModel testModel)
-        {
-            if (updateTestValues(testModel.task.category,
-                    !testModel.singleTestResult.passed.Equals(SingleTestResult.NOT_PASSED)))
-            {
-                DB db = new DB(dbContext);
-
-                testModel.endTime = DateTime.Now;
-                testModel.singleTestResult.timeSpent = (testModel.endTime - testModel.startTime).ToString(@"hh\:mm\:ss");
-
-                FileHandler fileHandler = new FileHandler(/*@"C:\Users\siver\Desktop\oxxgameFileTest",true*/);
-                string relativePath = string.Format("/{0}", HttpContext.Session.GetInt32(userId));
-                string fileName = string.Format(
-                    "{0}_Ex{1}",
-                    testModel.task.category,
-                    testModel.task.testId
-                    );
-
-                if (fileName.StartsWith(".")) { fileName.Replace(".", "dot"); }
-
-                List<string> code = FileHandler.stringToList(testModel.code);
-
-                testModel.singleTestResult.codeLink = fileHandler.saveFile(relativePath, fileName, code);
-
-                if (db.addSingleResult(testModel.singleTestResult))
-                {
-                    saveResultsPerCategory();
-                }
-
-                return true;
-            }
-
-            return false;
-        }
-
         public ActionResult Neste(TestModel testModel)
         {
             if (loggedIn())
@@ -151,36 +116,7 @@ namespace OXXGame.Controllers
 
             return RedirectToAction("Index", "Login");
         }
-        /*
-        public ActionResult RunTypeScript(Submission submission)
-        {
 
-            SSHConnect TypeScript = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
-            ViewData["TypeScriptOutput"] = TypeScript.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
-            return View("TypeScriptView", submission);
-
-            
-            return RedirectToAction("Index", "Login");
-        }
-  
-        public ActionResult RunCSharp(Submission submission)
-        {
-            SSHConnect CSharp = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
-            ViewData["CSharpOutput"] = CSharp.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
-            return View("TestView", submission);
-
-        }
-        */
-        public ActionResult HTMLCSS()
-        {
-            return View("TestViewHTMLCSS");
-        }
-
-        public ActionResult TypeScript()
-        {
-            return View("TypeScriptView");
-        }
-    
         public ActionResult Avbryt()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
@@ -430,6 +366,40 @@ namespace OXXGame.Controllers
 
             return loggetInn;
         }
+
+        private bool Submit(TestModel testModel)
+        {
+            if (updateTestValues(testModel.task.category,
+                    !testModel.singleTestResult.passed.Equals(SingleTestResult.NOT_PASSED)))
+            {
+                DB db = new DB(dbContext);
+
+                testModel.endTime = DateTime.Now;
+                testModel.singleTestResult.timeSpent = (testModel.endTime - testModel.startTime).ToString(@"hh\:mm\:ss");
+
+                FileHandler fileHandler = new FileHandler(/*@"C:\Users\siver\Desktop\oxxgameFileTest",true*/);
+                string relativePath = string.Format("/{0}", HttpContext.Session.GetInt32(userId));
+                string fileName = string.Format(
+                    "{0}_Ex{1}",
+                    testModel.task.category,
+                    testModel.task.testId
+                    );
+
+                if (fileName.StartsWith(".")) { fileName.Replace(".", "dot"); }
+
+                List<string> code = FileHandler.stringToList(testModel.code);
+
+                testModel.singleTestResult.codeLink = fileHandler.saveFile(relativePath, fileName, code);
+
+                if (db.addSingleResult(testModel.singleTestResult))
+                {
+                    saveResultsPerCategory();
+                }
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }
-

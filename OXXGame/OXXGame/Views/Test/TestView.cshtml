@@ -31,7 +31,7 @@
 <body>
     <div class="main">
         <div class="form-group">
-            @using (Html.BeginForm("SubmitCode", "Test", FormMethod.Post, new { onsubmit="DisableButton(this);" }))
+            @using (Html.BeginForm("SubmitCode", "Test", FormMethod.Post))
             {
 
                 <label class="test-text">Kategori: @Model.task.category</label><br />
