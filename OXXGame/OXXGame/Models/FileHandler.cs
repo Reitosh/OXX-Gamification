@@ -66,14 +66,23 @@ namespace OXXGame.Models
         public static List<string> stringToList(string inputString)
         {
             List<string> codeLines = new List<string>();
-            StringReader reader = new StringReader(inputString);
-
-            string line = reader.ReadLine();
-            while ( line != null)
+            
+            if (inputString != null)
             {
-                codeLines.Add(line);
-                line = reader.ReadLine();
+                StringReader reader = new StringReader(inputString);
+
+                string line = reader.ReadLine();
+                while (line != null)
+                {
+                    codeLines.Add(line);
+                    line = reader.ReadLine();
+                }
             }
+            else
+            {
+                codeLines.Add("");
+            }
+            
 
             return codeLines;
         }

@@ -87,49 +87,60 @@ namespace OXXGame.Controllers
             {
                 case "RunCode":
                     return KjorKode(testModel);
-                    // return RedirectToAction("KjorKode","Test");
                 case "NextTask":
                     return Neste(testModel);
-                    // return RedirectToAction("Neste", "Test");
                 default:
-                    return RedirectToAction("Login", "Login");
+                    return RedirectToAction("Index", "Login");
             }
+        }
+
+        private bool Submit(TestModel testModel)
+        {
+            if (updateTestValues(testModel.task.category,
+                    !testModel.singleTestResult.passed.Equals(SingleTestResult.NOT_PASSED)))
+            {
+                DB db = new DB(dbContext);
+
+                testModel.endTime = DateTime.Now;
+                testModel.singleTestResult.timeSpent = (testModel.endTime - testModel.startTime).ToString(@"hh\:mm\:ss");
+
+                FileHandler fileHandler = new FileHandler(/*@"C:\Users\siver\Desktop\oxxgameFileTest",true*/);
+                string relativePath = string.Format("/{0}", HttpContext.Session.GetInt32(userId));
+                string fileName = string.Format(
+                    "{0}_Ex{1}",
+                    testModel.task.category,
+                    testModel.task.testId
+                    );
+
+                if (fileName.StartsWith(".")) { fileName.Replace(".", "dot"); }
+
+                List<string> code = FileHandler.stringToList(testModel.code);
+
+                testModel.singleTestResult.codeLink = fileHandler.saveFile(relativePath, fileName, code);
+
+                if (db.addSingleResult(testModel.singleTestResult))
+                {
+                    saveResultsPerCategory();
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
         public ActionResult Neste(TestModel testModel)
         {
             if (loggedIn())
             {
-                if (updateTestValues(testModel.task.category, 
-                    ! testModel.singleTestResult.passed.Equals(SingleTestResult.NOT_PASSED)))
+                if (Submit(testModel))
                 {
-                    DB db = new DB(dbContext);
-
-                    testModel.endTime = DateTime.Now;
-                    testModel.singleTestResult.timeSpent = (testModel.endTime - testModel.startTime).ToString(@"hh\:mm\:ss");
-
-                    FileHandler fileHandler = new FileHandler(/*@"C:\Users\siver\Desktop\oxxgameFileTest",true*/);
-                    string relativePath = string.Format("/{0}",HttpContext.Session.GetInt32(userId));
-                    string fileName = string.Format(
-                        "{0}_Ex{1}",
-                        testModel.task.category,
-                        testModel.task.testId
-                        );
-                    List<string> code = FileHandler.stringToList(testModel.code);
-
-                    fileHandler.saveFile(relativePath, fileName, code);
-
-                    if (db.addSingleResult(testModel.singleTestResult))
-                    {
-                        saveResultsPerCategory();
-                        ModelState.Clear();
-                    }
-
+                    ModelState.Clear();
                     TestModel newModel = getModel();
 
                     if (newModel == null)
                     {
-                        return RedirectToAction("Index", "Login");
+                        return RedirectToAction("Index", "Login"); // Dette burde tilsi at testen er ferdig, endre return her
                     }
 
                     return View("TestView", newModel);
@@ -262,7 +273,7 @@ namespace OXXGame.Controllers
                     HttpContext.Session.SetInt32(result.category + "_count_key", result.counter);
                 }
 
-                    return true;
+                return true;
             }
             else
             {
@@ -375,6 +386,7 @@ namespace OXXGame.Controllers
                     passed = SingleTestResult.UNDEFINED
                 };
 
+                model.code = model.task.template;
                 model.startTime = DateTime.Now;
                 return model;
             }

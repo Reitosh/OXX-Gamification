@@ -5,8 +5,8 @@
 
     
 
-function DisableButton() {
-    document.getElementById("codeBtn").disabled = true;
+function DisableButton(form) {
+    form.submit.disabled = true;
 }
 
 var editor = CodeMirror.fromTextArea(
