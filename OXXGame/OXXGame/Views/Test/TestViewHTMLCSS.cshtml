@@ -1,6 +1,23 @@
 ﻿@model TestModel
 @{
-    ViewData["Title"] = "TestViewHTMLCSS";
+    ViewData["Title"] = "HTML/CSS/JS";
+    string HTML;
+    string CSS;
+    string JS;
+
+    if (Model.task.template != null) {
+        var templates = Model.task.template.Split("&&&&");
+        HTML = templates[0];
+        CSS = templates[1];
+        JS = templates[2];
+    }
+    else
+    {
+        HTML = "";
+        CSS = "";
+        JS = "";
+    }
+}
 }
 
 
@@ -36,21 +53,29 @@
         #container {
             padding-top: 5%;
         }
+       
+        #kode {
+            display: none;
+        }
+
     </style>
 
 </head>
-<body>
-    <label class="test-text">Kategori:@Model.task.category </label><br />
-    <label class="test-text">Vanskelighetsgrad:@Model.task.difficulty</label><br />
-    <label class="test-text">Oppgave:@Model.task.test</label><br />
+
+
+<body onload="showHtml()">
+    <label class="test-text">Kategori: @Model.task.category </label><br />
+    <label class="test-text">Vanskelighetsgrad: @Model.task.difficulty / 2</label><br />
+    <label class="test-text">Oppgave: @Model.task.test</label><br />
 
     <div id="container">
-        <textarea id="htmlEditor"></textarea>
-        <textarea id="CSSEditor"></textarea>
-        <textarea id="Js"></textarea>
+        <textarea id="htmlEditor">@HTML</textarea>
+        <textarea id="CSSEditor">@CSS</textarea>
+        <textarea id="Js">@JS</textarea>
         <input type="submit" onclick="showHtml();" value="Run" />
         <iframe id="iframe"></iframe>
     </div>
+
 
     @using (Html.BeginForm("Neste", "Test", FormMethod.Get))
     {
@@ -64,6 +89,10 @@
         @Html.HiddenFor(model => model.singleTestResult.passed)
         @Html.HiddenFor(model => model.startTime)
         @Html.HiddenFor(model => model.endTime)
+        
+
+
+        <textarea asp-for="code" id="kode"></textarea>
 
         <input type="submit" value="Neste" />
     }
@@ -133,12 +162,20 @@
             var vueTag = "<script src=\"https:\/\/npmcdn.com\/vue\/dist\/vue.js\"><\/script>"
             var reactTag = "<script src=\"https:\/\/unpkg.com\/react@16\/umd\/react.development.js\" crossorigin><\/script>" +
                 "<script src=\"https:\/\/unpkg.com\/react-dom@16\/umd\/react-dom.development.js\" crossorigin><\/script>"
+            var fullInput;
 
             if ("@Model.task.category" == "Vue.js") {
-                document.getElementById('iframe').srcdoc = vueTag + userInput;
+                fullInput = vueTag + userInput;
+
             } else if ("@Model.task.category" == "React") {
-                document.getElementById('iframe').srcdoc = reactTag + userInput;
+                fullInput = reactTag + userInput;
+
+            } else if ("@Model.task.category" == "HTML" || "@Model.task.category" == "JavaScript" || "@Model.task.category" == "CSS") {
+                fullInput = userInput;
             }
+
+            document.getElementById('iframe').srcdoc = fullInput;
+            document.getElementById('kode').value = fullInput;
         }
     </script>
 </body>
