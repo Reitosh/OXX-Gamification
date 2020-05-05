@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 
 namespace OXXGame.Models
 {
-
     public class SSHConnect
     {
         private string user = "Markus";
@@ -56,10 +55,10 @@ namespace OXXGame.Models
                 else
                 {
                     string command = string.Format("sudo sh /home/Markus/Testing/{0}.sh '{1}' '{2}' \"{3}\"",
-                    testModel.task.category, 
-                    testModel.singleTestResult.userId, 
-                    testModel.task.testId, 
-                    FormatCode(testModel.code,testModel.singleTestResult.userId.ToString(),testModel.task.testId.ToString())
+                        testModel.task.category,
+                        testModel.singleTestResult.userId,
+                        testModel.task.testId,
+                        FormatCode(testModel.code,testModel.singleTestResult.userId.ToString(),testModel.task.testId.ToString())
                     );
 
                     SshCommand runCommand = client.RunCommand(command);
@@ -78,30 +77,27 @@ namespace OXXGame.Models
             string formattedCode = code;
 
             // Setter inn riktig namespace og klassenavn
-            formattedCode.Replace("OxxTestId", "TId_" + testId);
-            formattedCode.Replace("OxxUId", "UId_" + userId);
+            formattedCode = formattedCode
+                .Replace("OxxTestId", "TId_" + testId)
+                .Replace("OxxUId", "UId_" + userId);
+
+            formattedCode = formattedCode.Replace("OxxUId", "UId_" + userId);
 
             // Fjerner flerlinje-kommentarer (/* lager tull i linux)
             while (formattedCode.Contains("/*"))
             {
-                int startIndex = code.IndexOf("/*");
-                int count = 0;
+                int startIndex = formattedCode.IndexOf("/*");
+                int endIndex = formattedCode.IndexOf("*/") + 2;
 
-                for (int i = startIndex; i < formattedCode.Length; i++)
-                {
-                    if (formattedCode[i - 1] == '*' && formattedCode[i] == '/' && i != 0)
-                    {
-                        count = i - startIndex;
-                        break;
-                    }
-                }
+                int count = endIndex - startIndex;
 
-                code.Remove(startIndex, count);
+                formattedCode = formattedCode.Remove(startIndex, count);
             }
 
+            // Legger til \ foran "
             if (formattedCode.Contains("\""))
             {
-                formattedCode.Replace("\"",@"\" + "\"");
+                formattedCode = formattedCode.Replace("\"",@"\" + "\"");
             }
 
             return formattedCode;

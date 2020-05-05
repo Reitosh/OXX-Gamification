@@ -129,7 +129,7 @@ namespace OXXGame
                 TimeUsed = result.timeSpent,
                 UserId = result.userId,
                 TestId = result.testId,
-                // Submitted = result.submitted
+                CodeLink = result.codeLink
             };
             
             try
@@ -516,7 +516,7 @@ namespace OXXGame
                 timeSpent = sResult.TimeUsed,
                 userId = sResult.UserId,
                 testId = sResult.TestId,
-                //submitted = sResult.Submitted
+                codeLink = sResult.CodeLink
             };
         }
 
