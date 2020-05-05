@@ -105,7 +105,7 @@ namespace OXXGame.Controllers
                 testModel.endTime = DateTime.Now;
                 testModel.singleTestResult.timeSpent = (testModel.endTime - testModel.startTime).ToString(@"hh\:mm\:ss");
 
-                FileHandler fileHandler = new FileHandler(/*@"C:\Users\siver\Desktop\oxxgameFileTest",true*/);
+                FileHandler fileHandler = new FileHandler(@"C:\Users\marku\Desktop\oxxgameFileTest", true);
                 string relativePath = string.Format("/{0}", HttpContext.Session.GetInt32(userId));
                 string fileName = string.Format(
                     "{0}_Ex{1}",
@@ -155,34 +155,15 @@ namespace OXXGame.Controllers
 
         public ActionResult DecideView(TestModel dModel) 
         {
-            if (dModel.task.category == "HTML" || dModel.task.category == "CSS" || dModel.task.category == "JavaScript" || dModel.task.category == "Vue.js" || dModel.task.category == "React")
+            if (dModel.task.category == "HTML" || dModel.task.category == "CSS" || dModel.task.category == "JavaScript" || 
+                dModel.task.category == "Vue.js" || dModel.task.category == "React")
                 return View("TestViewHTMLCSS", dModel);
             else if (dModel.task.category == "TypeScript")
                 return View("TypeScriptView", dModel);
             else
                 return View("TestView", dModel);
         }
-
-        
-       
   
-        /*public ActionResult RunCSharp(Submission submission)
-        {
-            SSHConnect CSharp = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
-            ViewData["CSharpOutput"] = CSharp.RunCode(submission.Code, HttpContext.Session.GetInt32("uId"));
-            return View("TestView", submission);
-
-        }
-        */
-        public ActionResult HTMLCSS()
-        {
-            return View("TestViewHTMLCSS");
-        }
-
-        public ActionResult TypeScript()
-        {
-            return View("TypeScriptView");
-        }
     
         public ActionResult Avbryt()
         {

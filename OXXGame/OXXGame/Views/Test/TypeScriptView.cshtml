@@ -1,6 +1,6 @@
 ﻿@model TestModel
 @{
-    ViewData["Title"] = "TypeScriptView";
+    ViewData["Title"] = "TypeScript";
     string output = Convert.ToString(ViewData["Output"]);
 
     
@@ -41,17 +41,17 @@
 
 </head>
 <body onload="showTypeScript()">
-    @using (Html.BeginForm("KjorKode", "Test", FormMethod.Post))
+    @using (Html.BeginForm("SubmitCode", "Test", FormMethod.Post))
     {
-        <label class="test-text">Kategori:@Model.task.category </label><br />
-        <label class="test-text">Vanskelighetsgrad:@Model.task.difficulty</label><br />
-        <label class="test-text">Oppgave:@Model.task.test</label><br />
+        <label class="test-text">Kategori: @Model.task.category </label><br />
+        <label class="test-text">Vanskelighetsgrad: @Model.task.difficulty / 2</label><br />
+        <label class="test-text">Oppgave: @Model.task.test</label><br />
 
         <div id="TSContainer">
             <!--<textarea id="htmlEditor"></textarea>-->
             <textarea asp-for="code" id="TypeScriptEditor">@Model.code</textarea>
 
-            <input type="submit" value="Run" />
+            <input type="submit" name="submitBtn" value="RunCode" />
         </div>
         <textarea id="error"></textarea>
         <iframe id="TSiframe"></iframe>
@@ -69,23 +69,25 @@
         @Html.HiddenFor(model => model.singleTestResult.passed)
         @Html.HiddenFor(model => model.startTime)
         @Html.HiddenFor(model => model.endTime)
+
+        <input type="submit" name="submitBtn" value="NextTask" />
     }
 
-    @using (Html.BeginForm("Neste", "Test", FormMethod.Get))
-    {
-        @Html.HiddenFor(model => model.singleTestResult.userId)
-        @Html.HiddenFor(model => model.singleTestResult.testId)
-        @Html.HiddenFor(model => model.task.testId)
-        @Html.HiddenFor(model => model.task.category)
-        @Html.HiddenFor(model => model.task.difficulty)
-        @Html.HiddenFor(model => model.task.test)
-        @Html.HiddenFor(model => model.singleTestResult.tries)
-        @Html.HiddenFor(model => model.singleTestResult.passed)
-        @Html.HiddenFor(model => model.startTime)
-        @Html.HiddenFor(model => model.endTime)
+    @*@using (Html.BeginForm("Neste", "Test", FormMethod.Get))
+        {
+            @Html.HiddenFor(model => model.singleTestResult.userId)
+            @Html.HiddenFor(model => model.singleTestResult.testId)
+            @Html.HiddenFor(model => model.task.testId)
+            @Html.HiddenFor(model => model.task.category)
+            @Html.HiddenFor(model => model.task.difficulty)
+            @Html.HiddenFor(model => model.task.test)
+            @Html.HiddenFor(model => model.singleTestResult.tries)
+            @Html.HiddenFor(model => model.singleTestResult.passed)
+            @Html.HiddenFor(model => model.startTime)
+            @Html.HiddenFor(model => model.endTime)
 
-        <input type="submit" value="Neste" />
-    }
+            <input type="submit" name="submitBtn" value="NextTask" />
+        }*@
     <!-- Scripts -->
     <script src="~/codemirror/lib/codemirror.js"></script>
     <script src="~/codemirror/mode/xml/xml.js"></script>
