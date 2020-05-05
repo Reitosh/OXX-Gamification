@@ -64,70 +64,19 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index", "Login");
         }
 
-        // Setter her passed-variabel i testModel.singleTestResult KUN basert på om koden kompilerer.
-        // Hvis koden kompilerer forblir resultatet UNDEFINED
-        public ActionResult KjorKode(TestModel testModel)
-        {
-            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
-            string output = ssh.RunCode(testModel);
-            
-            testModel.singleTestResult.tries++;
-            if (output.Contains("Compilation failed:") || output.Contains("error TS"))
-            {
-                testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
-                
-            }
-
-            ViewData["Output"] = output;
-            return DecideView(testModel);
-        }
-
         public ActionResult SubmitCode(TestModel testModel, string submitBtn)
         {
+            RunCode(testModel);
+
             switch (submitBtn)
             {
                 case "RunCode":
-                    return KjorKode(testModel);
+                    return DecideView(testModel);
                 case "NextTask":
                     return Neste(testModel);
                 default:
                     return RedirectToAction("Index", "Login");
             }
-        }
-
-        private bool Submit(TestModel testModel)
-        {
-            if (updateTestValues(testModel.task.category,
-                    !testModel.singleTestResult.passed.Equals(SingleTestResult.NOT_PASSED)))
-            {
-                DB db = new DB(dbContext);
-
-                testModel.endTime = DateTime.Now;
-                testModel.singleTestResult.timeSpent = (testModel.endTime - testModel.startTime).ToString(@"hh\:mm\:ss");
-
-                FileHandler fileHandler = new FileHandler(@"C:\Users\marku\Desktop\oxxgameFileTest", true);
-                string relativePath = string.Format("/{0}", HttpContext.Session.GetInt32(userId));
-                string fileName = string.Format(
-                    "{0}_Ex{1}",
-                    testModel.task.category,
-                    testModel.task.testId
-                    );
-
-                if (fileName.StartsWith(".")) { fileName.Replace(".", "dot"); }
-
-                List<string> code = FileHandler.stringToList(testModel.code);
-
-                testModel.singleTestResult.codeLink = fileHandler.saveFile(relativePath, fileName, code);
-
-                if (db.addSingleResult(testModel.singleTestResult))
-                {
-                    saveResultsPerCategory();
-                }
-
-                return true;
-            }
-
-            return false;
         }
 
         public ActionResult Neste(TestModel testModel)
@@ -163,8 +112,7 @@ namespace OXXGame.Controllers
             else
                 return View("TestView", dModel);
         }
-  
-    
+
         public ActionResult Avbryt()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
@@ -414,7 +362,60 @@ namespace OXXGame.Controllers
 
             return loggetInn;
         }
+
+
+        // Besvarelse underkjennes ved feilmelding fra (en av følgende): C#-kompilator, C#-test, TS-kompilator
+        public void RunCode(TestModel testModel)
+        {
+            SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
+            string output = ssh.RunCode(testModel);
+
+            testModel.singleTestResult.tries++;
+            if (output.Contains("Compilation failed:") || output.Contains("error TS") || output.Equals("Not passed"))
+            {
+                testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
+            }
+            else if (output.Equals("Passed"))
+            {
+                testModel.singleTestResult.passed = SingleTestResult.PASSED;
+            }
+
+            ViewData["Output"] = output;
+        }
+
+        private bool Submit(TestModel testModel)
+        {
+            if (updateTestValues(testModel.task.category,
+                    !testModel.singleTestResult.passed.Equals(SingleTestResult.NOT_PASSED)))
+            {
+                DB db = new DB(dbContext);
+
+                testModel.endTime = DateTime.Now;
+                testModel.singleTestResult.timeSpent = (testModel.endTime - testModel.startTime).ToString(@"hh\:mm\:ss");
+
+                FileHandler fileHandler = new FileHandler(/*@"C:\Users\siver\Desktop\oxxgameFileTest",true*/);
+                string relativePath = string.Format("/{0}", HttpContext.Session.GetInt32(userId));
+                string fileName = string.Format(
+                    "{0}_Ex{1}",
+                    testModel.task.category,
+                    testModel.task.testId
+                    );
+
+                if (fileName.StartsWith(".")) { fileName = fileName.Replace(".", "dot"); }
+
+                List<string> code = FileHandler.stringToList(testModel.code);
+
+                testModel.singleTestResult.codeLink = fileHandler.saveFile(relativePath, fileName, code);
+
+                if (db.addSingleResult(testModel.singleTestResult))
+                {
+                    saveResultsPerCategory();
+                }
+
+                return true;
+            }
+
+            return false;
+        }
     }
-
 }
-
