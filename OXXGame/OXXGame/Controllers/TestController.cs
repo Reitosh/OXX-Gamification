@@ -104,7 +104,8 @@ namespace OXXGame.Controllers
 
         public ActionResult DecideView(TestModel dModel) 
         {
-            if (dModel.task.category == "HTML" || dModel.task.category == "CSS" || dModel.task.category == "JavaScript" || dModel.task.category == "Vue.js" || dModel.task.category == "React")
+            if (dModel.task.category == "HTML" || dModel.task.category == "CSS" || dModel.task.category == "JavaScript" || 
+                dModel.task.category == "Vue.js" || dModel.task.category == "React")
                 return View("TestViewHTMLCSS", dModel);
             else if (dModel.task.category == "TypeScript")
                 return View("TypeScriptView", dModel);

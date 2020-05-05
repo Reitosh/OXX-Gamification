@@ -34,7 +34,7 @@
             {
 
                 <label class="test-text">Kategori: @Model.task.category</label><br />
-                <label class="test-text">Vanskelighetsgrad: @Model.task.difficulty</label><br />
+                <label class="test-text">Vanskelighetsgrad: @Model.task.difficulty / 2</label><br />
                 <label class="test-text">Oppgave: @Model.task.test</label><br />
                 @Html.HiddenFor(model => model.singleTestResult.userId)
                 @Html.HiddenFor(model => model.singleTestResult.testId)
