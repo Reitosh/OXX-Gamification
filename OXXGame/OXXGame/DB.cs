@@ -102,7 +102,8 @@ namespace OXXGame
                 id = task.testId,
                 Test = task.test,
                 Difficulty = task.difficulty,
-                Category = task.category
+                Category = task.category,
+                Template = task.template
             };
             
             try
@@ -128,7 +129,7 @@ namespace OXXGame
                 TimeUsed = result.timeSpent,
                 UserId = result.userId,
                 TestId = result.testId,
-                // Submitted = result.submitted
+                CodeLink = result.codeLink
             };
             
             try
@@ -214,7 +215,8 @@ namespace OXXGame
                 testId = task.id,
                 test = task.Test,
                 difficulty = task.Difficulty,
-                category = task.Category
+                category = task.Category,
+                template = task.Template
             }).ToList();
 
             return tasks;
@@ -234,7 +236,8 @@ namespace OXXGame
                     testId = task.id,
                     test = task.Test,
                     difficulty = task.Difficulty,
-                    category = task.Category
+                    category = task.Category,
+                    template = task.Template
                 });
             }
 
@@ -256,7 +259,8 @@ namespace OXXGame
                     testId = aTask.id,
                     test = aTask.Test,
                     difficulty = aTask.Difficulty,
-                    category = aTask.Category
+                    category = aTask.Category,
+                    template = aTask.Template
                 };
                 return outTask;
             }
@@ -345,6 +349,7 @@ namespace OXXGame
         }
 
         /* ------------------------- Update metoder ------------------------- */
+        
         public bool updateTask(int taskId, Models.Task uTask)
         {
             var task = db.Tasks.SingleOrDefault(t => t.id == taskId);
@@ -461,6 +466,7 @@ namespace OXXGame
                 editTsk.Test = inTask.test;
                 editTsk.Difficulty = inTask.difficulty;
                 editTsk.Category = inTask.category;
+                editTsk.Template = inTask.template;
 
                 db.SaveChanges();
                 return true;
@@ -510,7 +516,7 @@ namespace OXXGame
                 timeSpent = sResult.TimeUsed,
                 userId = sResult.UserId,
                 testId = sResult.TestId,
-                //submitted = sResult.Submitted
+                codeLink = sResult.CodeLink
             };
         }
 

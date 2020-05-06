@@ -1,80 +1,182 @@
-﻿@{
-    ViewData["Title"] = "TestViewHTMLCSS";
+﻿@model TestModel
+@{
+    ViewData["Title"] = "HTML/CSS/JS";
+    string HTML;
+    string CSS;
+    string JS;
+
+    if (Model.task.template != null) {
+        var templates = Model.task.template.Split("&&&&");
+        HTML = templates[0];
+        CSS = templates[1];
+        JS = templates[2];
+    }
+    else
+    {
+        HTML = "";
+        CSS = "";
+        JS = "";
+    }
+}
 }
 
 
-    <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <!-- CSS -->
-        <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="~/css/mobile.css" />
-        <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
-        <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
-        <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
-        <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/mobile.css" />
+    <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
+    <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
+    <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
+    <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
 
-        <style>
-            .CodeMirror {
-		        float: left;
-		        width: 47%;
-		        height: 500px;
-		        border: 1px solid black;
-		      }
-            iframe {
-                width: 47%;
-                height: 500px;
-                border: 1px;
-                border-left: 0px;
-                background-color: white;
+    <style>
+        .CodeMirror {
+            float: left;
+            width: 47%;
+            height: 500px;
+            border: 1px solid black;
+        }
+
+        iframe {
+            width: 47%;
+            height: 500px;
+            border: 1px;
+            border-left: 0px;
+            background-color: white;
+        }
+
+        #container {
+            padding-top: 5%;
+        }
+       
+        #kode {
+            display: none;
+        }
+
+    </style>
+
+</head>
+
+
+<body onload="showHtml()">
+    <label class="test-text">Kategori: @Model.task.category </label><br />
+    <label class="test-text">Vanskelighetsgrad: @Model.task.difficulty / 2</label><br />
+    <label class="test-text">Oppgave: @Model.task.test</label><br />
+
+    <div id="container">
+        <textarea id="htmlEditor">@HTML</textarea>
+        <textarea id="CSSEditor">@CSS</textarea>
+        <textarea id="Js">@JS</textarea>
+        <input type="submit" onclick="showHtml();" value="Run" />
+        <iframe id="iframe"></iframe>
+    </div>
+
+
+    @using (Html.BeginForm("Neste", "Test", FormMethod.Get))
+    {
+        @Html.HiddenFor(model => model.singleTestResult.userId)
+        @Html.HiddenFor(model => model.singleTestResult.testId)
+        @Html.HiddenFor(model => model.task.testId)
+        @Html.HiddenFor(model => model.task.category)
+        @Html.HiddenFor(model => model.task.difficulty)
+        @Html.HiddenFor(model => model.task.test)
+        @Html.HiddenFor(model => model.singleTestResult.tries)
+        @Html.HiddenFor(model => model.singleTestResult.passed)
+        @Html.HiddenFor(model => model.startTime)
+        @Html.HiddenFor(model => model.endTime)
+        
+
+
+        <textarea asp-for="code" id="kode"></textarea>
+
+        <input type="submit" value="Neste" />
+    }
+
+    <!-- Scripts -->
+    <script src="~/codemirror/lib/codemirror.js"></script>
+    <script src="~/codemirror/mode/xml/xml.js"></script>
+    <script src="~/codemirror/mode/css/css.js"></script>
+    <script src="~/codemirror/mode/javascript/javascript.js"></script>
+    <script src="~/codemirror/mode/css/css.js"></script>
+    <script src="~/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+    <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
+    <script src="~/codemirror/addon/edit/matchtags.js"></script>
+    <script src="~/codemirror/addon/edit/closetag.js"></script>
+    <script src="~/codemirror/addon/display/placeholder.js"></script>
+
+
+    <script>
+        var HTMLeditor = CodeMirror.fromTextArea(
+            document.getElementById('htmlEditor'), {
+            mode: "htmlmixed",
+            theme: "base16-dark",
+            lineNumbers: true,
+            indentUnit: 4,
+            indentWithTabs: true,
+            autoCloseTags: true,
+            autoCloseBrackets: true,
+            scrollbarStyle: "overlay",
+            placeholder: "HTML"
+        });
+
+
+        var CSSeditor = CodeMirror.fromTextArea(
+            document.getElementById('CSSEditor'), {
+            mode: "text/css",
+            theme: "base16-dark",
+            lineNumbers: true,
+            indentUnit: 4,
+            indentWithTabs: true,
+            autoCloseTags: true,
+            autoCloseBrackets: true,
+            scrollbarStyle: "overlay",
+            placeholder: "CSS"
+        });
+
+        var JSeditor = CodeMirror.fromTextArea(document.getElementById('Js'), {
+            mode: "text/javascript",
+            theme: "base16-dark",
+            lineNumbers: true,
+            indentUnit: 4,
+            indentWithTabs: true,
+            autoCloseTags: true,
+            autoCloseBrackets: true,
+            scrollbarStyle: "overlay",
+            placeholder: "JavaScript/Vue/React (React støtter foreløpig ikke JSX)"
+        });
+
+        function showHtml() {
+
+            var srcHtml = HTMLeditor.getValue();
+            var srcCSS = CSSeditor.getValue();
+            var srcJs = JSeditor.getValue();
+
+            var userInput = srcHtml + "<style type=text/css>" + srcCSS + "</style>" + "<script>" + srcJs + "<" + "/" + "script>";
+            
+            var vueTag = "<script src=\"https:\/\/npmcdn.com\/vue\/dist\/vue.js\"><\/script>"
+            var reactTag = "<script src=\"https:\/\/unpkg.com\/react@16\/umd\/react.development.js\" crossorigin><\/script>" +
+                "<script src=\"https:\/\/unpkg.com\/react-dom@16\/umd\/react-dom.development.js\" crossorigin><\/script>"
+            var fullInput;
+
+            if ("@Model.task.category" == "Vue.js") {
+                fullInput = vueTag + userInput;
+
+            } else if ("@Model.task.category" == "React") {
+                fullInput = reactTag + userInput;
+
+            } else if ("@Model.task.category" == "HTML" || "@Model.task.category" == "JavaScript" || "@Model.task.category" == "CSS") {
+                fullInput = userInput;
             }
-            #container{
-                padding-top: 5%;
-            }
-        </style>
 
-    </head>
-    <body>
-        <label class="test-text">Kategori: </label><br />
-        <label class="test-text">Vanskelighetsgrad:</label><br />
-        <label class="test-text">Oppgave:</label><br />
-
-        <div id="container">
-            <textarea id="htmlEditor"></textarea>
-            <input type="submit" onclick="showHtml();" value="Run" />
-            <iframe id="iframe"></iframe>
-        </div>
-
-        <!-- Scripts -->
-        <script src="~/codemirror/lib/codemirror.js"></script>
-        <script src="~/codemirror/mode/xml/xml.js"></script>
-        <script src="~/codemirror/mode/javascript/javascript.js"></script>
-        <script src="~/codemirror/mode/css/css.js"></script>
-        <script src="~/codemirror/mode/htmlmixed/htmlmixed.js"></script>
-        <script src="~/codemirror/addon/edit/closebrackets.js"></script>
-        <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
-        <script src="~/codemirror/addon/edit/matchtags.js"></script>
-        <script src="~/codemirror/addon/edit/closetag.js"></script>
-
-        <script>
-            var HTMLeditor = CodeMirror.fromTextArea(
-                document.getElementById('htmlEditor'), {
-                mode: "htmlmixed",
-                theme: "base16-dark",
-                lineNumbers: true,
-                indentUnit: 4,
-                indentWithTabs: true,
-                autoCloseTags: true,
-                autoCloseBrackets: true,
-                scrollbarStyle: "overlay",
-            });
-
-            function showHtml() {
-                var srcHtml = HTMLeditor.getValue();
-                document.getElementById('iframe').srcdoc = srcHtml;
-            }
-        </script>
-    </body>
-    </html>
+            document.getElementById('iframe').srcdoc = fullInput;
+            document.getElementById('kode').value = fullInput;
+        }
+    </script>
+</body>
+</html>
