@@ -3,8 +3,6 @@
     ViewData["Title"] = "TaskAdmin";
 }
 
-<h1>TaskAdmin</h1>
-
 @{
     var tasks = (List<OXXGame.Models.Task>)ViewData["Tasks"];
 }
@@ -29,7 +27,7 @@
                     @Html.ActionLink("Endre", "EditTask", "Admin", new { testId = task.testId })
                 </th>
                 <th>
-                    @Html.ActionLink("Slett", "DeleteTask", "Admin", new { testId = task.testId }, null)
+                    @Html.ActionLink("Slett", "DeleteTask", "Admin", new { testId = task.testId }, new { onclick = "return confirm('Er du sikker på at du vil slette denne oppgaven?');" })
                 </th>
             </tr>
         }

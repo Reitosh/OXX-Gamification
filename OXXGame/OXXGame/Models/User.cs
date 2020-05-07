@@ -43,7 +43,7 @@ namespace OXXGame.Models
         [StringLength(255)]
         public string lastname { get; set; }
 
-        [EmailAddress(ErrorMessage = "Ikke gyldig drit")]
+        [EmailAddress(ErrorMessage = "Ikke gyldig")]
         [StringLength(255)]
         [Required(ErrorMessage ="Vennligst skriv inn epostadresse")]
         public string email { get; set; }

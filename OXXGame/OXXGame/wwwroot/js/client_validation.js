@@ -58,6 +58,7 @@ function loginAll() {
 /* Regular Expression variables */
 var REGEX_NAME = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð '-]{2,20}$/;
 var REGEX_EMAIL = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+var REGEX_TLF = /^\+(?:[0-9] ?){6,14}[0-9]$/;
 var REGEX_PASSWD = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
 // Registration form - firstname validation
@@ -114,6 +115,26 @@ function regEmail() {
     }
 }
 
+// Registration form - tlf validation
+function regTlf() {
+    inputTlf = document.forms["formReg"]["tlf"].value;
+    accept = REGEX_TLF.test(inputTlf);
+    errorMessage = document.getElementById("form-error-reg-tlf");
+
+    if (inputTlf == null || inputTlf == "") {
+        errorMessage.innerHTML = "Telefonnummeret er påkrevd";
+        return false;
+    } else if (!accept) {
+        text = "Kan kun inneholde tall og mellomrom<br/>";
+        text += "Landskoden må inkluderes (f.eks. +47)";
+        errorMessage.innerHTML = text;
+        return false;
+    } else {
+        errorMessage.innerHTML = "";
+        return true;
+    }
+}
+
 // Registration form - password validation
 function regPasswd() {
     inputPasswd = document.forms["formReg"]["password"].value;
@@ -150,7 +171,6 @@ function regPasswdRepeat() {
     } else {
         return false;
     }
-   
 }
 
 // Registration form - all validation
@@ -158,13 +178,13 @@ function regAll() {
     acceptFirstname = regFirstname();
     acceptLastname = regLastname();
     acceptEmail = regEmail();
+    acceptTlf = regTlf();
     acceptPasswd = regPasswd();
     acceptPasswdRepeat = regPasswdRepeat();
 
-    if (acceptFirstname && acceptLastname && acceptEmail && acceptPasswd && acceptPasswdRepeat) {
+    if (acceptFirstname && acceptLastname && acceptEmail && acceptTlf && acceptPasswd && acceptPasswdRepeat) {
         return true;
     } else {
         return false;
     }
 }
-

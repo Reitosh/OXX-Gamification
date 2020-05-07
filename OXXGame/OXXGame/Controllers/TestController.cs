@@ -35,6 +35,8 @@ namespace OXXGame.Controllers
         {
             if (loggedIn())
             {
+                // ViewData som er tildelt verdien av session-variabelen fra LoginController 
+                ViewData["username"] = HttpContext.Session.GetString("username");
                 return View();
             }
             else
@@ -377,7 +379,7 @@ namespace OXXGame.Controllers
                 testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
                 return;
             }
-
+            
             SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
             string output = ssh.RunCode(testModel);
 
@@ -404,13 +406,25 @@ namespace OXXGame.Controllers
                 testModel.endTime = DateTime.Now;
                 testModel.singleTestResult.timeSpent = (testModel.endTime - testModel.startTime).ToString(@"hh\:mm\:ss");
 
+
                 FileHandler fileHandler = new FileHandler();
+
                 string relativePath = string.Format("/{0}", HttpContext.Session.GetInt32(userId));
-                string fileName = string.Format(
+                string fileName;
+
+                //if (testModel.task.category == "HTML" || testModel.task.category == "CSS" || 
+                //    testModel.task.category == "JavaScript" || testModel.task.category == "Vue.js")
+                //{
+                //    fileName = string.Format("{0}_Ex{1}.html", testModel.task.category, testModel.task.testId);
+                //} 
+                //else
+                //{
+                    fileName = string.Format(
                     "{0}_Ex{1}",
                     testModel.task.category,
                     testModel.task.testId
                     );
+                //}
 
                 if (fileName.StartsWith(".")) { fileName = fileName.Replace(".", "dot"); }
 
