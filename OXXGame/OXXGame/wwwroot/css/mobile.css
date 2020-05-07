@@ -6,3 +6,386 @@
  *   Description: CSS stylesheet for mobile devices
  */
 
+/* Screens upto 1199px width */
+@media only screen and (max-width: 1199px) {
+
+    /****************** TESTINFO ******************/
+
+    .testinfo-wrapper {
+        padding: 50px 0;
+    }
+
+    .test-details-infobox {
+        margin-bottom: 100px;
+    }
+
+    .test-details-content {
+        margin-top: 0px;
+    }
+
+    /**************** END TESTINFO ****************/
+
+}
+
+/* Screens upto 991px width */
+@media only screen and (max-width: 991px) {
+
+    /****************** TESTINFO ******************/
+
+    .test-details-icon {
+        width: 30%;
+        height: auto;
+    }
+
+        .test-details-icon img {
+            width: 130px;
+            height: auto;
+        }
+
+    .test-details-content {
+        width: 70%;
+        margin-top: -7px;
+    }
+
+    /**************** END TESTINFO ****************/
+
+    /****************** TESTVIEW ******************/
+
+    .test-editors-wrapper {
+        flex-direction: column;
+    }
+
+    #test-editor-csharp-1 {
+        width: 100%;
+        margin: 0 0 30px 0;
+    }
+
+    #test-editor-csharp-2 {
+        width: 100%;
+        margin: 0;
+    }
+
+    /*** End Test Content ***/
+
+    /**************** END TESTVIEW ****************/
+
+}
+
+/* Screens upto 767px width */
+@media only screen and (max-width: 767px) {
+
+    body {
+        font-size: 16px;
+    }
+
+    .divider {
+        margin: 1.2rem auto;
+    }
+
+    .section {
+        padding-top: 150px;
+        padding-bottom: 80px;
+    }
+
+    /* Headings and fonts */
+    h1 {
+        font-size: 32px;
+        line-height: 46px;
+    }
+
+    h2 {
+        font-size: 26px;
+        line-height: 42px;
+    }
+
+    h3 {
+        font-size: 22px;
+        line-height: 36px;
+    }
+
+    h4 {
+        font-size: 18px;
+        line-height: 32px;
+    }
+
+    h5 {
+        font-size: 16px;
+        line-height: 28px;
+    }
+
+    h6 {
+        font-size: 16px;
+        line-height: 28px;
+    }
+
+    p {
+        font-size: 16px;
+        line-height: 26px;
+    }
+
+    /* Buttons */
+    .btn-success {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+        .btn-success:hover, .btn-success:active {
+            background-color: #FDD20E !important;
+            color: #2B2B2B !important;
+        }
+
+    /* Forms */
+    .form-control {
+        padding: 26px 12px 14px 12px;
+        font-size: 14px;
+    }
+
+    .float-label {
+        font-size: 14px;
+    }
+
+    input[type=password] {
+        padding-right: 50px;
+    }
+
+    /* Password Toggle */
+    .passwd-toggle {
+        width: 40px;
+        height: 40px;
+        padding: 15px 0;
+    }
+
+    .fa-eye, .fa-eye-slash {
+        font-size: 11px;
+    }
+
+    /******************* NAVBAR *******************/
+
+    .navbar-brand img {
+        width: 36px;
+    }
+
+    /***************** END NAVBAR *****************/
+
+    /******************* LOGIN ********************/
+
+    .form-box-login {
+        width: 320px;
+        padding: 30px;
+    }
+
+        .form-box-login img {
+            width: 72px;
+            margin-bottom: 30px;
+        }
+
+    .btn-form-login {
+        margin-top: 10px;
+    }
+
+    /***************** END LOGIN ******************/
+
+    /************* USER REGISTRATION **************/
+
+    .form-box-reg {
+        width: 500px;
+    }
+
+    .btn-form-reg {
+        width: 250px;
+        margin-top: 20px;
+    }
+
+    .form-content-reg {
+        padding: 12px 0;
+    }
+
+        .form-content-reg h5 {
+            font-size: 18px;
+        }
+
+        .form-content-reg .form-group {
+            width: 30.2%;
+        }
+
+    /*********** END USER REGISTRATION ************/
+
+    /****************** TESTINFO ******************/
+
+    .btn-testinfo {
+        width: 180px;
+        font-size: 16px;
+    }
+
+    #testinfo-test-details {
+        padding: 40px 0;
+    }
+
+    .test-details-icon img {
+        width: 100px;
+        margin-top: 25px;
+    }
+
+    .test-details-content {
+        margin-top: 0;
+    }
+
+    /**************** END TESTINFO ****************/
+
+    /****************** FOOTER ********************/
+
+    .footer p {
+        font-size: 13px;
+    }
+
+    /**************** END FOOTER ******************/
+
+}
+
+/* Screens upto 600px width */
+@media only screen and (max-width: 600px) {
+    
+    body {
+        font-size: 14px;
+    }
+
+    .underline {
+        width: 70px;
+        height: 2px;
+    }
+
+    /* Headings and fonts */
+    .p-small {
+        font-size: 13px;
+        line-height: 18px;
+    }
+
+    /*  Forms */
+    .form-error {
+        font-size: 13px;
+    }
+
+    /******************* LOGIN ********************/
+
+    .form-box-login {
+        width: 290px;
+        padding: 30px 20px;
+    }
+
+        .form-box-login img {
+            width: 65px;
+        }
+
+    .btn-form-login {
+        margin-top: 6px;
+    }
+
+    /***************** END LOGIN ******************/
+
+    /************* USER REGISTRATION **************/
+
+    .form-box-reg {
+        width: 320px;
+        padding: 40px 20px;
+    }
+
+        .form-box-reg .underline {
+            margin-bottom: 40px;
+        }
+
+    .btn-form-reg {
+        width: 160px;
+    }
+
+    .form-content-reg h5 {
+        font-size: 16px;
+    }
+
+    .form-content-reg .form-group {
+        width: 45%;
+    }
+
+    .form-reg-checkbox span {
+        font-size: 14px;
+    }
+
+    .reg-link {
+        margin-top: 28px;
+    }
+
+    /*********** END USER REGISTRATION ************/
+
+    /****************** TESTINFO ******************/
+
+    .container-testinfo {
+        padding: 0 15px;
+        text-align: center;
+    }
+
+    .testinfo-wrapper {
+        padding: 34px 0;
+    }
+
+    #testinfo-intro {
+        padding-bottom: 40px;
+    }
+
+    .test-details-icon {
+        width: 100%;
+        text-align: center;
+    }
+
+        .test-details-icon img {
+            width: 80px;
+            margin-top: 16px;
+        }
+
+    #testinfo-icon-1,
+    #testinfo-icon-2,
+    #testinfo-icon-3 
+    {
+        text-align: center;
+    }
+
+    .test-details-content {
+        width: 100%;
+        margin-top: 25px;
+    }
+
+    /* Changing the order of divs */
+    #testinfo-icon-1 {
+        order: 1;
+    }
+
+    #test-details-1 {
+        order: 2;
+    }
+
+    #testinfo-icon-2 {
+        order: 3;
+    }
+
+    #test-details-2 {
+        order: 4;
+    }
+
+    #testinfo-icon-3 {
+        order: 5;
+    }
+
+    #test-details-3 {
+        order: 6;
+    }
+
+    /**************** END TESTINFO ****************/
+
+    /****************** FOOTER ********************/
+
+        .footer p {
+            font-size: 12px;
+        }
+
+    /**************** END FOOTER ******************/
+
+}
+
