@@ -6,20 +6,32 @@
  *   Description: General site CSS stylesheet
  */
 
-body {
-    background: #2B2B2B;
-    font-family: 'Roboto', sans-serif;
-    color: #FFFFFF;
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
+}
+
+body {
+    background: #2B2B2B;
+    color: #FFFFFF;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
     -webkit-user-select: none;
     -moz-user-select: -moz-none;
     -ms-user-select: none;
 }
 
+.page-background {
+    display: table;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
 .section {
     padding-top: 180px;
-    padding-bottom: 80px;
+    padding-bottom: 100px;
 }
 
 .underline {
@@ -35,7 +47,7 @@ body {
 .divider {
     display: block;
     width: 100%;
-    margin: 1rem auto;
+    margin: 1.5rem auto;
     border: 0;
     border-top: 1px solid rgba(201, 201, 201, .1);
 }
@@ -46,6 +58,12 @@ h1, h2, h4 {
     font-weight: 400;
 }
 
+h1 {
+    font-size: 38px;
+    line-height: 46px;
+    text-align: center;
+}
+
 h2 {
     font-size: 32px;
     line-height: 42px;
@@ -53,30 +71,45 @@ h2 {
     margin-bottom: 15px;
 }
 
-h5 {
-    font-size: 18px;
-    font-weight: 400;
-    font-style: italic;
-    line-height: 28px;
-    text-align: center;
-}
-
-h6 {
-    color: #FDEA0E; 
-    font-size: 16px;
+h3 {
+    font-size: 28px;
+    line-height: 36px;
     font-weight: 500;
 }
 
-p {
-    font-size: 16px;
+h4 {
+    font-size: 24px;
+    line-height: 32px;
+}
+
+h5 {
+    font-size: 20px;
     font-weight: 400;
-    line-height: 23px;
+    line-height: 28px;
+}
+
+h6 {
+    color: #FDEA0E;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 28px;
+    margin: 0;
+}
+
+p {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 26px;
 }
 
 .p-small {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 22px;
+}
+
+.bold {
+    font-weight: 600;
 }
 
 /* Buttons */
@@ -92,15 +125,20 @@ p {
     border: none;
     border-radius: 25px;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
     .btn-success:hover, .btn-success:active {
         background-color: #FDD20E !important;
         color: #2B2B2B !important;
-    } 
+    }
 
 /* Forms */
+.form-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 .form-group {
     position: relative;
     margin-bottom: 22px;
@@ -126,12 +164,12 @@ p {
         -webkit-animation-fill-mode: both;
     }
 
-    @-webkit-keyframes autofill {
-        to {
-            color: #000;
-            background: #FFFFFF;
-        }
-    } 
+@-webkit-keyframes autofill {
+    to {
+        color: #000;
+        background: #FFFFFF;
+    }
+}
 
 .float-label {
     float: left;
@@ -150,7 +188,15 @@ input:focus ~ .float-label,
 input:valid ~ .float-label {
     top: 2px;
     opacity: 0.85;
-    font-size: 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* Activates floating label when autofill input */
+input:-webkit-autofill ~ .float-label {
+    top: 2px;
+    opacity: 0.85;
+    font-size: 11px;
     font-weight: 600;
 }
 
@@ -173,7 +219,7 @@ input[type=password] {
     right: 0;
     width: 44px;
     height: 44px;
-    padding: 16px 0;
+    padding: 18px 0;
     border-left: 1px solid #707070;
     text-align: center;
     cursor: pointer;
@@ -185,70 +231,7 @@ input[type=password] {
 }
 
 /**********************************************/
-/******************* LOGIN ********************/
-/**********************************************/
-
-.page-background {
-    background:
-        linear-gradient( /* Denne kan justeres senere */
-            rgba(40, 40, 40, 0.1), 
-            rgba(40, 40, 40, 0.5)
-        ), url("../images/background_login.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-}
-
-.login-box {
-    background-color: rgba(16, 16, 16, .85);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 350px;
-    margin: 0;
-    padding: 40px 30px;
-    border: 1px solid #323232;
-    border-radius: 12px;
-    text-align: center;
-}
- 
-    .login-box img {
-        width: 70px;
-        height: auto;
-        margin-bottom: 40px;
-    }
-
-/*** Login Form ***/
-
-.login-links-content a {
-    color: #FFFFFF;
-}
-
-#login-links-reg {
-    margin-top: 4px;
-}
-
-#login-links-reg a {
-    color: #FDEA0E;
-}
-
-.btn-form-login {
-    width: 100%;
-    margin-top: 18px;
-}
-
-/*** End Login Form ***/
-
-/**********************************************/
-/***************** END LOGIN ******************/
-/**********************************************/
-
-/**********************************************/
-/****************** NAVBAR ********************/
+/******************* NAVBAR *******************/
 /**********************************************/
 
 .navbar {
@@ -262,7 +245,7 @@ input[type=password] {
 
 .navbar-scroll {
     background-color: #FDEA0E;
-    height: 76px;
+    height: 56px;
     padding: 0 16px;
     z-index: 10000;
     -moz-box-shadow: 0px 0px 5px 0px #000;
@@ -277,43 +260,109 @@ input[type=password] {
 }
 
     .navbar-brand img {
-        width: 42px;
+        width: 48px;
         height: auto;
     }
 
-/* Navbar Menu */
 .navbar-nav li a {
     color: #FFFFFF;
-    font-weight: 400;
 }
 
 /**********************************************/
-/**************** END NAVBAR ******************/
+/***************** END NAVBAR *****************/
+/**********************************************/
+
+/**********************************************/
+/******************* LOGIN ********************/
+/**********************************************/
+
+.page-background-login {
+    background: linear-gradient( /* Denne kan justeres senere */
+    rgba(40, 40, 40, 0.1), rgba(40, 40, 40, 0.5) ), url("../images/background_login.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.form-box-login {
+    background-color: rgba(16, 16, 16, .85);
+    width: 350px;
+    padding: 40px 30px;
+    margin: 0 auto;
+    border: 1px solid #323232;
+    border-radius: 12px;
+    text-align: center;
+}
+
+    .form-box-login img {
+        width: 80px;
+        height: auto;
+        margin-bottom: 40px;
+    }
+
+/*** Login Form ***/
+
+.btn-form-login {
+    width: 100%;
+    margin-top: 14px;
+}
+
+/* Login Form External Links */
+.login-links a {
+    color: #FFFFFF;
+}
+
+#login-links-reg {
+    margin-top: 4px;
+}
+
+    #login-links-reg a {
+        color: #FDEA0E;
+    }
+
+/*** End Login Form ***/
+
+/**********************************************/
+/***************** END LOGIN ******************/
 /**********************************************/
 
 /**********************************************/
 /************* USER REGISTRATION **************/
 /**********************************************/
 
-/* Registration Form */
+.page-background-reg {
+    background: #2B2B2B;
+}
 
-#wrapper-form-reg {
-    width: 70%;
-    padding: 40px;
+.form-box-reg {
+    width: 750px;
+    padding: 60px 40px;
     margin: 0 auto;
     text-align: center;
 }
 
-.form-reg-content {
-    padding: 15px 0 10px;
+    .form-box-reg .underline {
+        margin-bottom: 50px;
+    }
+
+/*** Registration Form ***/
+
+.btn-form-reg {
+    width: 250px;
+    margin-top: 20px;
 }
 
-.form-reg-content h6 {
-    color: #FFFFFF;
-    margin-bottom: 15px;
+/* Registration Form Checkbox Input */
+.form-content-reg {
+    padding: 12px 0;
 }
 
-    .form-reg-content .form-group {
+    .form-content-reg h5 {
+        text-align: center;
+        margin: 0 0 16px;
+    }
+
+    .form-content-reg .form-group {
         display: inline-block;
         width: 23%;
         margin: 5px;
@@ -350,8 +399,7 @@ input[type=password] {
     }
 
     .form-reg-checkbox input:hover,
-    .form-reg-checkbox input:checked
-    {
+    .form-reg-checkbox input:checked {
         background-color: #FDEA0E;
         border: 1px solid #bdae02;
     }
@@ -367,25 +415,154 @@ input[type=password] {
         top: 0.3rem;
     }
 
-.btn-form-reg {
-    width: 250px;
-    margin-top: 20px;
+/* Registration Form External Links */
+.reg-link {
+    margin-top: 38px;
 }
 
-/* End Registration Form */
+    .reg-link a {
+        color: #FDEA0E;
+    }
+
+/*** End Registration Form ***/
 
 /**********************************************/
 /*********** END USER REGISTRATION ************/
 /**********************************************/
 
 /**********************************************/
-/***************** TESTINFO ******************/
+/****************** TESTINFO ******************/
 /**********************************************/
 
+.container-testinfo {
+    padding: 0;
+    margin: 0;
+}
 
+.testinfo-wrapper {
+    padding: 70px 0;
+}
+
+.testinfo-btn-wrapper {
+    margin-top: 70px;
+    text-align: center;
+}
+
+.btn-testinfo {
+    width: 250px;
+    font-size: 18px;
+}
+
+/* Test Introduction Content */
+#testinfo-intro h3 {
+    margin-bottom: 20px;
+}
+
+#testinfo-intro p {
+    margin-bottom: 0;
+}
+
+/* Test Details Content */
+.test-details-infobox {
+    width: 100%;
+    display: inline-flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-bottom: 150px;
+}
+
+#test-details-infobox-3 {
+    margin-bottom: 0;
+}
+
+.test-details-icon {
+    width: 25%;
+    height: auto;
+}
+
+    .test-details-icon img {
+        width: 120px;
+        height: auto;
+    }
+
+#testinfo-icon-1,
+#testinfo-icon-3 {
+    text-align: left;
+}
+
+#testinfo-icon-2 {
+    text-align: right;
+}
+
+.test-details-content {
+    width: 75%;
+    height: auto;
+    margin-top: 12px;
+}
+
+.test-details-content h4 {
+    color: #FDEA0E;
+    margin-bottom: 8px;
+}
 
 /**********************************************/
-/*************** END TESTINFO ****************/
+/**************** END TESTINFO ****************/
+/**********************************************/
+
+/**********************************************/
+/****************** TESTVIEW ******************/
+/**********************************************/
+
+.container-testview {
+    padding: 0;
+    margin: 0;
+}
+
+/*** Test Content ***/
+
+.testview-wrapper {
+    padding: 40px 0;
+}
+
+.testview-btn-wrapper {
+    margin-top: 15px;
+}
+
+.btn-testview {
+    padding: 8px 16px;
+    width: 120px;
+}
+
+.align-right {
+    text-align: right;
+}
+
+/* Test Editors */
+.test-editors-wrapper {
+    display: flex;
+    flex-direction: row;
+    padding: 15px 0;
+    width: 100%;
+}
+
+.test-editor-container {
+    border: 1px solid #797979;
+}
+    
+    #test-editor-csharp-1 {
+        width: 59%;
+        margin-right: 1%;
+    }
+
+    #test-editor-csharp-2 {
+        width: 39%;
+        margin-left: 1%;
+    }
+
+/*** End Test Content ***/
+
+/**********************************************/
+/**************** END TESTVIEW ****************/
 /**********************************************/
 
 /**********************************************/
@@ -399,8 +576,8 @@ input[type=password] {
 
     .footer p {
         margin: 0;
-        font-size: 12px;
         text-align: center;
+        font-size: 14px;
     }
 
 /**********************************************/

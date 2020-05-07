@@ -13,7 +13,6 @@ namespace OXXGame.Controllers
 
     public class LoginController : Controller
     {
-
         private readonly ILogger<LoginController> _logger;
 
         private OXXGameDBContext dbContext; //DbContext-objektet som brukes til database-aksess
@@ -23,18 +22,14 @@ namespace OXXGame.Controllers
         public readonly int TRUE = 1;
         public readonly int FALSE = 0;
 
-
         public LoginController(ILogger<LoginController> logger, OXXGameDBContext context)
         {
             _logger = logger;
             dbContext = context;
         }
 
-
-
-        //  Index, kjøres når programmet starter. Sørger for at egen Session variabel blir FALSE
-        //  slik at en bruker ikke er logget inn fra start. 
-
+        // Index, kjøres når programmet starter. Sørger for at egen Session variabel blir FALSE
+        // slik at en bruker ikke er logget inn fra start. 
         public ActionResult Index()
         {
             HttpContext.Session.SetInt32(LoggedIn, FALSE);
@@ -42,11 +37,9 @@ namespace OXXGame.Controllers
             return View();
         }
 
-
         [HttpPost]
         public ActionResult Login(User inUser)
         {
-
             DB db = new DB(dbContext);
 
             User user = db.getUser(inUser.email);
@@ -55,7 +48,6 @@ namespace OXXGame.Controllers
             {
                 if (Enumerable.SequenceEqual(inUser.pwdHash,user.pwdHash))
                 {
-
                     HttpContext.Session.SetInt32(LoggedIn, TRUE);
                     HttpContext.Session.SetInt32(userId, user.userId);
 
@@ -65,11 +57,10 @@ namespace OXXGame.Controllers
                     }
                     else
                     {
-
+                        // Setter en String session variabel med navnet til innlogget bruker som verdi
+                        HttpContext.Session.SetString("username", user.firstname);
                         return RedirectToAction("TestInfo", "Test");
-
                     }
-
                 }
             }
 
@@ -145,6 +136,7 @@ namespace OXXGame.Controllers
                     ModelState.Clear();
                     HttpContext.Session.SetInt32(LoggedIn, TRUE);
                     HttpContext.Session.SetInt32(userId, newUser.id);
+                    HttpContext.Session.SetString("username", user.firstname);
                     return RedirectToAction("TestInfo", "Test");
                 }
             }

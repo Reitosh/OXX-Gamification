@@ -1,89 +1,105 @@
 ﻿@model TestModel
-@{ 
+@{
     ViewData["Title"] = "Evnetest";
     var output = ViewData["Output"];
 }
 
-<html>
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>OXXGame - @ViewData["Title"]</title>
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-
-    <!-- Linked CSS Files -->
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/mobile.css" />
+    <!-- Codemirror CSS Files -->
     <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
     <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
     <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
     <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
-
-    <!-- Linked Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-
 </head>
 <body>
-    <div class="main">
-        <div class="form-group">
-            @using (Html.BeginForm("SubmitCode", "Test", FormMethod.Post))
-            {
+    <div class="section section-testview">
+        <div class="container container-testview">
+            <h2>Evnetest</h2>
+            <span class="underline"></span>
 
-                <label class="test-text">Kategori: @Model.task.category</label><br />
-                <label class="test-text">Vanskelighetsgrad: @Model.task.difficulty / 2</label><br />
-                <label class="test-text">Oppgave: @Model.task.test</label><br />
-                @Html.HiddenFor(model => model.singleTestResult.userId)
-                @Html.HiddenFor(model => model.singleTestResult.testId)
-                @Html.HiddenFor(model => model.task.testId)
-                @Html.HiddenFor(model => model.task.category)
-                @Html.HiddenFor(model => model.task.difficulty)
-                @Html.HiddenFor(model => model.task.test)
-                @Html.HiddenFor(model => model.singleTestResult.tries)
-                @Html.HiddenFor(model => model.singleTestResult.passed)
-                @Html.HiddenFor(model => model.startTime)
-                @Html.HiddenFor(model => model.endTime)
+            <!-- Test Content -->
+            <div class="wrapper testview-wrapper">
+                @using (Html.BeginForm("SubmitCode", "Test", FormMethod.Post))
+                {
+                    <!-- Values sent to backhand -->
+                    @Html.HiddenFor(model => model.singleTestResult.userId)
+                    @Html.HiddenFor(model => model.singleTestResult.testId)
+                    @Html.HiddenFor(model => model.task.testId)
+                    @Html.HiddenFor(model => model.task.category)
+                    @Html.HiddenFor(model => model.task.difficulty)
+                    @Html.HiddenFor(model => model.task.test)
+                    @Html.HiddenFor(model => model.singleTestResult.tries)
+                    @Html.HiddenFor(model => model.singleTestResult.passed)
+                    @Html.HiddenFor(model => model.startTime)
+                    @Html.HiddenFor(model => model.endTime)
 
-                <textarea class="editor" asp-for="code" id="input" name="code" rows="10">@Model.code</textarea>
-                <input type="submit" name="submitBtn" value="RunCode" id="codeBtn" />
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <h6>Kategori:</h6>
+                                <label class="test-text">@Model.task.category</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <h6>Vanskelighetsgrad:</h6>
+                                <label class="test-text">@Model.task.difficulty / 2</label>
+                            </div>
+                        </div>
+                    </div>
 
-                <textarea readonly class="output" id="output" rows="5">@output</textarea>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6>Oppgavetekst:</h6>
+                            <label class="test-text">@Model.task.test</label>
+                        </div>
+                    </div>
 
-                <input type="submit" name="submitBtn" value="NextTask" />
-            }
+                    <div class="divider"></div>
 
-            @*@using (Html.BeginForm("Neste", "Test", FormMethod.Post))
-        {
-            @Html.HiddenFor(model => model.singleTestResult.userId)
-            @Html.HiddenFor(model => model.singleTestResult.testId)
-            @Html.HiddenFor(model => model.task.testId)
-            @Html.HiddenFor(model => model.task.category)
-            @Html.HiddenFor(model => model.task.difficulty)
-            @Html.HiddenFor(model => model.task.test)
-            @Html.HiddenFor(model => model.singleTestResult.tries)
-            @Html.HiddenFor(model => model.singleTestResult.passed)
-            @Html.HiddenFor(model => model.startTime)
-            @Html.HiddenFor(model => model.endTime)
-            @Html.HiddenFor(model => model.code)
+                    <!-- Test Editors -->
+                    <div class="wrapper test-editors-wrapper">
+                        <div class="test-editor-container" id="test-editor-csharp-1">
+                            <textarea class="editor" asp-for="code" id="input" name="code" rows="10">@Model.code</textarea>
+                        </div>
+                        <div class="test-editor-container" id="test-editor-csharp-2">
+                            <textarea readonly class="output" id="output" rows="10">@output</textarea>
+                        </div>
+                    </div>
 
-            <input type="submit" value="Neste" />
-        }*@
+                    <div class="row testview-btn-wrapper">
+                        <div class="col-sm-6">
+                            <input type="submit" name="submitBtn" value="RunCode" class="btn btn-success btn-testview" id="codeBtn" />
+                        </div>
+                        <div class="col-sm-6 align-right">
+                            <input type="submit" name="submitBtn" value="NextTask" class="btn btn-success btn-testview" />
+                        </div>
+                    </div>
+                }
 
-            @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
+                @*@using (Html.BeginForm("Neste", "Test", FormMethod.Post))
+                {
+                    @Html.HiddenFor(model => model.singleTestResult.userId)
+                    @Html.HiddenFor(model => model.singleTestResult.testId)
+                    @Html.HiddenFor(model => model.task.testId)
+                    @Html.HiddenFor(model => model.task.category)
+                    @Html.HiddenFor(model => model.task.difficulty)
+                    @Html.HiddenFor(model => model.task.test)
+                    @Html.HiddenFor(model => model.singleTestResult.tries)
+                    @Html.HiddenFor(model => model.singleTestResult.passed)
+                    @Html.HiddenFor(model => model.startTime)
+                    @Html.HiddenFor(model => model.endTime)
+                    @Html.HiddenFor(model => model.code)
 
-            {
-                <button id="btn-login" new { onclick="return confirm('Er du sikker på at du vil kaste inn håndklet? Du vil bli logget ut og tatt tilbake til innlogging.');" })>
-                    Gi opp
-                </button>
-            }
+                    <input type="submit" value="Neste" />
+                }*@
+
+            </div>
+            <!-- End Test Content -->
         </div>
     </div>
 
-    <!-- Codemirror-->
-
+    <!-- Codemirror Script Files -->
     <script src="~/codemirror/lib/codemirror.js"></script>
     <script src="~/codemirror/mode/javascript/javascript.js"></script>
     <script src="~/codemirror/mode/xml/xml.js"></script>
@@ -91,6 +107,4 @@
     <script src="~/codemirror/mode/clike/clike.js"></script>
     <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
     <script src="~/js/TestViewConfiguration.js"></script>
-
 </body>
-</html>
