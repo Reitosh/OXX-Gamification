@@ -56,6 +56,7 @@
 
         #kode {
             display: none;
+            
         }
     </style>
 
@@ -88,10 +89,10 @@
         @Html.HiddenFor(model => model.singleTestResult.passed)
         @Html.HiddenFor(model => model.startTime)
         @Html.HiddenFor(model => model.endTime)
-        
 
 
-        <textarea asp-for="code" id="kode"></textarea>
+
+        <textarea asp-for="code" id="kode"></textarea> <!--Denne brukes kun for å sende koden videre til backend, skal ikke vises på siden-->
 
         <input type="submit" value="Neste" />
     }
@@ -109,7 +110,6 @@
     <script src="~/codemirror/addon/edit/closetag.js"></script>
     <script src="~/codemirror/addon/display/placeholder.js"></script>
 
-
     <script>
         var HTMLeditor = CodeMirror.fromTextArea(
             document.getElementById('htmlEditor'), {
@@ -123,7 +123,6 @@
             scrollbarStyle: "overlay",
             placeholder: "HTML"
         });
-
 
         var CSSeditor = CodeMirror.fromTextArea(
             document.getElementById('CSSEditor'), {
@@ -147,7 +146,7 @@
             autoCloseTags: true,
             autoCloseBrackets: true,
             scrollbarStyle: "overlay",
-            placeholder: "JavaScript/Vue/React (React støtter foreløpig ikke JSX)"
+            placeholder: "JavaScript"
         });
 
         function showHtml() {
@@ -157,10 +156,10 @@
             var srcJs = JSeditor.getValue();
 
             var userInput = srcHtml + "<style type=text/css>" + srcCSS + "</style>" + "<script>" + srcJs + "<" + "/" + "script>";
-            
-            var vueTag = "<script src=\"https:\/\/npmcdn.com\/vue\/dist\/vue.js\"><\/script>"
+
+            var vueTag = "<script src=\"https:\/\/npmcdn.com\/vue\/dist\/vue.js\"><\/script>";
             var reactTag = "<script src=\"https:\/\/unpkg.com\/react@16\/umd\/react.development.js\" crossorigin><\/script>" +
-                "<script src=\"https:\/\/unpkg.com\/react-dom@16\/umd\/react-dom.development.js\" crossorigin><\/script>"
+                "<script src=\"https:\/\/unpkg.com\/react-dom@16\/umd\/react-dom.development.js\" crossorigin><\/script>";
             var fullInput;
 
             if ("@Model.task.category" == "Vue.js") {
@@ -172,7 +171,6 @@
             } else if ("@Model.task.category" == "HTML" || "@Model.task.category" == "JavaScript" || "@Model.task.category" == "CSS") {
                 fullInput = userInput;
             }
-
             document.getElementById('iframe').srcdoc = fullInput;
             document.getElementById('kode').value = fullInput;
         }
