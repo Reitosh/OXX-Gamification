@@ -86,6 +86,7 @@ namespace OXXGame.Controllers
                 if (Submit(testModel))
                 {
                     ModelState.Clear();
+                    ViewData["Output"] = null;
                     TestModel newModel = getModel();
 
                     if (newModel == null)
@@ -399,7 +400,7 @@ namespace OXXGame.Controllers
                 testModel.endTime = DateTime.Now;
                 testModel.singleTestResult.timeSpent = (testModel.endTime - testModel.startTime).ToString(@"hh\:mm\:ss");
 
-                FileHandler fileHandler = new FileHandler(/*@"C:\Users\siver\Desktop\oxxgameFileTest",true*/);
+                FileHandler fileHandler = new FileHandler();
                 string relativePath = string.Format("/{0}", HttpContext.Session.GetInt32(userId));
                 string fileName = string.Format(
                     "{0}_Ex{1}",
