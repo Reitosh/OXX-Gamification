@@ -35,6 +35,8 @@ namespace OXXGame.Controllers
         {
             if (loggedIn())
             {
+                // ViewData som er tildelt verdien av session-variabelen fra LoginController 
+                ViewData["username"] = HttpContext.Session.GetString("username");
                 return View();
             }
             else
@@ -373,6 +375,7 @@ namespace OXXGame.Controllers
                 testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
                 return;
             }
+            
             SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
             string output = ssh.RunCode(testModel);
 
