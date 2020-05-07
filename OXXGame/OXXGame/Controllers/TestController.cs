@@ -64,9 +64,11 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        [HttpPost]
         public ActionResult SubmitCode(TestModel testModel, string submitBtn)
         {
             RunCode(testModel);
+            ModelState.Clear();
 
             switch (submitBtn)
             {
@@ -79,6 +81,7 @@ namespace OXXGame.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult Neste(TestModel testModel)
         {
             if (loggedIn())
@@ -103,6 +106,7 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        [HttpGet]
         public ActionResult DecideView(TestModel dModel) 
         {
             if (dModel.task.category == "HTML" || dModel.task.category == "CSS" || dModel.task.category == "JavaScript" || 
@@ -382,7 +386,7 @@ namespace OXXGame.Controllers
             {
                 testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
             }
-            else if (output.Equals("Passed"))
+            else if (output.Equals("Passed\n"))
             {
                 testModel.singleTestResult.passed = SingleTestResult.PASSED;
             }

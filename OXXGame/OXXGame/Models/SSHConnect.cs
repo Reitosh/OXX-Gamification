@@ -75,6 +75,31 @@ namespace OXXGame.Models
             }
         }
 
+        public string RunCsharp(TestModel testModel)
+        {
+            using (SshClient client = new SshClient(new ConnectionInfo(
+                    host, user, new PasswordAuthenticationMethod(user, password))))
+            {
+
+                client.Connect();
+
+                string command = string.Format("sudo sh /home/Markus/Testing/{0}.sh '{1}' '{2}' '{3}'",
+                       testModel.task.category,
+                       testModel.singleTestResult.userId,
+                       testModel.task.testId,
+                       FormatCode(testModel.code, testModel.singleTestResult.userId.ToString(), testModel.task.testId.ToString())
+                       );
+
+                SshCommand runCommand = client.RunCommand(command);
+                string output = runCommand.Result;
+
+                Debug.WriteLine("ja her valgte {0} da", testModel.task.category);
+                Debug.WriteLine(output);
+                client.Disconnect();
+                return output;
+            }
+        }
+
         private static string FormatCode(string code, string userId, string testId)
         {
             string formattedCode = code;
@@ -98,37 +123,17 @@ namespace OXXGame.Models
             }
 
             // Legger til \ foran "
-            if (formattedCode.Contains("\""))
+            if (formattedCode.Contains("'"))
             {
-                formattedCode = formattedCode.Replace("\"", @"\" + "\"");
+                formattedCode = formattedCode.Replace("'", @"\" + "'");
             }
-
+            /*
+            if (formattedCode.Contains("*"))
+            {
+                formattedCode = formattedCode.Replace("*", "\"*\"");
+            }
+            */
             return formattedCode;
-        }
-
-        public string RunCsharp(TestModel testModel)
-        {
-            using (SshClient client = new SshClient(new ConnectionInfo(
-                    host, user, new PasswordAuthenticationMethod(user, password))))
-            {
-
-                client.Connect();
-
-                string command = string.Format("sudo sh /home/Markus/Testing/{0}.sh '{1}' '{2}' \"{3}\"",
-                       testModel.task.category,
-                       testModel.singleTestResult.userId,
-                       testModel.task.testId,
-                       FormatCode(testModel.code, testModel.singleTestResult.userId.ToString(), testModel.task.testId.ToString())
-                       );
-
-                SshCommand runCommand = client.RunCommand(command);
-                string output = runCommand.Result;
-
-                Debug.WriteLine("ja her valgte {0} da", testModel.task.category);
-                Debug.WriteLine(output);
-                client.Disconnect();
-                return output;
-            }
         }
     }
 }
