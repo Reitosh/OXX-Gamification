@@ -75,7 +75,7 @@ namespace OXXGame.Models
             }
         }
 
-        private static string FormatCode(string code, string userId, string testId) 
+        private static string FormatCode(string code, string userId, string testId)
         {
             string formattedCode = code;
 
@@ -100,11 +100,12 @@ namespace OXXGame.Models
             // Legger til \ foran "
             if (formattedCode.Contains("\""))
             {
-                formattedCode = formattedCode.Replace("\"",@"\" + "\"");
+                formattedCode = formattedCode.Replace("\"", @"\" + "\"");
             }
 
             return formattedCode;
-          
+        }
+
         public string RunCsharp(TestModel testModel)
         {
             using (SshClient client = new SshClient(new ConnectionInfo(
@@ -117,7 +118,7 @@ namespace OXXGame.Models
                        testModel.task.category,
                        testModel.singleTestResult.userId,
                        testModel.task.testId,
-                       FormatCode(testModel.code,testModel.singleTestResult.userId.ToString(),testModel.task.testId.ToString())
+                       FormatCode(testModel.code, testModel.singleTestResult.userId.ToString(), testModel.task.testId.ToString())
                        );
 
                 SshCommand runCommand = client.RunCommand(command);
