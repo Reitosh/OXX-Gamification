@@ -1,66 +1,84 @@
-﻿@{
-
+@{
     ViewData["Title"] = "Testinfo";
-
+    var username = ViewData["username"];
 }
 
-<!DOCTYPE html>
-<html lang="nb">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>OXXGame - @ViewData["Title"]</title>
-
-    <!-- Linked Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap" rel="stylesheet">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-
-    <!-- Linked CSS Files -->
-    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
-    <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
-
-</head>
 <body>
     <!-- TESTINFO -->
-    <div class="section section-user-reg">
-        <div class="container container-user-reg">
-            <h2>Velkommen til OXX sin evnetest</h2>
+    <div class="section section-testinfo">
+        <div class="container container-testinfo">
+            <h2>Testinformasjon</h2>
             <span class="underline"></span>
 
+            <!-- Test Introduction Content -->
+            <div class="wrapper testinfo-wrapper" id="testinfo-intro">
+                <h3>Hei @username!</h3>
 
+                <p class="testinfo-intro">
+                    Velkommen til Oxx sin evnetest! Du skal nå igjennom en rekke varierende kodeoppgaver som vil
+                    teste dine ferdigheter innenfor teknologiene som ble presentert under brukerregistreringen. 
+                    Denne testen vil ikke være avgjørende for ansettelsesprosessen, men den vil vise oss hvordan 
+                    du tenker som utvikler, samt hvor kjent du er med noen av teknologiene vi bruker i Oxx. Vennligst 
+                    les deg godt gjennom all testinformasjon før du setter i gang. Du kan når som helst avslutte 
+                    testen, men merk at din progresjon vil bli lagret og dette vil betraktes som et testforsøk. 
+                </p>
+            </div>
 
-            @using (Html.BeginForm("Avbryt", "Test", FormMethod.Get))
-            {
-                <div class="info-avbryt">
-                    <input type="submit" name="avbryt" value="Avbryt" />
+            <span class="divider"></span>
+
+            <!-- Test Details Content -->
+            <div class="wrapper testinfo-wrapper" id="testinfo-test-details">
+                <div class="test-details-infobox" id="test-details-infobox-1">
+                    <div class="test-details-icon" id="testinfo-icon-1">
+                        <img src="~/images/icons/icon_time.png" alt="icon-time" />
+                    </div>
+                    <div class="test-details-content" id="test-details-1">
+                        <h4>Ingen tidsbegrensninger</h4>
+                        <p>
+                            Det er ingen tidsbegrensninger på testen. Allikevel, tiden du bruker vil bli lagret
+                            og brukt til vurdering av resultatet. Men ikke la dette påvirke deg. Bruk den tiden
+                            du trenger på å løse alle oppgavene.
+                        </p>
+                    </div>
                 </div>
-            }
+                <div class="test-details-infobox" id="test-details-infobox-2">
+                    <div class="test-details-content" id="test-details-2">
+                        <h4>Kategorier og vansklighetsgrad</h4>
+                        <p>
+                            Oppgavene i testen vil ha varierende vanskelighetsgrad og baseres på om du har
+                            erfaring i gjeldende teknologi eller ikke. Hvilken teknologi oppgaven er knyttet
+                            til vil vises under "Kategori".
+                        </p>
+                    </div>
+                    <div class="test-details-icon" id="testinfo-icon-2">
+                        <img src="~/images/icons/icon_level.png" alt="icon-level" />
+                    </div>
+                </div>
+                <div class="test-details-infobox" id="test-details-infobox-3">
+                    <div class="test-details-icon" id="testinfo-icon-3">
+                        <img src="~/images/icons/icon_code.png" alt="icon-code" />
+                    </div>
+                    <div class="test-details-content" id="test-details-3">
+                        <h4>Kode og oppgaveløsning</h4>
+                        <p>
+                            Alle oppgaver skal gjennomføres i teksteditoren som vises på venstresiden av skjermen.
+                            Du kan kjøre og teste koden du skriver flere ganger. Resultatet du får vil vises i
+                            editoren ved siden av.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <span class="divider"></span>
 
             @using (Html.BeginForm("StartTest", "Test", FormMethod.Get))
             {
-                <div class="info-neste">
-                    <input id="btn-login" type="submit" name="neste" value="Start test!" />
+                <div class="wrapper testinfo-btn-wrapper">
+                    <input type="submit" name="startTest" value="Start testen" class="btn btn-success btn-testinfo" />
                 </div>
+
             }
         </div>
     </div>
     <!-- END TESTINFO -->
-
-    <!-- Bootstrap Script Files -->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Linked Script Files -->
-    <script src="~/js/nav_scroll.js"></script>
 </body>
-</html>
-
-
-

@@ -35,6 +35,8 @@ namespace OXXGame.Controllers
         {
             if (loggedIn())
             {
+                // ViewData som er tildelt verdien av session-variabelen fra LoginController 
+                ViewData["username"] = HttpContext.Session.GetString("username");
                 return View();
             }
             else
@@ -64,9 +66,11 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        [HttpPost]
         public ActionResult SubmitCode(TestModel testModel, string submitBtn)
         {
             RunCode(testModel);
+            ModelState.Clear();
 
             switch (submitBtn)
             {
@@ -79,6 +83,7 @@ namespace OXXGame.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult Neste(TestModel testModel)
         {
             if (loggedIn())
@@ -86,6 +91,7 @@ namespace OXXGame.Controllers
                 if (Submit(testModel))
                 {
                     ModelState.Clear();
+                    ViewData["Output"] = null;
                     TestModel newModel = getModel();
 
                     if (newModel == null)
@@ -102,6 +108,7 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        [HttpGet]
         public ActionResult DecideView(TestModel dModel) 
         {
             if (dModel.task.category == "HTML" || dModel.task.category == "CSS" || dModel.task.category == "JavaScript" || 
@@ -367,6 +374,12 @@ namespace OXXGame.Controllers
         // Besvarelse underkjennes ved feilmelding fra (en av følgende): C#-kompilator, C#-test, TS-kompilator
         public void RunCode(TestModel testModel)
         {
+            if (testModel.code == null)
+            {
+                testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
+                return;
+            }
+            
             SSHConnect ssh = new SSHConnect("Markus", "Plainsmuchj0urney", "51.140.218.174");
             string output = ssh.RunCode(testModel);
 
@@ -375,7 +388,7 @@ namespace OXXGame.Controllers
             {
                 testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
             }
-            else if (output.Equals("Passed"))
+            else if (output.Equals("Passed\n"))
             {
                 testModel.singleTestResult.passed = SingleTestResult.PASSED;
             }
@@ -393,13 +406,25 @@ namespace OXXGame.Controllers
                 testModel.endTime = DateTime.Now;
                 testModel.singleTestResult.timeSpent = (testModel.endTime - testModel.startTime).ToString(@"hh\:mm\:ss");
 
-                FileHandler fileHandler = new FileHandler(/*@"C:\Users\siver\Desktop\oxxgameFileTest",true*/);
+
+                FileHandler fileHandler = new FileHandler();
+
                 string relativePath = string.Format("/{0}", HttpContext.Session.GetInt32(userId));
-                string fileName = string.Format(
+                string fileName;
+
+                //if (testModel.task.category == "HTML" || testModel.task.category == "CSS" || 
+                //    testModel.task.category == "JavaScript" || testModel.task.category == "Vue.js")
+                //{
+                //    fileName = string.Format("{0}_Ex{1}.html", testModel.task.category, testModel.task.testId);
+                //} 
+                //else
+                //{
+                    fileName = string.Format(
                     "{0}_Ex{1}",
                     testModel.task.category,
                     testModel.task.testId
                     );
+                //}
 
                 if (fileName.StartsWith(".")) { fileName = fileName.Replace(".", "dot"); }
 
