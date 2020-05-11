@@ -45,9 +45,20 @@ namespace OXXGame.Controllers
                 DB db = new DB(dbContext);
                 List<User> users = db.allUsers();
                 List<Result> results = db.allResults();
+                List<SingleTestResult> singleTestResults = db.allSingleTestResults();
+                List<Models.Task> tasks = db.allTasks();
+
+                Dictionary<int, string> dictionary = new Dictionary<int, string>();
+
+                foreach (Models.Task task in tasks)
+                {
+                    dictionary.Add(task.testId, task.category);
+                }
 
                 ViewData["Users"] = users;
                 ViewData["Results"] = results;
+                ViewData["SingleTestResults"] = singleTestResults;
+                ViewData["category"] = dictionary;
 
                 return View("UserAdmin");
             }
