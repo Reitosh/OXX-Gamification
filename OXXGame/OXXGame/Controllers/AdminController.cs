@@ -8,6 +8,7 @@ using OXXGame.Models;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Web;
 
 namespace OXXGame.Controllers
 {
@@ -38,13 +39,21 @@ namespace OXXGame.Controllers
             }
         }
 
+        public ActionResult DownloadFile(string path)
+        {
+            //path = @"C:\Users\siver\Desktop\test.txt";
+            return PhysicalFile(path, "text/plain", path);
+        }
+
         public ActionResult UserAdmin()
         {
             if (AdminLoggedIn()) 
             {
                 DB db = new DB(dbContext);
                 List<User> users = db.allUsers();
-                List<Result> results = db.allResults();
+                List<SingleTestResult> results = db.allSingleTestResults();
+                
+                List<Models.Task> tasks = db.allTasks();
 
                 ViewData["Users"] = users;
                 ViewData["Results"] = results;

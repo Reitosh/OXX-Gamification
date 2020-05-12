@@ -8,7 +8,7 @@
 
 @{ 
     var users = (List<User>) ViewData["Users"];
-    var results = (List<Result>) ViewData["Results"];
+    var results = (List<SingleTestResult>) ViewData["Results"];
 }
 
 <table class="table" style="color:#ffffff">
@@ -37,15 +37,12 @@
                 </th>
             </tr>
 
-            @foreach (Result result in results)
+            @foreach (SingleTestResult result in results)
             {
                 if (result.userId == user.userId)
                 {
                     <tr id="info_@i" class="collapse">
-                        <th>Tests: @result.tests</th>
-                        <th>Failed: @result.testsFailed</th>
-                        <th>Passed: @result.testsPassed</th>
-                        <th>Time: @result.timeUsed</th>
+                        <th>@Html.ActionLink("Download","DownloadFile","Admin", new { path = result.codeLink })</th>
                     </tr>
                 }
             }
