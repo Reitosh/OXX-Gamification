@@ -20,7 +20,7 @@ var editor = CodeMirror.fromTextArea(
     autoCloseBrackets: true,
     scrollbarStyle: "overlay",
 });
-editor.setSize("700", "400");
+editor.setSize("100%", "650");
 
 var outputWindow = CodeMirror.fromTextArea(
     document.getElementById('output'), {
@@ -29,7 +29,7 @@ var outputWindow = CodeMirror.fromTextArea(
     scrollbarStyle: "overlay",
     readOnly: "nocursor",
 });
-outputWindow.setSize("500", "150");
+outputWindow.setSize("100%", "650");
 
 
 

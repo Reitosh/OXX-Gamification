@@ -11,7 +11,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>OXXGame - @ViewData["Title"]</title>
+    <title>OXX Test - @ViewData["Title"]</title>
 
     <!-- Linked Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
@@ -32,14 +32,14 @@
 </head>
 <body>
     <!-- LOGIN -->
-    <div class="page-background">
-        <div class="container container-login">
-            <div class="login-box">
+    <div class="page-background page-background-login">
+        <div class="wrapper form-wrapper">
+            <div class="form-box-login">
                 <img src="../images/brand/logo_hvit.png" alt="logo" />
 
                 <!-- Login Form -->
                 @using (Html.BeginForm("Login", "Login", FormMethod.Post,
-                  new { name="formLogin", id="form-login", onsubmit="return loginAll()", novalidate="true" }))
+                  new { name = "formLogin", id = "form-login", onsubmit = "return loginAll()", novalidate = "true" }))
                 {
                     <div class="form-group">
                         <input asp-for="email" type="text" name="email" class="form-control"
@@ -60,8 +60,9 @@
                         <input type="submit" name="login" value="Logg inn" class="btn btn-success btn-form-login" />
                     </div>
 
-                    <div class="login-links">
-                        <div class="login-links-content p-small" id="login-links-forgot">
+                    <!-- Login Form External Links -->
+                    <div class="form-content-login">
+                        <div class="login-links p-small" id="login-links-forgot">
                             <a href="#">Glemt brukernavn eller passord?</a>
                         </div>
                         <div class="login-links-content p-small" id="login-links-reg">
