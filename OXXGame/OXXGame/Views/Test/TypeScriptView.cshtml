@@ -44,16 +44,12 @@
         <label class="test-text">Oppgave: @Model.task.test</label><br />
 
         <div id="TSContainer">
-            <!--<textarea id="htmlEditor"></textarea>-->
             <textarea asp-for="code" id="TypeScriptEditor">@Model.code</textarea>
 
             <input type="submit" name="submitBtn" value="RunCode" />
         </div>
         <textarea id="error"></textarea>
         <iframe id="TSiframe"></iframe>
-
-
-
 
         @Html.HiddenFor(model => model.singleTestResult.userId)
         @Html.HiddenFor(model => model.singleTestResult.testId)
@@ -69,21 +65,6 @@
         <input type="submit" name="submitBtn" value="NextTask" />
     }
 
-    @*@using (Html.BeginForm("Neste", "Test", FormMethod.Get))
-        {
-            @Html.HiddenFor(model => model.singleTestResult.userId)
-            @Html.HiddenFor(model => model.singleTestResult.testId)
-            @Html.HiddenFor(model => model.task.testId)
-            @Html.HiddenFor(model => model.task.category)
-            @Html.HiddenFor(model => model.task.difficulty)
-            @Html.HiddenFor(model => model.task.test)
-            @Html.HiddenFor(model => model.singleTestResult.tries)
-            @Html.HiddenFor(model => model.singleTestResult.passed)
-            @Html.HiddenFor(model => model.startTime)
-            @Html.HiddenFor(model => model.endTime)
-
-            <input type="submit" name="submitBtn" value="NextTask" />
-        }*@
     <!-- Scripts -->
     <script src="~/codemirror/lib/codemirror.js"></script>
     <script src="~/codemirror/mode/xml/xml.js"></script>
@@ -97,22 +78,7 @@
     <script src="~/codemirror/addon/edit/closetag.js"></script>
     <script src="~/codemirror/addon/display/placeholder.js"></script>
 
-
     <script>
-
-        /* var HTMLeditor = CodeMirror.fromTextArea(
-            document.getElementById('htmlEditor'), {
-            mode: "htmlmixed",
-            theme: "base16-dark",
-            lineNumbers: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            autoCloseTags: true,
-            autoCloseBrackets: true,
-            scrollbarStyle: "overlay",
-            placeholder: "HTML"
-        });*/
-
         var TypeScriptEditor = CodeMirror.fromTextArea(
                 document.getElementById('TypeScriptEditor'), {
                 mode: "application/typescript",
@@ -150,7 +116,6 @@
                 var srcTypeScript = "<script>" + decoded + "<" + "/" + "script>";
                 document.getElementById('TSiframe').srcdoc = srcTypeScript;
             }
-
         }
     </script>
 </body>
