@@ -9,7 +9,7 @@ namespace OXXGame.Models
     public class FileHandler
     {
         private string path = "/home/submission_files";
-        private string extension = ".txt";
+        //private string extension = ".txt";
         private bool windows = false;
 
         public FileHandler() { }
@@ -21,7 +21,7 @@ namespace OXXGame.Models
             this.windows = windows;
         }
 
-        public string saveFile(string relativePath, string fileName, List<string> fileContent)
+        public string saveFile(string relativePath, string fileName, List<string> fileContent, string extension)
         {
             string absolutePath = path + relativePath;
             if (! Directory.Exists(absolutePath))
@@ -46,7 +46,7 @@ namespace OXXGame.Models
 
             return fileAbsolutePath;
         }
-
+        /*
         public List<string> getFile(string relativePath, string fileName)
         {
             string fileAbsolutePath = path + relativePath + "/" + fileName + extension;
@@ -62,7 +62,7 @@ namespace OXXGame.Models
 
             return fileContent;
         }
-
+        */
         public static List<string> stringToList(string inputString)
         {
             List<string> codeLines = new List<string>();
@@ -85,6 +85,19 @@ namespace OXXGame.Models
             
 
             return codeLines;
+        }
+
+        public static string getFileExtension(string category)
+        {
+            switch (category)
+            {
+                case "C#":
+                    return ".cs";
+                case "TypeScript":
+                    return ".ts";
+                default:
+                    return ".html";
+            }
         }
     }
 }

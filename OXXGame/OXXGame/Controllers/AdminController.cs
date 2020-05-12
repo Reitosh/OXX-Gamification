@@ -41,8 +41,7 @@ namespace OXXGame.Controllers
 
         public ActionResult DownloadFile(string path)
         {
-            //path = @"C:\Users\siver\Desktop\test.txt";
-            return PhysicalFile(path, "text/plain", path);
+            return PhysicalFile(path, "text/plain");
         }
 
         public ActionResult UserAdmin()
