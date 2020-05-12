@@ -48,17 +48,21 @@ namespace OXXGame.Controllers
                 List<SingleTestResult> singleTestResults = db.allSingleTestResults();
                 List<Models.Task> tasks = db.allTasks();
 
-                Dictionary<int, string> dictionary = new Dictionary<int, string>();
+                Dictionary<int, string> category = new Dictionary<int, string>();
+                Dictionary<int, int> difficulty = new Dictionary<int, int>();
 
                 foreach (Models.Task task in tasks)
                 {
-                    dictionary.Add(task.testId, task.category);
+                    category.Add(task.testId, task.category);
+                    difficulty.Add(task.testId, task.difficulty);
+
                 }
 
                 ViewData["Users"] = users;
                 ViewData["Results"] = results;
                 ViewData["SingleTestResults"] = singleTestResults;
-                ViewData["category"] = dictionary;
+                ViewData["category"] = category;
+                ViewData["difficulty"] = difficulty;
 
                 return View("UserAdmin");
             }
