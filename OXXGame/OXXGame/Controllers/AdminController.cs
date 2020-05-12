@@ -51,8 +51,8 @@ namespace OXXGame.Controllers
             string zipPath = directoryPath + "/User_" + userId + "_code.zip";
 
             ZipFile.CreateFromDirectory(directoryPath, zipPath);
-
-            return PhysicalFile(zipPath, "application/zip", "User_" + userId + "_code.zip");
+            byte[] bytes = System.IO.File.ReadAllBytes(zipPath);
+            return File(bytes, System.Net.Mime.MediaTypeNames.Application.Octet, "User_" + userId + "_code.zip");
         }
 
         public ActionResult UserAdmin()
