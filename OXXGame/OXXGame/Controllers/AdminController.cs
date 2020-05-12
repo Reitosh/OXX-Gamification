@@ -41,7 +41,7 @@ namespace OXXGame.Controllers
 
         public ActionResult DownloadFile(string path, string category)
         {
-            return PhysicalFile(path, "text/plain", "example" + FileHandler.getFileExtension(category));
+            return File(path, "text/plain", "example" + FileHandler.getFileExtension(category));
         }
 
         public ActionResult UserAdmin()
