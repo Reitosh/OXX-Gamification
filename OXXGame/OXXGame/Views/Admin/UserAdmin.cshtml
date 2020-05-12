@@ -8,7 +8,6 @@
 
 @{ 
     var users = (List<User>) ViewData["Users"];
-    var results = (List<Result>) ViewData["Results"];
     var singleTestResults = (List<SingleTestResult>)ViewData["SingleTestResults"];
     var categories = (Dictionary<int,string>) ViewData["category"];
     var difficulties = (Dictionary<int, int>)ViewData["difficulty"];
@@ -40,22 +39,12 @@
                     </button>
                 </th>
                 <th>
+                    @Html.ActionLink("Last ned alle", "DownloadAllZip", "Admin", new { userId = user.userId})
+                </th>
+                <th>
                     @Html.ActionLink("Slett", "DeleteUser", "Admin", new { userId = user.userId }, new { onclick = "return confirm('Er du sikker på at du vil slette denne brukeren?');" })
                 </th>
             </tr>
-
-            @foreach (Result result in results)
-            {
-                if (result.userId == user.userId)
-                {
-                    <tr id="info_@i" class="collapse">
-                        <th>Tests: @result.tests</th>
-                        <th>Failed: @result.testsFailed</th>
-                        <th>Passed: @result.testsPassed</th>
-                        <th>Total Time: @result.timeUsed</th>
-                    </tr>
-                }
-            }
 
             @foreach (SingleTestResult singleTestResult in singleTestResults)
             {
@@ -65,8 +54,15 @@
                     <th>Antall forsøk: @singleTestResult.tries</th>
                     <th>Tid brukt: @singleTestResult.timeSpent</th>
                     <th>Kategori: @categories[singleTestResult.testId]</th>
-                    <th>Vanskelighetsgrad: @difficulties[singleTestResult.testId]</th>
-                    <th>Input kode: @singleTestResult.codeLink</th>
+                    <th>Vanskelighetsgrad: @difficulties[singleTestResult.testId]/2</th>
+                    <th>@singleTestResult.passed</th>
+                    
+                    <th>@Html.ActionLink("Last ned","DownloadFile","Admin", new { 
+                       path = singleTestResult.codeLink,
+                       category = categories[singleTestResult.testId],
+                       userId = user.userId,
+                       testId = singleTestResult.testId
+                   })</th>
                 </tr>
                 }
              }
