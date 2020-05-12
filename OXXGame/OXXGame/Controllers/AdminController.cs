@@ -10,6 +10,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Web;
 using System.IO.Compression;
+using System.IO;
 
 namespace OXXGame.Controllers
 {
@@ -48,11 +49,15 @@ namespace OXXGame.Controllers
         public FileResult DownloadAllZip(int userId)
         {
             string directoryPath = "/home/submission_files/" + userId;
-            string zipPath = directoryPath + "/User_" + userId + "_code.zip";
+            string zipPath = "/home/submission_files/zips/" + userId + "_code.zip";
+
+            if (System.IO.File.Exists(zipPath))
+            {
+                System.IO.File.Delete(zipPath);
+            }
 
             ZipFile.CreateFromDirectory(directoryPath, zipPath);
-            byte[] bytes = System.IO.File.ReadAllBytes(zipPath);
-            return File(bytes, System.Net.Mime.MediaTypeNames.Application.Octet, "User_" + userId + "_code.zip");
+            return PhysicalFile(zipPath, "application/zip", "User_" + userId + "_code.zip");
         }
 
         public ActionResult UserAdmin()
