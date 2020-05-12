@@ -11,6 +11,7 @@
     var results = (List<Result>) ViewData["Results"];
     var singleTestResults = (List<SingleTestResult>)ViewData["SingleTestResults"];
     var categories = (Dictionary<int,string>) ViewData["category"];
+    var difficulties = (Dictionary<int, int>)ViewData["difficulty"];
 }
 
 <table class="table" style="color:#ffffff">
@@ -31,8 +32,8 @@
                 <th>@user.firstname</th>
                 <th>@user.lastname</th>
                 <th>@user.email</th>
-                <th>Tid brukt</th>
-                <th>Antall korrekt</th>
+                <th>Tid brukt: </th>
+                <th>Antall korrekt: </th>
                 <th>
                     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#info_@i">
                         Resultater
@@ -64,7 +65,7 @@
                     <th>Antall forsøk: @singleTestResult.tries</th>
                     <th>Tid brukt: @singleTestResult.timeSpent</th>
                     <th>Kategori: @categories[singleTestResult.testId]</th>
-                    <th>Vanskelighetsgrad: </th>
+                    <th>Vanskelighetsgrad: @difficulties[singleTestResult.testId]</th>
                     <th>Input kode: @singleTestResult.codeLink</th>
                 </tr>
                 }
