@@ -8,7 +8,6 @@
 
 @{ 
     var users = (List<User>) ViewData["Users"];
-    var results = (List<Result>) ViewData["Results"];
     var singleTestResults = (List<SingleTestResult>)ViewData["SingleTestResults"];
     var categories = (Dictionary<int,string>) ViewData["category"];
     var difficulties = (Dictionary<int, int>)ViewData["difficulty"];
@@ -44,20 +43,6 @@
                 </th>
             </tr>
 
-            @foreach (SingleTestResult result in results)
-            {
-                if (result.userId == user.userId)
-                {
-                    <tr id="info_@i" class="collapse">
-                        <th>Tests: @result.tests</th>
-                        <th>Failed: @result.testsFailed</th>
-                        <th>Passed: @result.testsPassed</th>
-                        <th>Total Time: @result.timeUsed</th>
-                        <th>@Html.ActionLink("Download","DownloadFile","Admin", new { path = result.codeLink })</th>
-                    </tr>
-                }
-            }
-
             @foreach (SingleTestResult singleTestResult in singleTestResults)
             {
                 if (singleTestResult.userId == user.userId)
@@ -67,7 +52,13 @@
                     <th>Tid brukt: @singleTestResult.timeSpent</th>
                     <th>Kategori: @categories[singleTestResult.testId]</th>
                     <th>Vanskelighetsgrad: @difficulties[singleTestResult.testId]</th>
-                    <th>Input kode: @singleTestResult.codeLink</th>
+                    
+                    <th>@Html.ActionLink("Download","DownloadFile","Admin", new { 
+                       path = singleTestResult.codeLink, 
+                       userId = user.userId,
+                       category = categories[singleTestResult.testId],
+                       testId = singleTestResult.testId
+                   })</th>
                 </tr>
                 }
              }
