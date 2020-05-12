@@ -44,7 +44,7 @@
                 </th>
             </tr>
 
-            @foreach (Result result in results)
+            @foreach (SingleTestResult result in results)
             {
                 if (result.userId == user.userId)
                 {
@@ -53,6 +53,7 @@
                         <th>Failed: @result.testsFailed</th>
                         <th>Passed: @result.testsPassed</th>
                         <th>Total Time: @result.timeUsed</th>
+                        <th>@Html.ActionLink("Download","DownloadFile","Admin", new { path = result.codeLink })</th>
                     </tr>
                 }
             }

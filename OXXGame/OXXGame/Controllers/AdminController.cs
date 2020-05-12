@@ -8,6 +8,7 @@ using OXXGame.Models;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Web;
 
 namespace OXXGame.Controllers
 {
@@ -36,6 +37,12 @@ namespace OXXGame.Controllers
             {
                 return RedirectToAction("Index","Login");
             }
+        }
+
+        public ActionResult DownloadFile(string path)
+        {
+            //path = @"C:\Users\siver\Desktop\test.txt";
+            return PhysicalFile(path, "text/plain", path);
         }
 
         public ActionResult UserAdmin()
