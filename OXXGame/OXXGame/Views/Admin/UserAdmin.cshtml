@@ -39,6 +39,9 @@
                     </button>
                 </th>
                 <th>
+                    @Html.ActionLink("Last ned alle", "DownloadAllZip", "Admin", new { userId = user.userId})
+                </th>
+                <th>
                     @Html.ActionLink("Slett", "DeleteUser", "Admin", new { userId = user.userId }, new { onclick = "return confirm('Er du sikker på at du vil slette denne brukeren?');" })
                 </th>
             </tr>
@@ -51,12 +54,13 @@
                     <th>Antall forsøk: @singleTestResult.tries</th>
                     <th>Tid brukt: @singleTestResult.timeSpent</th>
                     <th>Kategori: @categories[singleTestResult.testId]</th>
-                    <th>Vanskelighetsgrad: @difficulties[singleTestResult.testId]</th>
+                    <th>Vanskelighetsgrad: @difficulties[singleTestResult.testId]/2</th>
+                    <th>@singleTestResult.passed</th>
                     
-                    <th>@Html.ActionLink("Download","DownloadFile","Admin", new { 
-                       path = singleTestResult.codeLink, 
-                       userId = user.userId,
+                    <th>@Html.ActionLink("Last ned","DownloadFile","Admin", new { 
+                       path = singleTestResult.codeLink,
                        category = categories[singleTestResult.testId],
+                       userId = user.userId,
                        testId = singleTestResult.testId
                    })</th>
                 </tr>
