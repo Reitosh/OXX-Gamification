@@ -14,6 +14,7 @@
             <th scope="col">Exercise</th>
             <th scope="col">Difficulty</th>
             <th scope="col">Category</th>
+            <th scope="col">Template</th>
         </tr>
     </thread>
     <tbody>
@@ -23,6 +24,7 @@
                 <th>@task.test</th>
                 <th>@task.difficulty</th>
                 <th>@task.category</th>
+                <th>@task.template</th>
                 <th>
                     @Html.ActionLink("Endre", "EditTask", "Admin", new { testId = task.testId })
                 </th>
