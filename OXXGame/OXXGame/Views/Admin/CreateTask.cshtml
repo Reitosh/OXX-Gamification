@@ -28,6 +28,9 @@
     <!-- Linked CSS Files -->
     <link rel="stylesheet" type="text/css" href="~/css/site.css" />
     <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
+    <link rel="stylesheet" type="text/css" href="~/codemirror/lib/codemirror.css" />
+    <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
+    <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -42,45 +45,53 @@
             <div class="wrapper wrapper-form" id="wrapper-form-reg">
 
                 @using (Html.BeginForm("CreateTask", "Admin", FormMethod.Post,
-                    new { name = "formReg", id = "form-reg", onsubmit = "return regAll()", novalidate = "true" }))
+                 new { name = "formReg", id = "form-reg", onsubmit = "return regAll()", novalidate = "true" }))
 
                 {
-                <div class="row">
-                    <div class="col-md-6">
-                        <label for="form-reg-test">Kategori</label>
-                        <div class="form-group">
-                            <select asp-for="category">
-                                @foreach (var category in categories)
-                                {
-                                    <option value="@category.category">@category.category</option>
-                                }
-                            </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="form-reg-test">Kategori</label>
+                            <div class="form-group">
+                                <select asp-for="category">
+                                    @foreach (var category in categories)
+                                    {
+                                        <option value="@category.category">@category.category</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="form-reg-test">Vanskelighetsgrad (0-2)</label>
+                            <div class="form-group">
+                                <select asp-for="difficulty">
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <label for="form-reg-test">Vanskelighetsgrad (0-2)</label>
-                        <div class="form-group">
-                            <select asp-for="difficulty">
-                                <option>0</option>
-                                <option>1</option>
-                                <option>2</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input asp-for="test" type="text" name="test" class="form-control"
-                                       id="form-reg-test" onchange="regTest()" required>
-                                <label class="float-label" for="form-reg-test">Oppgavetekst</label>
+                                <textarea placeholder="Oppgavetekst" asp-for="test" type="text" name="test" class="form-control"
+                                       id="form-reg-test" onchange="regTest()" required></textarea>
+                                <label class="float-label" for="form-reg-test"></label>
                                 <div class="form-error form-error-reg" id="form-error-reg-test"></div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-6">
+                            <p style="font-size: 12px">OBS! Viktig å merke seg at templates til HTML/CSS og JavaScript må være på formatet HTML&&&&CSS&&&&JavaScript</p>
+                            <textarea asp-for="template" name="template" id="templatess" onchange="regTest()" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-error form-error-reg" id="form-error-reg-test"></div>
+
+                    <div class="row">
                         <div class="col-md-12">
-                            <input type="submit" name="register" value="Lagre" class="btn btn-success btn-form-reg">
+                            <input type="submit" id="submitBtn" name="register" value="Lagre" class="btn btn-success btn-form-reg">
                         </div>
                     </div>
                 }
@@ -97,4 +108,15 @@
     <script src="~/js/nav_scroll.js"></script>
     <script src="~/js/toggle_passwd.js"></script>
     <script src="~/js/client_validation.js"></script>
+    <script src="~/codemirror/lib/codemirror.js"></script>
+    <script src="~/codemirror/mode/xml/xml.js"></script>
+    <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+    <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
+    <script src="~/codemirror/addon/edit/matchtags.js"></script>
+    <script src="~/codemirror/addon/edit/closetag.js"></script>
+    <script src="~/codemirror/addon/display/placeholder.js"></script>
+    <script src="~/js/AdminTemplate.js"></script>
+
+   
+
 </body>

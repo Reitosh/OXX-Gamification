@@ -66,9 +66,11 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        [HttpPost]
         public ActionResult SubmitCode(TestModel testModel, string submitBtn)
         {
             RunCode(testModel);
+            ModelState.Clear();
 
             switch (submitBtn)
             {
@@ -81,6 +83,7 @@ namespace OXXGame.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult Neste(TestModel testModel)
         {
             if (loggedIn())
@@ -105,6 +108,7 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        [HttpGet]
         public ActionResult DecideView(TestModel dModel) 
         {
             if (dModel.task.category == "HTML" || dModel.task.category == "CSS" || dModel.task.category == "JavaScript" || 
@@ -384,9 +388,13 @@ namespace OXXGame.Controllers
             {
                 testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
             }
-            else if (output.Equals("Passed"))
+            else if (output.Equals("Passed\n"))
             {
                 testModel.singleTestResult.passed = SingleTestResult.PASSED;
+            }
+            else 
+            {
+                testModel.singleTestResult.passed = SingleTestResult.UNDEFINED;
             }
 
             ViewData["Output"] = output;
@@ -408,25 +416,21 @@ namespace OXXGame.Controllers
                 string relativePath = string.Format("/{0}", HttpContext.Session.GetInt32(userId));
                 string fileName;
 
-                //if (testModel.task.category == "HTML" || testModel.task.category == "CSS" || 
-                //    testModel.task.category == "JavaScript" || testModel.task.category == "Vue.js")
-                //{
-                //    fileName = string.Format("{0}_Ex{1}.html", testModel.task.category, testModel.task.testId);
-                //} 
-                //else
-                //{
-                    fileName = string.Format(
-                    "{0}_Ex{1}",
-                    testModel.task.category,
-                    testModel.task.testId
-                    );
-                //}
+                fileName = string.Format(
+                "{0}_Ex{1}",
+                testModel.task.category,
+                testModel.task.testId
+                );
 
                 if (fileName.StartsWith(".")) { fileName = fileName.Replace(".", "dot"); }
 
                 List<string> code = FileHandler.stringToList(testModel.code);
 
-                testModel.singleTestResult.codeLink = fileHandler.saveFile(relativePath, fileName, code);
+                testModel.singleTestResult.codeLink = fileHandler.saveFile(
+                    relativePath, 
+                    fileName, 
+                    code,
+                    FileHandler.getFileExtension(testModel.task.category));
 
                 if (db.addSingleResult(testModel.singleTestResult))
                 {

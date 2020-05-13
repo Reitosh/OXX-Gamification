@@ -32,6 +32,12 @@
 
         #TScontainer {
             padding-top: 5%;
+            
+        }
+
+        .inline-div {
+            display: inline-block;
+            width: 49%;
         }
     </style>
 
@@ -43,17 +49,19 @@
         <label class="test-text">Vanskelighetsgrad: @Model.task.difficulty / 2</label><br />
         <label class="test-text">Oppgave: @Model.task.test</label><br />
 
-        <div id="TSContainer">
-            <!--<textarea id="htmlEditor"></textarea>-->
-            <textarea asp-for="code" id="TypeScriptEditor">@Model.code</textarea>
+     <div id="TScontainer">
+        <div class="inline-div">
+            <textarea asp-for="code" class="inline-txtarea" id="TypeScriptEditor">@Model.code</textarea>
+        </div>
+        <div class="inline-div">
+            <textarea id="JavaScript" class="inline-txtarea"></textarea>
+        </div>
+      </div>
 
             <input type="submit" name="submitBtn" value="RunCode" />
-        </div>
+        
         <textarea id="error"></textarea>
         <iframe id="TSiframe"></iframe>
-
-
-
 
         @Html.HiddenFor(model => model.singleTestResult.userId)
         @Html.HiddenFor(model => model.singleTestResult.testId)
@@ -69,21 +77,6 @@
         <input type="submit" name="submitBtn" value="NextTask" />
     }
 
-    @*@using (Html.BeginForm("Neste", "Test", FormMethod.Get))
-        {
-            @Html.HiddenFor(model => model.singleTestResult.userId)
-            @Html.HiddenFor(model => model.singleTestResult.testId)
-            @Html.HiddenFor(model => model.task.testId)
-            @Html.HiddenFor(model => model.task.category)
-            @Html.HiddenFor(model => model.task.difficulty)
-            @Html.HiddenFor(model => model.task.test)
-            @Html.HiddenFor(model => model.singleTestResult.tries)
-            @Html.HiddenFor(model => model.singleTestResult.passed)
-            @Html.HiddenFor(model => model.startTime)
-            @Html.HiddenFor(model => model.endTime)
-
-            <input type="submit" name="submitBtn" value="NextTask" />
-        }*@
     <!-- Scripts -->
     <script src="~/codemirror/lib/codemirror.js"></script>
     <script src="~/codemirror/mode/xml/xml.js"></script>
@@ -97,22 +90,7 @@
     <script src="~/codemirror/addon/edit/closetag.js"></script>
     <script src="~/codemirror/addon/display/placeholder.js"></script>
 
-
     <script>
-
-        /* var HTMLeditor = CodeMirror.fromTextArea(
-            document.getElementById('htmlEditor'), {
-            mode: "htmlmixed",
-            theme: "base16-dark",
-            lineNumbers: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            autoCloseTags: true,
-            autoCloseBrackets: true,
-            scrollbarStyle: "overlay",
-            placeholder: "HTML"
-        });*/
-
         var TypeScriptEditor = CodeMirror.fromTextArea(
                 document.getElementById('TypeScriptEditor'), {
                 mode: "application/typescript",
@@ -124,6 +102,20 @@
                 autoCloseBrackets: true,
                 scrollbarStyle: "overlay",
                 placeholder: "TypeScript"
+        });
+
+        var JavaScriptComp = CodeMirror.fromTextArea(
+                document.getElementById('JavaScript'), {
+                mode: "text/javascript",
+                theme: "base16-dark",
+                lineNumbers: true,
+                indentUnit: 4,
+                indentWithTabs: true,
+                autoCloseTags: true,
+                autoCloseBrackets: true,
+                scrollbarStyle: "overlay",
+                readOnly: "nocursor",
+                placeholder: "Kompilert TypeScript"
             });
 
         var errorOutput = CodeMirror.fromTextArea(
@@ -132,6 +124,7 @@
                 theme: "base16-dark",
                 readOnly: "nocursor",
                 scrollbarStyle: "overlay",
+                placeholder: "errors",
         });
         errorOutput.setSize("521", "150");
 
@@ -149,8 +142,8 @@
             } else {
                 var srcTypeScript = "<script>" + decoded + "<" + "/" + "script>";
                 document.getElementById('TSiframe').srcdoc = srcTypeScript;
+                JavaScriptComp.getDoc().setValue(decoded);
             }
-
         }
     </script>
 </body>

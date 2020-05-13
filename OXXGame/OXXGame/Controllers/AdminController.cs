@@ -8,6 +8,9 @@ using OXXGame.Models;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Web;
+using System.IO.Compression;
+using System.IO;
 
 namespace OXXGame.Controllers
 {
@@ -38,6 +41,25 @@ namespace OXXGame.Controllers
             }
         }
 
+        public FileResult DownloadFile(string path, string category, int userId, int testId)
+        {
+            return PhysicalFile(path, "text/plain", "u" + userId + "t" + testId + FileHandler.getFileExtension(category));
+        }
+
+        public FileResult DownloadAllZip(int userId)
+        {
+            string directoryPath = "/home/submission_files/" + userId;
+            string zipPath = "/home/submission_files/zips/" + userId + "_code.zip";
+
+            if (System.IO.File.Exists(zipPath))
+            {
+                System.IO.File.Delete(zipPath);
+            }
+
+            ZipFile.CreateFromDirectory(directoryPath, zipPath);
+            return PhysicalFile(zipPath, "application/zip", "User_" + userId + "_code.zip");
+        }
+
         public ActionResult UserAdmin()
         {
             if (AdminLoggedIn()) 
@@ -45,9 +67,24 @@ namespace OXXGame.Controllers
                 DB db = new DB(dbContext);
                 List<User> users = db.allUsers();
                 List<Result> results = db.allResults();
+                List<SingleTestResult> singleTestResults = db.allSingleTestResults();
+                List<Models.Task> tasks = db.allTasks();
+
+                Dictionary<int, string> category = new Dictionary<int, string>();
+                Dictionary<int, int> difficulty = new Dictionary<int, int>();
+
+                foreach (Models.Task task in tasks)
+                {
+                    category.Add(task.testId, task.category);
+                    difficulty.Add(task.testId, task.difficulty);
+
+                }
 
                 ViewData["Users"] = users;
                 ViewData["Results"] = results;
+                ViewData["SingleTestResults"] = singleTestResults;
+                ViewData["category"] = category;
+                ViewData["difficulty"] = difficulty;
 
                 return View("UserAdmin");
             }

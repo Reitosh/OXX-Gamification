@@ -4,29 +4,32 @@
     List<Category> categories = (List<Category>) ViewData["Categories"];
 }
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>OXXGame - @ViewData["Title"]</title>
+        <title>OXXGame - @ViewData["Title"]</title>
 
-    <!-- Linked Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap" rel="stylesheet">
+        <!-- Linked Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap" rel="stylesheet">
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
 
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/cb7428d12a.js"></script>
+        <!-- Font Awesome -->
+        <script src="https://kit.fontawesome.com/cb7428d12a.js"></script>
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
-    <!-- Linked CSS Files -->
-    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
-    <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
-</head>
+        <!-- Linked CSS Files -->
+        <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+        <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
+        <link rel="stylesheet" type="text/css" href="~/codemirror/lib/codemirror.css" />
+        <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
+        <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
+    </head>
 <body>
 
     <!-- TASK REGISTRATION -->
@@ -40,7 +43,7 @@
             <div class="wrapper wrapper-form" id="wrapper-form-reg">
 
                 @using (Html.BeginForm("EditTask", "Admin", FormMethod.Post,
-                  new { name = "formReg", id = "form-reg", onsubmit = "return regAll()", novalidate = "true" }))
+               new { name = "formReg", id = "form-reg", onsubmit = "return regAll()", novalidate = "true" }))
 
                 {
                     @Html.HiddenFor(model => model.testId)
@@ -57,7 +60,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="form-reg-test">Kategori</label>
+                            <label for="form-reg-test">Vanskelighetsgrad</label>
                             <div class="form-group">
                                 <select asp-for="difficulty">
                                     <option>0</option>
@@ -70,11 +73,17 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input asp-for="test" type="text" name="test" class="form-control"
-                                       id="form-reg-test" onchange="regTest()" required>
-                                <label class="float-label" for="form-reg-test">Oppgavetekst</label>
-                                <div class="form-error form-error-reg" id="form-error-reg-test"></div>
+                                <textarea placeholder="Oppgavetekst" asp-for="test" type="text" name="test" class="form-control"
+                                      id="form-reg-test" onchange="regTest()" required></textarea>
+                                    <label class="float-label" for="form-reg-test"></label>
+                                    <div class="form-error form-error-reg" id="form-error-reg-test"></div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p style="font-size: 12px">OBS! Viktig å merke seg at templates til HTML/CSS og JavaScript må være på formatet HTML&&&&CSS&&&&JavaScript</p>
+                            <textarea asp-for="template" name="template" id="templatess" onchange="regTest()" required></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -96,4 +105,12 @@
     <script src="~/js/nav_scroll.js"></script>
     <script src="~/js/toggle_passwd.js"></script>
     <script src="~/js/client_validation.js"></script>
+    <script src="~/codemirror/lib/codemirror.js"></script>
+    <script src="~/codemirror/mode/xml/xml.js"></script>
+    <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+    <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
+    <script src="~/codemirror/addon/edit/matchtags.js"></script>
+    <script src="~/codemirror/addon/edit/closetag.js"></script>
+    <script src="~/codemirror/addon/display/placeholder.js"></script>
+    <script src="~/js/AdminTemplate.js"></script>
 </body>

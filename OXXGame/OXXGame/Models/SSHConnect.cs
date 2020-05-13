@@ -25,8 +25,6 @@ namespace OXXGame.Models
 
         public string RunCode(TestModel testModel)
         {
-            
-
             switch (testModel.task.category)
             {
                 case "TypeScript":
@@ -89,7 +87,8 @@ namespace OXXGame.Models
 
                 client.Connect();
 
-                string command = string.Format("sudo sh /home/Markus/Testing/{0}.sh '{1}' '{2}' \"{3}\"",
+                string command = string.Format("sudo sh /home/Markus/Testing/{0}.sh '{1}' '{2}' '{3}'",
+
                        testModel.task.category,
                        testModel.singleTestResult.userId,
                        testModel.task.testId,
@@ -129,9 +128,9 @@ namespace OXXGame.Models
             }
 
             // Legger til \ foran "
-            if (formattedCode.Contains("\""))
+            if (formattedCode.Contains("'"))
             {
-                formattedCode = formattedCode.Replace("\"", @"\" + "\"");
+                formattedCode = formattedCode.Replace("'", @"\" + "'");
             }
 
             return formattedCode;
