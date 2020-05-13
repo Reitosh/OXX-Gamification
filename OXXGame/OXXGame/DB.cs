@@ -527,7 +527,7 @@ namespace OXXGame
             try
             {
                 Users deleteUsr = db.Users.Find(deleteId);
-                deleteSingleTestResult(deleteId);
+                deleteSingleTestResultByUserID(deleteId);
                 deleteResPerCategory(deleteId);
                 db.Users.Remove(deleteUsr);
                 db.SaveChanges();
@@ -546,6 +546,7 @@ namespace OXXGame
             try
             {
                 Tasks deleteTsk = db.Tasks.Find(deleteId);
+                deleteSingleTestByTestId(deleteId);
                 db.Tasks.Remove(deleteTsk);
                 db.SaveChanges();
                 return true;
@@ -575,11 +576,27 @@ namespace OXXGame
             }
         }
 
-        public bool deleteSingleTestResult(int deleteId)
+        public bool deleteSingleTestResultByUserID(int userId)
         {
             try
             {
-                List<SingleTestResults> results = db.SingleTestResults.Where(r => r.UserId == deleteId).ToList();
+                List<SingleTestResults> results = db.SingleTestResults.Where(r => r.UserId == userId).ToList();
+                db.SingleTestResults.RemoveRange(results);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.StackTrace);
+                Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        public bool deleteSingleTestByTestId(int testId)
+        {
+            try
+            {
+                List<SingleTestResults> results = db.SingleTestResults.Where(r => r.TestId == testId).ToList();
                 db.SingleTestResults.RemoveRange(results);
                 return true;
             }
