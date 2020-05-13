@@ -8,6 +8,9 @@ using OXXGame.Models;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Web;
+using System.IO.Compression;
+using System.IO;
 
 namespace OXXGame.Controllers
 {
@@ -36,6 +39,25 @@ namespace OXXGame.Controllers
             {
                 return RedirectToAction("Index","Login");
             }
+        }
+
+        public FileResult DownloadFile(string path, string category, int userId, int testId)
+        {
+            return PhysicalFile(path, "text/plain", "u" + userId + "t" + testId + FileHandler.getFileExtension(category));
+        }
+
+        public FileResult DownloadAllZip(int userId)
+        {
+            string directoryPath = "/home/submission_files/" + userId;
+            string zipPath = "/home/submission_files/zips/" + userId + "_code.zip";
+
+            if (System.IO.File.Exists(zipPath))
+            {
+                System.IO.File.Delete(zipPath);
+            }
+
+            ZipFile.CreateFromDirectory(directoryPath, zipPath);
+            return PhysicalFile(zipPath, "application/zip", "User_" + userId + "_code.zip");
         }
 
         public ActionResult UserAdmin()
