@@ -73,8 +73,8 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input asp-for="tlf" name="tlf" class="form-control"
-                                       id="form-reg-tlf" onchange="" required>
+                                <input asp-for="tlf" type="text" name="tlf" class="form-control"
+                                       id="form-reg-tlf" onchange="regTlf()" required>
                                 <label class="float-label" for="form-reg-tlf">Telefonnummer</label>
                                 <div class="form-error form-error-reg" id="form-error-reg-tlf"></div>
                             </div>
