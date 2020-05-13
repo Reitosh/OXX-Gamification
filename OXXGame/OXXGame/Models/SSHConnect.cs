@@ -25,8 +25,6 @@ namespace OXXGame.Models
 
         public string RunCode(TestModel testModel)
         {
-            
-
             switch (testModel.task.category)
             {
                 case "TypeScript":

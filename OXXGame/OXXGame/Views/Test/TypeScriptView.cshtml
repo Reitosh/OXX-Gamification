@@ -32,6 +32,12 @@
 
         #TScontainer {
             padding-top: 5%;
+            
+        }
+
+        .inline-div {
+            display: inline-block;
+            width: 49%;
         }
     </style>
 
@@ -43,11 +49,17 @@
         <label class="test-text">Vanskelighetsgrad: @Model.task.difficulty / 2</label><br />
         <label class="test-text">Oppgave: @Model.task.test</label><br />
 
-        <div id="TSContainer">
-            <textarea asp-for="code" id="TypeScriptEditor">@Model.code</textarea>
+     <div id="TScontainer">
+        <div class="inline-div">
+            <textarea asp-for="code" class="inline-txtarea" id="TypeScriptEditor">@Model.code</textarea>
+        </div>
+        <div class="inline-div">
+            <textarea id="JavaScript" class="inline-txtarea"></textarea>
+        </div>
+      </div>
 
             <input type="submit" name="submitBtn" value="RunCode" />
-        </div>
+        
         <textarea id="error"></textarea>
         <iframe id="TSiframe"></iframe>
 
@@ -90,6 +102,20 @@
                 autoCloseBrackets: true,
                 scrollbarStyle: "overlay",
                 placeholder: "TypeScript"
+        });
+
+        var JavaScriptComp = CodeMirror.fromTextArea(
+                document.getElementById('JavaScript'), {
+                mode: "text/javascript",
+                theme: "base16-dark",
+                lineNumbers: true,
+                indentUnit: 4,
+                indentWithTabs: true,
+                autoCloseTags: true,
+                autoCloseBrackets: true,
+                scrollbarStyle: "overlay",
+                readOnly: "nocursor",
+                placeholder: "Kompilert TypeScript"
             });
 
         var errorOutput = CodeMirror.fromTextArea(
@@ -98,6 +124,7 @@
                 theme: "base16-dark",
                 readOnly: "nocursor",
                 scrollbarStyle: "overlay",
+                placeholder: "errors",
         });
         errorOutput.setSize("521", "150");
 
@@ -115,6 +142,7 @@
             } else {
                 var srcTypeScript = "<script>" + decoded + "<" + "/" + "script>";
                 document.getElementById('TSiframe').srcdoc = srcTypeScript;
+                JavaScriptComp.getDoc().setValue(decoded);
             }
         }
     </script>
