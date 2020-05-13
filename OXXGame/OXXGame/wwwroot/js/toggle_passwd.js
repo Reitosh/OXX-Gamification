@@ -1,7 +1,7 @@
 ﻿/**
- * Document info: OXX Game JavaScript File
+ * Document info: OXX Test JavaScript File
  *     File name: toggle_passwd.js
- *        Author: Vladimir Maric
+ *        Author: Bachelor group 15 - OsloMet
  *
  *   Description: This file includes the necessery code that determines the
  *                behavior of the show/hide password function of password input.

@@ -1,10 +1,35 @@
 ﻿@model TestModel
 @{
     ViewData["Title"] = "Evnetest";
+    Layout = null;
     var output = ViewData["Output"];
 }
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>OXX Test - @ViewData["Title"]</title>
+
+    <!-- Linked Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/cb7428d12a.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Linked CSS Files -->
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
+
     <!-- Codemirror CSS Files -->
     <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
     <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
@@ -12,11 +37,32 @@
     <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
 </head>
 <body>
+    <!-- HEADER -->
+    <header>
+        <nav class="navbar navbar-default static">
+            <div class="container">
+                <!-- Logo -->
+                <div class="navbar-brand">
+                    <a href="#"><img src="~/images/brand/logo_hvit.png" alt="Logo" /></a>
+                </div>
+
+                <!-- Navbar Menu -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Login" asp-action="Index">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logg ut
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- END HEADER -->
+
+    <!-- TESTVIEW -->
     <div class="section section-testview">
         <div class="container container-testview">
-            <h2>Evnetest</h2>
-            <span class="underline"></span>
-
             <!-- Test Content -->
             <div class="wrapper testview-wrapper">
                 @using (Html.BeginForm("SubmitCode", "Test", FormMethod.Post))
@@ -57,21 +103,22 @@
 
                     <div class="divider"></div>
 
-                    <!-- Test Editors -->
-                    <div class="wrapper test-editors-wrapper">
-                        <div class="test-editor-container" id="test-editor-csharp-1">
+                    <!-- Test Editors C# -->
+                    <div class="wrapper editors-csharp-wrapper">
+                        <div class="editor-csharp-container" id="editor-csharp-1">
                             <textarea class="editor" asp-for="code" id="input" name="code" rows="10">@Model.code</textarea>
                         </div>
-                        <div class="test-editor-container" id="test-editor-csharp-2">
+                        <h6>Output:</h6>
+                        <div class="editor-csharp-container" id="editor-csharp-2">
                             <textarea readonly class="output" id="output" rows="10">@output</textarea>
                         </div>
                     </div>
 
                     <div class="row testview-btn-wrapper">
-                        <div class="col-sm-6">
+                        <div class="col-6">
                             <input type="submit" name="submitBtn" value="RunCode" class="btn btn-success btn-testview" id="codeBtn" />
                         </div>
-                        <div class="col-sm-6 align-right">
+                        <div class="col-6 align-right">
                             <input type="submit" name="submitBtn" value="NextTask" class="btn btn-success btn-testview" />
                         </div>
                     </div>
@@ -98,6 +145,7 @@
             <!-- End Test Content -->
         </div>
     </div>
+    <!-- END TESTVIEW -->
 
     <!-- Codemirror Script Files -->
     <script src="~/codemirror/lib/codemirror.js"></script>
@@ -107,4 +155,9 @@
     <script src="~/codemirror/mode/clike/clike.js"></script>
     <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
     <script src="~/js/TestViewConfiguration.js"></script>
+
+    <!-- Bootstrap Script Files -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+</html>
