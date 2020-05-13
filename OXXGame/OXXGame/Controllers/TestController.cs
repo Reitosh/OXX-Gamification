@@ -392,6 +392,10 @@ namespace OXXGame.Controllers
             {
                 testModel.singleTestResult.passed = SingleTestResult.PASSED;
             }
+            else 
+            {
+                testModel.singleTestResult.passed = SingleTestResult.UNDEFINED;
+            }
 
             ViewData["Output"] = output;
         }
