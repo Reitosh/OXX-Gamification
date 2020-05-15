@@ -28,6 +28,26 @@
     <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
 </head>
 <body>
-    <p>Gratulerer med dagen</p>
+    <!-- TEST-END -->
+    <div class="page-background page-background-end">
+        <div class="wrapper test-end-wrapper">
+            <div class="container">
+                <div class="test-end-container">
+                    <img src="~/images/icons/icon_done.png" alt="test-done" />
+
+                    <h1>Du har fullført evnetesten!</h1>
+                    <p>
+                        Vi kommer nå til å gå gjennom besvarelsene dine og ta
+                        kontakt med deg for en ny samtale så snart som mulig.
+                    </p>
+
+                    <div class="test-end-link">
+                        <a asp-controller="Login" asp-action="Index" type="button" class="btn btn-success btn-test-end">Logg ut</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END TEST-END -->
 </body>
 </html>
