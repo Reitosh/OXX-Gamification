@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Document info: OXX Test JavaScript File
  *     File name: ts_view_config.js
  *        Author: Bachelor group 15 - OsloMet
@@ -42,6 +42,7 @@ var errorOutput = CodeMirror.fromTextArea(
     theme: "base16-dark",
     readOnly: "nocursor",
     scrollbarStyle: "overlay",
+    placeholder: "Errors",
 });
 
 // Function that decodes the characters
@@ -50,3 +51,4 @@ function decodeChars(TypeScript) {
     txt.innerHTML = TypeScript;
     return txt.value;
 }
+

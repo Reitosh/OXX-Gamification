@@ -1,4 +1,5 @@
-﻿/**
+
+/**
  * Document info: OXX Test JavaScript File
  *     File name: html_view_config.js
  *        Author: Bachelor group 15 - OsloMet
@@ -32,7 +33,7 @@ var CSSeditor = CodeMirror.fromTextArea(
     autoCloseTags: true,
     autoCloseBrackets: true,
     scrollbarStyle: "overlay",
-    placeholder: "Skriv din HTML kode her..."
+    placeholder: "Skriv din CSS kode her..."
 });
 
 // JavaScript Editor - View Configuration
@@ -45,5 +46,5 @@ var JSeditor = CodeMirror.fromTextArea(document.getElementById('jsEditor'), {
     autoCloseTags: true,
     autoCloseBrackets: true,
     scrollbarStyle: "overlay",
-    placeholder: "JavaScript/Vue/React (React støtter foreløpig ikke JSX)"
+    placeholder: "Skriv din JavaScript kode her..."
 });
