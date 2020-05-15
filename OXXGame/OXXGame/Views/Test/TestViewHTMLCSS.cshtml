@@ -72,7 +72,7 @@
         <textarea id="htmlEditor">@HTML</textarea>
         <textarea id="CSSEditor">@CSS</textarea>
         <textarea id="Js">@JS</textarea>
-        <input type="submit" onclick="showHtml()" value="Run"/> <!-- Funker ikke, Model.singleTestResult blir ikke økt, husk å fikse -->
+        <input type="submit" onclick="showHtml()" value="Run" /> <!-- Funker ikke, Model.singleTestResult blir ikke økt, husk å fikse -->
         <iframe id="iframe"></iframe>
     </div>
 
@@ -94,58 +94,20 @@
     }
 
     <!-- Scripts -->
-    <script src="~/codemirror/lib/codemirror.js"></script>
-    <script src="~/codemirror/mode/xml/xml.js"></script>
-    <script src="~/codemirror/mode/css/css.js"></script>
-    <script src="~/codemirror/mode/javascript/javascript.js"></script>
-    <script src="~/codemirror/mode/css/css.js"></script>
-    <script src="~/codemirror/mode/htmlmixed/htmlmixed.js"></script>
-    <script src="~/codemirror/addon/edit/closebrackets.js"></script>
-    <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
-    <script src="~/codemirror/addon/edit/matchtags.js"></script>
-    <script src="~/codemirror/addon/edit/closetag.js"></script>
-    <script src="~/codemirror/addon/display/placeholder.js"></script>
+    <script src="~/codemirror/lib/codemirror.js" defer></script>
+    <script src="~/codemirror/mode/xml/xml.js" defer></script>
+    <script src="~/codemirror/mode/css/css.js" defer></script>
+    <script src="~/codemirror/mode/javascript/javascript.js" defer></script>
+    <script src="~/codemirror/mode/css/css.js" defer></script>
+    <script src="~/codemirror/mode/htmlmixed/htmlmixed.js" defer></script>
+    <script src="~/codemirror/addon/edit/closebrackets.js" defer></script>
+    <script src="~/codemirror/addon/scroll/simplescrollbars.js" defer></script>
+    <script src="~/codemirror/addon/edit/matchtags.js" defer></script>
+    <script src="~/codemirror/addon/edit/closetag.js" defer></script>
+    <script src="~/codemirror/addon/display/placeholder.js" defer></script>
+    <script src="~/js/html_view_config.js" defer></script>
 
     <script>
-        var HTMLeditor = CodeMirror.fromTextArea(
-            document.getElementById('htmlEditor'), {
-            mode: "htmlmixed",
-            theme: "base16-dark",
-            lineNumbers: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            autoCloseTags: true,
-            autoCloseBrackets: true,
-            scrollbarStyle: "overlay",
-            placeholder: "HTML"
-        });
-
-        var CSSeditor = CodeMirror.fromTextArea(
-            document.getElementById('CSSEditor'), {
-            mode: "text/css",
-            theme: "base16-dark",
-            lineNumbers: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            autoCloseTags: true,
-            autoCloseBrackets: true,
-            scrollbarStyle: "overlay",
-            placeholder: "CSS"
-        });
-
-        var JSeditor = CodeMirror.fromTextArea(document.getElementById('Js'), {
-            mode: "text/javascript",
-            theme: "base16-dark",
-            lineNumbers: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            autoCloseTags: true,
-            autoCloseBrackets: true,
-            scrollbarStyle: "overlay",
-            placeholder: "JavaScript"
-        });
-
-
         function showHtml() {
 
             var srcHtml = HTMLeditor.getValue();

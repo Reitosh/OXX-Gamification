@@ -58,7 +58,7 @@
         </div>
       </div>
 
-            <input type="submit" name="submitBtn" value="RunCode" />
+            <input type="submit" name="submitBtn" value="Kjør" />
         
         <textarea id="error"></textarea>
         <iframe id="TSiframe"></iframe>
@@ -74,7 +74,7 @@
         @Html.HiddenFor(model => model.startTime)
         @Html.HiddenFor(model => model.endTime)
 
-        <input type="submit" name="submitBtn" value="NextTask" />
+        <input type="submit" name="submitBtn" value="Neste" />
     }
 
     <!-- Scripts -->
@@ -89,51 +89,9 @@
     <script src="~/codemirror/addon/edit/matchtags.js"></script>
     <script src="~/codemirror/addon/edit/closetag.js"></script>
     <script src="~/codemirror/addon/display/placeholder.js"></script>
+    <script src="~/js/ts_view_config.js"></script>
 
     <script>
-        var TypeScriptEditor = CodeMirror.fromTextArea(
-                document.getElementById('TypeScriptEditor'), {
-                mode: "application/typescript",
-                theme: "base16-dark",
-                lineNumbers: true,
-                indentUnit: 4,
-                indentWithTabs: true,
-                autoCloseTags: true,
-                autoCloseBrackets: true,
-                scrollbarStyle: "overlay",
-                placeholder: "TypeScript"
-        });
-
-        var JavaScriptComp = CodeMirror.fromTextArea(
-                document.getElementById('JavaScript'), {
-                mode: "text/javascript",
-                theme: "base16-dark",
-                lineNumbers: true,
-                indentUnit: 4,
-                indentWithTabs: true,
-                autoCloseTags: true,
-                autoCloseBrackets: true,
-                scrollbarStyle: "overlay",
-                readOnly: "nocursor",
-                placeholder: "Kompilert TypeScript"
-            });
-
-        var errorOutput = CodeMirror.fromTextArea(
-                document.getElementById('error'), {
-                mode: "application/typescript",
-                theme: "base16-dark",
-                readOnly: "nocursor",
-                scrollbarStyle: "overlay",
-                placeholder: "errors",
-        });
-        errorOutput.setSize("521", "150");
-
-        function decodeChars(TypeScript) {
-            var txt = document.createElement("textarea");
-            txt.innerHTML = TypeScript;
-            return txt.value;
-        }
-
         function showTypeScript() {
             var decoded = decodeChars("@output");
 
