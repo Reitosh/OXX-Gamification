@@ -9,7 +9,7 @@
 /* Screens upto 1199px width */
 @media only screen and (max-width: 1199px) {
 
-    /****************** TESTINFO ******************/
+    /****************** TEST-INFO *****************/
 
     .testinfo-wrapper {
         padding: 50px 0;
@@ -23,14 +23,14 @@
         margin-top: 0px;
     }
 
-    /**************** END TESTINFO ****************/
+    /**************** END TEST-INFO ***************/
 
 }
 
 /* Screens upto 991px width */
 @media only screen and (max-width: 991px) {
 
-    /****************** TESTINFO ******************/
+    /****************** TEST-INFO *****************/
 
     .test-details-icon {
         width: 30%;
@@ -47,12 +47,13 @@
         margin-top: -7px;
     }
 
-    /**************** END TESTINFO ****************/
+    /**************** END TEST-INFO ***************/
 
-    /****************** TESTVIEW ******************/
+    /****************** TEST-VIEW *****************/
 
     #editor-html, #editor-css,
-    #editor-js, #editor-html-iframe {
+    #editor-js, #editor-html-iframe,
+    #editor-ts-output, #editor-ts-error {
         float: none;
         width: 100%;
     }
@@ -65,7 +66,7 @@
         height: 300px;
     }
 
-    /**************** END TESTVIEW ****************/
+    /**************** END TEST-VIEW ***************/
 
 }
 
@@ -212,7 +213,7 @@
 
     /*********** END USER REGISTRATION ************/
 
-    /****************** TESTINFO ******************/
+    /***************** TEST-INFO ******************/
 
     .btn-testinfo {
         width: 180px;
@@ -232,9 +233,9 @@
         margin-top: 0;
     }
 
-    /**************** END TESTINFO ****************/
+    /*************** END TEST-INFO ****************/
 
-    /****************** TESTVIEW ******************/
+    /***************** TEST-VIEW ******************/
 
     .section-testview {
         padding-top: 20px;
@@ -246,16 +247,42 @@
         width: 100%;
     }
 
+    /*************** END TEST-VIEW ****************/
 
-    /**************** END TESTVIEW ****************/
+    
+    /****************** TEST-END ******************/
+    
+    .test-end-container {
+        margin-top: -30px;
+    }
 
-    /****************** FOOTER ********************/
+        .test-end-container img {
+            width: 150px;
+        }
+
+        .test-end-container h1 {
+            margin-bottom: 20px;
+        }
+
+        .test-end-container p {
+            font-size: 18px;
+            line-height: 26px;
+        }
+
+    .btn-test-end {
+        width: 200px;
+        font-size: 16px;
+    }
+
+    /**************** END TEST-END ****************/
+
+    /******************* FOOTER *******************/
 
     .footer p {
         font-size: 13px;
     }
 
-    /**************** END FOOTER ******************/
+    /***************** END FOOTER *****************/
 
 }
 
@@ -332,7 +359,7 @@
 
     /*********** END USER REGISTRATION ************/
 
-    /****************** TESTINFO ******************/
+    /***************** TEST-INFO ******************/
 
     .container-testinfo {
         padding: 0 15px;
@@ -394,15 +421,44 @@
         order: 6;
     }
 
-    /**************** END TESTINFO ****************/
+    /**************** END TEST-INFO ***************/
 
-    /****************** FOOTER ********************/
+    /****************** TEST-END ******************/
+
+    .test-end-container {
+        margin-top: -30px;
+    }
+
+        .test-end-container img {
+            width: 124px;
+        }
+
+        .test-end-container h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            line-height: 36px;
+        }
+
+        .test-end-container p {
+            font-size: 16px;
+            line-height: 26px;
+        }
+
+    .btn-test-end {
+        width: 180px;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+    /**************** END TEST-END ****************/
+
+    /******************* FOOTER *******************/
 
         .footer p {
             font-size: 12px;
         }
 
-    /**************** END FOOTER ******************/
+    /***************** END FOOTER *****************/
 
 }
 
