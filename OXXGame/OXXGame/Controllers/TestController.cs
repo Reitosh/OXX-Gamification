@@ -74,9 +74,9 @@ namespace OXXGame.Controllers
 
             switch (submitBtn)
             {
-                case "RunCode":
+                case "Kjør":
                     return DecideView(testModel);
-                case "NextTask":
+                case "Neste":
                     return Neste(testModel);
                 default:
                     return RedirectToAction("Index", "Login");
