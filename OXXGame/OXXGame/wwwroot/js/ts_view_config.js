@@ -1,9 +1,13 @@
-﻿function decodeChars(TypeScript) {
-    var txt = document.createElement("textarea");
-    txt.innerHTML = TypeScript;
-    return txt.value;
-}
+/**
+ * Document info: OXX Test JavaScript File
+ *     File name: ts_view_config.js
+ *        Author: Bachelor group 15 - OsloMet
+ *
+ *   Description: This file includes the necessery code that determines some
+ *                configurations of the CodeMirror TypeScript editors
+ */
 
+// TypeScript Editor - View Configuration
 var TypeScriptEditor = CodeMirror.fromTextArea(
     document.getElementById('TypeScriptEditor'), {
     mode: "application/typescript",
@@ -14,9 +18,10 @@ var TypeScriptEditor = CodeMirror.fromTextArea(
     autoCloseTags: true,
     autoCloseBrackets: true,
     scrollbarStyle: "overlay",
-    placeholder: "TypeScript"
+    placeholder: "Skriv din TypeScript kode her..."
 });
 
+// JavaScript Output Editor - View Configuration
 var JavaScriptComp = CodeMirror.fromTextArea(
     document.getElementById('JavaScript'), {
     mode: "text/javascript",
@@ -26,11 +31,11 @@ var JavaScriptComp = CodeMirror.fromTextArea(
     indentWithTabs: true,
     autoCloseTags: true,
     autoCloseBrackets: true,
-    scrollbarStyle: "overlay",
     readOnly: "nocursor",
-    placeholder: "Kompilert TypeScript"
+    scrollbarStyle: "overlay",
 });
 
+// TypeScript Error Output - View Configuration
 var errorOutput = CodeMirror.fromTextArea(
     document.getElementById('error'), {
     mode: "application/typescript",
@@ -39,4 +44,11 @@ var errorOutput = CodeMirror.fromTextArea(
     scrollbarStyle: "overlay",
     placeholder: "Errors",
 });
-errorOutput.setSize("521", "150");
+
+// Function that decodes the characters
+function decodeChars(TypeScript) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = TypeScript;
+    return txt.value;
+}
+

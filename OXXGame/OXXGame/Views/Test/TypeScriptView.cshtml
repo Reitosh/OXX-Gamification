@@ -1,83 +1,149 @@
 ﻿@model TestModel
 @{
-    ViewData["Title"] = "TypeScript";
+    ViewData["Title"] = "Evnetest";
+    Layout = null;
     string output = Convert.ToString(ViewData["Output"]);
 }
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/mobile.css" />
+    <title>OXX Test - @ViewData["Title"]</title>
+
+    <!-- Linked Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/cb7428d12a.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Linked CSS Files -->
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
+
+    <!-- Codemirror CSS Files -->
     <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
+    <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
     <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
     <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
-
-    <style>
-        .CodeMirror {
-            width: 100%;
-            height: 500px;
-            border: 1px solid black;
-        }
-
-        iframe {
-            width: 0;
-            height: 0;
-            border: 0;
-            border: none;
-        }
-
-        #TScontainer {
-            padding-top: 5%;
-            
-        }
-
-        .inline-div {
-            display: inline-block;
-            width: 49%;
-        }
-    </style>
-
 </head>
 <body onload="showTypeScript()">
-    @using (Html.BeginForm("SubmitCode", "Test", FormMethod.Post))
-    {
-        <label class="test-text">Kategori: @Model.task.category </label><br />
-        <label class="test-text">Vanskelighetsgrad: @Model.task.difficulty / 2</label><br />
-        <label class="test-text">Oppgave: @Model.task.test</label><br />
+    <!-- HEADER -->
+    <header>
+        <nav class="navbar navbar-default static">
+            <div class="container">
+                <!-- Logo -->
+                <div class="navbar-brand">
+                    <a href="#"><img src="~/images/brand/logo_hvit.png" alt="Logo" /></a>
+                </div>
 
-     <div id="TScontainer">
-        <div class="inline-div">
-            <textarea asp-for="code" class="inline-txtarea" id="TypeScriptEditor">@Model.code</textarea>
+                <!-- Navbar Menu -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Login" asp-action="Index">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logg ut
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- END HEADER -->
+    <!-- TESTVIEW -->
+    <div class="section section-testview">
+        <div class="container container-testview">
+            <!-- Test Content -->
+            <div class="wrapper testview-wrapper">
+                @using (Html.BeginForm("SubmitCode", "Test", FormMethod.Post))
+                {
+                    <!-- Values sent to backhand -->
+                    @Html.HiddenFor(model => model.singleTestResult.userId)
+                    @Html.HiddenFor(model => model.singleTestResult.testId)
+                    @Html.HiddenFor(model => model.task.testId)
+                    @Html.HiddenFor(model => model.task.category)
+                    @Html.HiddenFor(model => model.task.difficulty)
+                    @Html.HiddenFor(model => model.task.test)
+                    @Html.HiddenFor(model => model.singleTestResult.tries)
+                    @Html.HiddenFor(model => model.singleTestResult.passed)
+                    @Html.HiddenFor(model => model.startTime)
+                    @Html.HiddenFor(model => model.endTime)
+
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <h6>Kategori:</h6>
+                                <label class="test-text">@Model.task.category</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <h6>Vanskelighetsgrad:</h6>
+                                <label class="test-text">@Model.task.difficulty / 2</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6>Oppgavetekst:</h6>
+                            <label class="test-text">@Model.task.test</label>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Test Editors -->
+                    <div class="wrapper editors-wrapper">
+                        <div class="editor-box" id="editor-ts">
+                            <div class="editor-container">
+                                <textarea asp-for="code" id="TypeScriptEditor">@Model.code</textarea>
+                            </div>
+                        </div>
+                        <div class="editor-box" id="editor-ts-output">
+                            <h6>Compiled Output:</h6>
+                            <div class="editor-container">
+                                <textarea id="JavaScript" class="inline-txtarea"></textarea>
+                            </div>
+                        </div>
+                        <div class="editor-box" id="editor-ts-error">
+                            <h6>Errors:</h6>
+                            <div class="editor-container">
+                                <textarea id="error"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- What to do with this one? -->
+                    <iframe id="tsFrame"></iframe>
+
+                    <!-- Test Buttons -->
+                    <div class="row testview-btn-wrapper">
+                        <div class="col-6">
+                            <!-- Does not work, Model.singleTestResult is not increased, needs a fix -->
+                            <input type="submit" name="submitBtn" value="Kjør" class="btn btn-success btn-testview" />
+                        </div>
+                        <div class="col-6 align-right">
+                            <input type="submit" name="submitBtn" value="Neste" class="btn btn-success btn-testview" />
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- End Test Content -->
         </div>
-        <div class="inline-div">
-            <textarea id="JavaScript" class="inline-txtarea"></textarea>
-        </div>
-      </div>
+    </div>
+    <!-- END TESTVIEW -->
 
-            <input type="submit" name="submitBtn" value="Kjør" />
-        
-        <textarea id="error"></textarea>
-        <iframe id="TSiframe"></iframe>
-
-        @Html.HiddenFor(model => model.singleTestResult.userId)
-        @Html.HiddenFor(model => model.singleTestResult.testId)
-        @Html.HiddenFor(model => model.task.testId)
-        @Html.HiddenFor(model => model.task.category)
-        @Html.HiddenFor(model => model.task.difficulty)
-        @Html.HiddenFor(model => model.task.test)
-        @Html.HiddenFor(model => model.singleTestResult.tries)
-        @Html.HiddenFor(model => model.singleTestResult.passed)
-        @Html.HiddenFor(model => model.startTime)
-        @Html.HiddenFor(model => model.endTime)
-
-        <input type="submit" name="submitBtn" value="Neste" />
-    }
-
-    <!-- Scripts -->
+    <!-- Codemirror Script Files -->
     <script src="~/codemirror/lib/codemirror.js"></script>
     <script src="~/codemirror/mode/xml/xml.js"></script>
     <script src="~/codemirror/mode/css/css.js"></script>
@@ -89,9 +155,12 @@
     <script src="~/codemirror/addon/edit/matchtags.js"></script>
     <script src="~/codemirror/addon/edit/closetag.js"></script>
     <script src="~/codemirror/addon/display/placeholder.js"></script>
+
+    <!-- Linked Script Files -->
     <script src="~/js/ts_view_config.js"></script>
 
     <script>
+        // Function that sends the compiled TypeScript code to the iframe (must stay inside the view!)
         function showTypeScript() {
             var decoded = decodeChars("@output");
 
@@ -99,7 +168,7 @@
                 errorOutput.getDoc().setValue(decoded);
             } else {
                 var srcTypeScript = "<script>" + decoded + "<" + "/" + "script>";
-                document.getElementById('TSiframe').srcdoc = srcTypeScript;
+                document.getElementById('tsFrame').srcdoc = srcTypeScript;
                 JavaScriptComp.getDoc().setValue(decoded);
             }
         }
