@@ -103,23 +103,28 @@
 
                     <div class="divider"></div>
 
-                    <!-- Test Editors C# -->
-                    <div class="wrapper editors-csharp-wrapper">
-                        <div class="editor-csharp-container" id="editor-csharp-1">
-                            <textarea class="editor" asp-for="code" id="input" name="code" rows="10">@Model.code</textarea>
+                    <!-- Test Editors -->
+                    <div class="wrapper editors-wrapper">
+                        <div class="editor-box" id="editor-csharp-1">
+                            <div class="editor-container">
+                                <textarea class="editor" asp-for="code" id="input" name="code">@Model.code</textarea>
+                            </div>
                         </div>
-                        <h6>Output:</h6>
-                        <div class="editor-csharp-container" id="editor-csharp-2">
-                            <textarea readonly class="output" id="output" rows="10">@output</textarea>
+                        <div class="editor-box" id="editor-csharp-2">
+                            <h6>Output:</h6>
+                            <div class="editor-container">
+                                <textarea readonly class="output" id="output">@output</textarea>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Test Buttons -->
                     <div class="row testview-btn-wrapper">
                         <div class="col-6">
-                            <input type="submit" name="submitBtn" value="RunCode" class="btn btn-success btn-testview" id="codeBtn" />
+                            <input type="submit" name="submitBtn" value="Kjør" class="btn btn-success btn-testview" id="codeBtn" />
                         </div>
                         <div class="col-6 align-right">
-                            <input type="submit" name="submitBtn" value="NextTask" class="btn btn-success btn-testview" />
+                            <input type="submit" name="submitBtn" value="Neste" class="btn btn-success btn-testview" />
                         </div>
                     </div>
                 }
@@ -129,6 +134,10 @@
     </div>
     <!-- END TESTVIEW -->
 
+    <!-- Bootstrap Script Files -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Codemirror Script Files -->
     <script src="~/codemirror/lib/codemirror.js"></script>
     <script src="~/codemirror/mode/javascript/javascript.js"></script>
@@ -136,10 +145,8 @@
     <script src="~/codemirror/addon/edit/closebrackets.js"></script>
     <script src="~/codemirror/mode/clike/clike.js"></script>
     <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
-    <script src="~/js/TestViewConfiguration.js"></script>
 
-    <!-- Bootstrap Script Files -->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Linked Script Files -->
+    <script src="~/js/csharp_view_config.js"></script>
 </body>
 </html>
