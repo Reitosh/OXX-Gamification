@@ -73,9 +73,9 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input asp-for="test" type="text" name="test" class="form-control"
-                                      id="form-reg-test" onchange="regTest()" required>
-                                    <label class="float-label" for="form-reg-test">Oppgavetekst</label>
+                                <textarea placeholder="Oppgavetekst" asp-for="test" type="text" name="test" class="form-control"
+                                      id="form-reg-test" onchange="regTest()" required></textarea>
+                                    <label class="float-label" for="form-reg-test"></label>
                                     <div class="form-error form-error-reg" id="form-error-reg-test"></div>
                             </div>
                         </div>

@@ -1,14 +1,13 @@
-﻿/**********************************************/
-/********* OXX Game JavaScript File ***********/
-/******* Filename: TestViewConfiguration.js ***/
-/**********************************************/
+﻿/**
+ * Document info: OXX Test JavaScript File
+ *     File name: csharp_view_config.js
+ *        Author: Bachelor group 15 - OsloMet
+ *
+ *   Description: This file includes the necessery code that determines some
+ *                configurations of the CodeMirror C# editors
+ */
 
-    
-
-function DisableButton(form) {
-    form.submit.disabled = true;
-}
-
+// C# Editor - View Configuration
 var editor = CodeMirror.fromTextArea(
     document.getElementById('input'), {
     mode: "text/x-csharp",
@@ -19,17 +18,14 @@ var editor = CodeMirror.fromTextArea(
     autoCloseTags: true,
     autoCloseBrackets: true,
     scrollbarStyle: "overlay",
+    placeholder: "Skriv din C# kode her..."
 });
-editor.setSize("100%", "650");
 
+// C# Output Editor - View Configuration
 var outputWindow = CodeMirror.fromTextArea(
     document.getElementById('output'), {
     mode: "text/x-csharp",
     theme: "base16-dark",
-    scrollbarStyle: "overlay",
     readOnly: "nocursor",
+    scrollbarStyle: "overlay",
 });
-outputWindow.setSize("100%", "650");
-
-
-
