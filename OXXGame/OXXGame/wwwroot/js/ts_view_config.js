@@ -42,7 +42,6 @@ var errorOutput = CodeMirror.fromTextArea(
     theme: "base16-dark",
     readOnly: "nocursor",
     scrollbarStyle: "overlay",
-    placeholder: "Errors",
 });
 
 // Function that decodes the characters
