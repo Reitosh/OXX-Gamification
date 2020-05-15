@@ -53,6 +53,7 @@
     <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
 </head>
 <body onload="showHtml()">
+
     <!-- HEADER -->
     <header>
         <nav class="navbar navbar-default static">
@@ -83,7 +84,7 @@
             <div class="wrapper testview-wrapper">
                 @using (Html.BeginForm("Neste", "Test", FormMethod.Get))
                 {
-                    <!-- Values sent to backhand -->
+                    <!-- Values sent to backend -->
                     @Html.HiddenFor(model => model.singleTestResult.userId)
                     @Html.HiddenFor(model => model.singleTestResult.testId)
                     @Html.HiddenFor(model => model.task.testId)
