@@ -27,12 +27,30 @@
         @{ int i = 0;}
         @foreach (User user in users)
         {
+            TimeSpan totalTime = new TimeSpan();
+            int passedTasks = 0;
+            int completedTasks = 0;
+
+            foreach (SingleTestResult test in singleTestResults)
+            {
+                if (user.userId == test.userId)
+                {
+                    totalTime = totalTime + TimeSpan.Parse(test.timeSpent);
+                    completedTasks++;
+
+                    if (test.passed == SingleTestResult.PASSED)
+                    {
+                        passedTasks++;
+                    }
+                }
+            }
+
             <tr>
                 <th>@user.firstname</th>
                 <th>@user.lastname</th>
                 <th>@user.email</th>
-                <th>Tid brukt: </th>
-                <th>Antall korrekt: </th>
+                <th>Tid brukt: @totalTime</th>
+                <th>Antall korrekt: @passedTasks/@completedTasks</th>
                 <th>
                     <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#info_@i">
                         Resultater
