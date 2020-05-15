@@ -74,9 +74,9 @@ namespace OXXGame.Controllers
 
             switch (submitBtn)
             {
-                case "RunCode":
+                case "Kjør":
                     return DecideView(testModel);
-                case "NextTask":
+                case "Neste":
                     return Neste(testModel);
                 default:
                     return RedirectToAction("Index", "Login");
@@ -392,6 +392,10 @@ namespace OXXGame.Controllers
             else if (!output.Contains("Not passed"))
             {
                 testModel.singleTestResult.passed = SingleTestResult.PASSED;
+            }
+            else 
+            {
+                testModel.singleTestResult.passed = SingleTestResult.UNDEFINED;
             }
 
             ViewData["Output"] = output;

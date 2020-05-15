@@ -1,7 +1,7 @@
 ﻿/**
- * Document info: OXX Game JavaScript File
+ * Document info: OXX Test JavaScript File
  *     File name: client_validation.js
- *        Author: Vladimir Maric
+ *        Author: Bachelor group 15 - OsloMet
  *   
  *   Description: This file includes all the necessary methods for the 
  *                client-side validation of login and registration form.
@@ -58,7 +58,7 @@ function loginAll() {
 /* Regular Expression variables */
 var REGEX_NAME = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð '-]{2,20}$/;
 var REGEX_EMAIL = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-var REGEX_TLF = /^\+(?:[0-9] ?){6,14}[0-9]$/;
+var REGEX_TLF = /^((0047)?|(\+47)?)\d{8}$/
 var REGEX_PASSWD = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 
 // Registration form - firstname validation
@@ -107,7 +107,7 @@ function regEmail() {
         errorMessage.innerHTML = "E-post adresse er påkrevd";
         return false;
     } else if (!accept) {
-        errorMessage.innerHTML = "Vennligst oppgi en gyldig e-post adresse";
+        errorMessage.innerHTML = "Ugyldig e-post adresse";
         return false;
     } else {
         errorMessage.innerHTML = "";
@@ -125,9 +125,7 @@ function regTlf() {
         errorMessage.innerHTML = "Telefonnummeret er påkrevd";
         return false;
     } else if (!accept) {
-        text = "Kan kun inneholde tall og mellomrom<br/>";
-        text += "Landskoden må inkluderes (f.eks. +47)";
-        errorMessage.innerHTML = text;
+        errorMessage.innerHTML = "Ugyldig norsk telefonnummer";
         return false;
     } else {
         errorMessage.innerHTML = "";

@@ -1,5 +1,5 @@
 ﻿/**
- * Document info: OXX Game CSS File
+ * Document info: OXX Test CSS File
  *     File name: mobile.css
  *        Author: Vladimir Maric
  *   
@@ -51,21 +51,19 @@
 
     /****************** TESTVIEW ******************/
 
-    .test-editors-wrapper {
-        flex-direction: column;
-    }
-
-    #test-editor-csharp-1 {
+    #editor-html, #editor-css,
+    #editor-js, #editor-html-iframe {
+        float: none;
         width: 100%;
-        margin: 0 0 30px 0;
     }
 
-    #test-editor-csharp-2 {
-        width: 100%;
-        margin: 0;
+    #editor-css {
+        margin-top: 20px;
     }
 
-    /*** End Test Content ***/
+    #htmlFrame {
+        height: 300px;
+    }
 
     /**************** END TESTVIEW ****************/
 
@@ -162,7 +160,11 @@
     /******************* NAVBAR *******************/
 
     .navbar-brand img {
-        width: 36px;
+        width: 38px;
+    }
+
+    .navbar-nav li a {
+        font-size: 16px;
     }
 
     /***************** END NAVBAR *****************/
@@ -231,6 +233,21 @@
     }
 
     /**************** END TESTINFO ****************/
+
+    /****************** TESTVIEW ******************/
+
+    .section-testview {
+        padding-top: 20px;
+        padding-bottom: 40px;
+    }
+
+    .btn-testview {
+        padding: 8px 16px;
+        width: 100%;
+    }
+
+
+    /**************** END TESTVIEW ****************/
 
     /****************** FOOTER ********************/
 

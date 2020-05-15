@@ -14,7 +14,7 @@ namespace OXXGame.Models
     {
         private readonly string user = "Markus";
         private readonly string password = "Plainsmuchj0urney";
-        private  readonly string host = "51.140.218.174";
+        private readonly string host = "51.140.218.174";
 
         public SSHConnect(string user, string password, string host)
         {
@@ -25,8 +25,6 @@ namespace OXXGame.Models
 
         public string RunCode(TestModel testModel)
         {
-            
-
             switch (testModel.task.category)
             {
                 case "TypeScript":
@@ -45,11 +43,11 @@ namespace OXXGame.Models
             using (SshClient client = new SshClient(new ConnectionInfo(
                host, user, new PasswordAuthenticationMethod(user, password))))
             {
-                if (testModel.code.Contains("'")) 
+                if (testModel.code.Contains("'"))
                 {
                     testModel.code = testModel.code.Replace("'", "\""); //Gjør at Linux ikke blir sint hvis bruker bruker single quotation rundt strings
                 }
-                
+
                 client.Connect();
                 string tsScript = string.Format("cd /home/Markus/Scripts && ./{0}.sh '{1}' '{2}'", testModel.task.category, testModel.code, testModel.singleTestResult.userId);
                 SshCommand run = client.RunCommand(tsScript);
@@ -137,5 +135,10 @@ namespace OXXGame.Models
 
             return formattedCode;
         }
+
+       
+    
+             
+        
     }
 }

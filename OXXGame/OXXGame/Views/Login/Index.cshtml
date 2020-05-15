@@ -29,6 +29,19 @@
     <!-- Linked CSS Files -->
     <link rel="stylesheet" type="text/css" href="~/css/site.css" />
     <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
+
+    <script>
+        // Temporary function that toggles between showing and hiding a div element
+        function toogleInfobox() {
+            var infobox = document.getElementById("toggle-infobox-login");
+
+            if (infobox.style.display == 'none' || infobox.style.display == '') {
+                infobox.style.display = 'block';
+            } else {
+                infobox.style.display = 'none';
+            }
+        }
+    </script>
 </head>
 <body>
     <!-- LOGIN -->
@@ -39,7 +52,7 @@
 
                 <!-- Login Form -->
                 @using (Html.BeginForm("Login", "Login", FormMethod.Post,
-                  new { name = "formLogin", id = "form-login", onsubmit = "return loginAll()", novalidate = "true" }))
+                 new { name = "formLogin", id = "form-login", onsubmit = "return loginAll()", novalidate = "true" }))
                 {
                     <div class="form-group">
                         <input asp-for="email" type="text" name="email" class="form-control"
@@ -63,9 +76,13 @@
                     <!-- Login Form External Links -->
                     <div class="form-content-login">
                         <div class="login-links p-small" id="login-links-forgot">
-                            <a href="#">Glemt brukernavn eller passord?</a>
+                            <a href="javascript:void(0);" onclick="toogleInfobox()">Glemt brukernavn eller passord?</a>
+                            <!-- Temporary solution -->
+                            <div class="onclick-infobox" id="toggle-infobox-login">
+                                Denne funksjonaliteten er ennå ikke implementert i betaversjonen
+                            </div>
                         </div>
-                        <div class="login-links-content p-small" id="login-links-reg">
+                        <div class="login-links p-small" id="login-links-reg">
                             Har du ikke en konto?
                             <a asp-controller="Login" asp-action="UserRegistration">Registrer deg</a>
                         </div>
