@@ -96,8 +96,8 @@ namespace OXXGame.Controllers
 
                     if (newModel == null)
                     {
-                        return RedirectToAction("Index", "Login"); // Dette burde tilsi at testen er ferdig, endre return her
-                                                                   // Kan også forårsakes av database-uthentingsfeil (aldri forekommet)
+                        return View("TestEndView"); // Dette burde tilsi at testen er ferdig
+                                                    // Kan også forårsakes av database-uthentingsfeil (aldri forekommet)
                     }
 
                     return DecideView(newModel);
