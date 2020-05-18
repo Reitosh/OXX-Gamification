@@ -56,7 +56,7 @@ namespace OXXGame.Controllers
 
                     if (model == null)
                     {
-                        return RedirectToAction("Index", "Login");
+                        return View("TestEndView");
                     }
 
                     return DecideView(model);
@@ -94,9 +94,11 @@ namespace OXXGame.Controllers
                     ViewData["Output"] = null;
                     TestModel newModel = getModel();
 
+                    // Dette burde tilsi at testen er ferdig
+                    // Kan også forårsakes av database-uthentingsfeil (aldri forekommet)
                     if (newModel == null)
                     {
-                        return RedirectToAction("Index", "Login"); // Dette burde tilsi at testen er ferdig, endre return her
+                        return View("TestEndView");
                     }
 
                     return DecideView(newModel);
@@ -170,7 +172,7 @@ namespace OXXGame.Controllers
 
                         while (tasks.Count > 0)
                         {
-                            Models.Task task = tasks[getRandomNum(tasks.Count)];
+                            Models.Task task = tasks[getRandomNum(tasks.Count - 1)];
                             if (isNewTask(task, testResults)) // sjekker om ny oppgave allerede er utført
                             {
                                 return task;
@@ -312,7 +314,7 @@ namespace OXXGame.Controllers
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                return null;
+                return null; // Dette vil avslutte testen, burde ikke forekomme, men kan med fordel løses på en annen måte
             }
 
             if (model.task != null)
@@ -330,7 +332,7 @@ namespace OXXGame.Controllers
                 return model;
             }
 
-            return null;
+            return null; // Skulle det være problemer med uthenting av data fra database vil testen avsluttes 
         }
 
         // Hjelpemetode som genererer tilfeldig tall til oppgaveutvelgelse
@@ -384,11 +386,11 @@ namespace OXXGame.Controllers
             string output = ssh.RunCode(testModel);
 
             testModel.singleTestResult.tries++;
-            if (output.Contains("Compilation failed:") || output.Contains("error TS") || output.Equals("Not passed"))
+            if (output.Contains("Compilation failed:") || output.Contains("error TS") || output.Contains("Not passed"))
             {
                 testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
             }
-            else if (output.Equals("Passed\n"))
+            else if (!output.Contains("Not passed"))
             {
                 testModel.singleTestResult.passed = SingleTestResult.PASSED;
             }
@@ -424,7 +426,7 @@ namespace OXXGame.Controllers
 
                 if (fileName.StartsWith(".")) { fileName = fileName.Replace(".", "dot"); }
 
-                List<string> code = FileHandler.stringToList(testModel.code);
+                List<string> code = FileHandler.stringToList("/*" + testModel.task.test + "*/\n" + testModel.code);
 
                 testModel.singleTestResult.codeLink = fileHandler.saveFile(
                     relativePath, 

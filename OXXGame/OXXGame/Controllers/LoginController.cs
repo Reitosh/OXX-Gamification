@@ -50,9 +50,11 @@ namespace OXXGame.Controllers
                 {
                     HttpContext.Session.SetInt32(LoggedIn, TRUE);
                     HttpContext.Session.SetInt32(userId, user.userId);
+                    
 
                     if (user.isAdmin)
                     {
+                        HttpContext.Session.SetString("email", user.email);
                         return RedirectToAction("AdminPortal", "Admin");
                     }
                     else

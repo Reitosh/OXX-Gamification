@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Document info: OXX Test JavaScript File
  *     File name: ts_view_config.js
  *        Author: Bachelor group 15 - OsloMet
@@ -50,3 +50,4 @@ function decodeChars(TypeScript) {
     txt.innerHTML = TypeScript;
     return txt.value;
 }
+

@@ -112,6 +112,10 @@ p {
     font-weight: 600;
 }
 
+.italic {
+    font-style: italic;
+}
+
 /* Buttons */
 .btn, .btn:active, .btn:focus {
     outline: none !important;
@@ -447,7 +451,7 @@ input[type=password] {
 /**********************************************/
 
 /**********************************************/
-/****************** TESTINFO ******************/
+/****************** TEST-INFO *****************/
 /**********************************************/
 
 .container-testinfo {
@@ -474,7 +478,7 @@ input[type=password] {
     margin-bottom: 20px;
 }
 
-#testinfo-intro p {
+.testinfo-wrapper p {
     margin-bottom: 0;
 }
 
@@ -522,11 +526,11 @@ input[type=password] {
 }
 
 /**********************************************/
-/**************** END TESTINFO ***************/
+/**************** END TEST-INFO ***************/
 /**********************************************/
 
 /**********************************************/
-/****************** TESTVIEW *****************/
+/****************** TEST-VIEW *****************/
 /**********************************************/
 
 .section-testview {
@@ -555,12 +559,6 @@ input[type=password] {
 }
 
 /* Test Editors */
-.editors-wrapper {
-    display: inline-block;
-    width: 100%;
-    padding: 15px 0;
-}
-
 .editors-wrapper {
     display: inline-block;
     width: 100%;
@@ -639,10 +637,184 @@ input[type=password] {
     margin-top: 20px;
 }
 
+#tsFrame {
+    display: none;
+}
+
 /*** End Test Content ***/
 
 /**********************************************/
-/**************** END TESTVIEW ****************/
+/**************** END TEST-VIEW ***************/
+/**********************************************/
+
+/**********************************************/
+/****************** TEST-END ******************/
+/**********************************************/
+
+.page-background-end {
+    background: #2B2B2B;
+}
+
+.test-end-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.test-end-container {
+    text-align: center;
+    margin-top: -40px;
+}
+
+    .test-end-container img {
+        width: 180px;
+        height: auto;
+        margin-bottom: 30px;
+    }
+
+    .test-end-container h1 {
+        margin-bottom: 20px;
+    }
+
+    .test-end-container p {
+        font-size: 22px;
+        line-height: 28px;
+    }
+
+.btn-test-end {
+    width: 250px;
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+/**********************************************/
+/**************** END TEST-END ****************/
+/**********************************************/
+
+/**********************************************/
+/**************** ADMIN PORTAL ****************/
+/**********************************************/
+
+.section-admin-portal {
+    padding-top: 95px;
+    padding-bottom: 25px;
+}
+
+.admin-portal-content {
+    padding: 70px 0;
+}
+
+    .admin-portal-content h3 {
+        margin-bottom: 20px;
+    }
+
+    .admin-portal-content p {
+        margin-bottom: 0;
+    }
+
+/* Split Screen */
+.page-background-admin {
+    height: calc(100% - 563.78px);
+    background-color: #2B2B2B;
+    max-height: 450px;
+}
+
+.split-screen {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50%;
+    padding: 40px 20px;
+    text-align: center;
+    -webkit-transition: width 500ms;
+    -moz-transition: width 500ms;
+    transition: width 500ms;
+}
+    
+    .split-screen img {
+        width: 120px;
+        height: auto;
+        margin-bottom: 5px;
+    }
+
+    .split-screen h4 {
+        line-height: 25px;
+    }
+
+    .split-screen a:hover {
+        text-decoration: none;
+    }
+
+#split-screen-left {
+    background-color: #FDEA0E;
+}
+
+    #split-screen-left a {
+        color: #2B2B2B;
+        font-weight: 600;
+    }
+
+#split-screen-right {
+    background-color: #237E90;
+}
+
+    #split-screen-right a {
+        color: #FFFFFF;
+        font-weight: 600;
+    }
+
+.page-background-admin:hover .split-screen {
+    width: 20%;
+}
+
+.page-background-admin:hover .split-screen:hover {
+    width: 40%;
+}
+
+/**********************************************/
+/************** END ADMIN PORTAL **************/
+/**********************************************/
+
+/**********************************************/
+/************** ADMIN USERS-TASKS *************/
+/**********************************************/
+
+.container-admin-users {
+    padding: 0;
+}
+
+/*** Admin Table ***/
+
+.admin-table-wrapper {
+    padding: 70px 0;
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.admin-table td {
+    padding: 8px;
+}
+
+.admin-table th {
+    padding: 4px 8px;
+}
+
+.admin-table thead {
+    color: #FDEA0E;
+}
+
+.admin-table tbody tr {
+    border-top: 1px solid #797979;
+    border-bottom: 1px solid #797979;
+}
+
+/*** End Admin Table ***/
+
+/**********************************************/
+/************ END ADMIN USERS-TASKS ***********/
 /**********************************************/
 
 /**********************************************/

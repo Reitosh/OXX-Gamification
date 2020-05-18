@@ -1,73 +1,106 @@
 ﻿@model User
 
 @{
-    ViewData["Title"] = "UserAdmin";
-}
+    ViewData["Title"] = "Brukeradministrasjon";
 
-<h1>UserAdmin</h1>
-
-@{ 
-    var users = (List<User>) ViewData["Users"];
+    var users = (List<User>)ViewData["Users"];
     var singleTestResults = (List<SingleTestResult>)ViewData["SingleTestResults"];
-    var categories = (Dictionary<int,string>) ViewData["category"];
+    var categories = (Dictionary<int, string>)ViewData["category"];
     var difficulties = (Dictionary<int, int>)ViewData["difficulty"];
 }
 
-<table class="table" style="color:#ffffff">
-    <thread><
-        <tr>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Total Time</th>
-            <th scope="col">Passed</th>
-        </tr>
-    </thread>
-    <tbody>
-        @{ int i = 0;}
-        @foreach (User user in users)
-        {
-            <tr>
-                <th>@user.firstname</th>
-                <th>@user.lastname</th>
-                <th>@user.email</th>
-                <th>Tid brukt: </th>
-                <th>Antall korrekt: </th>
-                <th>
-                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#info_@i">
-                        Resultater
-                    </button>
-                </th>
-                <th>
-                    @Html.ActionLink("Last ned alle", "DownloadAllZip", "Admin", new { userId = user.userId})
-                </th>
-                <th>
-                    @Html.ActionLink("Slett", "DeleteUser", "Admin", new { userId = user.userId }, new { onclick = "return confirm('Er du sikker på at du vil slette denne brukeren?');" })
-                </th>
-            </tr>
+<body>
+    <!-- ADMIN USERS-TASKS -->
+    <div class="section section-admin-users">
+        <div class="container container-admin-users">
+            <h2>Brukeradministrasjon</h2>
+            <span class="underline"></span>
 
-            @foreach (SingleTestResult singleTestResult in singleTestResults)
-            {
-                if (singleTestResult.userId == user.userId)
-                {
-                <tr id="info_@i" class="collapse">
-                    <th>Antall forsøk: @singleTestResult.tries</th>
-                    <th>Tid brukt: @singleTestResult.timeSpent</th>
-                    <th>Kategori: @categories[singleTestResult.testId]</th>
-                    <th>Vanskelighetsgrad: @difficulties[singleTestResult.testId]/2</th>
-                    <th>@singleTestResult.passed</th>
-                    
-                    <th>@Html.ActionLink("Last ned","DownloadFile","Admin", new { 
-                       path = singleTestResult.codeLink,
-                       category = categories[singleTestResult.testId],
-                       userId = user.userId,
-                       testId = singleTestResult.testId
-                   })</th>
-                </tr>
-                }
-             }
+            <!-- Admin Table -->
+            <div class="wrapper admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Total Time</th>
+                            <th scope="col">Passed</th>
+                        </tr>
+                    </thead>
 
-                i++;
-         }
-    </tbody>
-</table>
+                    <tbody>
+                        @{ int i = 0;}
+                        @foreach (User user in users)
+                        {
+                            TimeSpan totalTime = new TimeSpan();
+                            int passedTasks = 0;
+                            int completedTasks = 0;
+
+                            foreach (SingleTestResult test in singleTestResults)
+                            {
+                                if (user.userId == test.userId)
+                                {
+                                    totalTime = totalTime + TimeSpan.Parse(test.timeSpent);
+                                    completedTasks++;
+
+                                    if (test.passed == SingleTestResult.PASSED)
+                                    {
+                                        passedTasks++;
+                                    }
+                                }
+                            }
+
+                            <tr>
+                                <td>@user.firstname</td>
+                                <td>@user.lastname</td>
+                                <td>@user.email</td>
+                                <td>Tid brukt: @totalTime</td>
+                                <td>Antall korrekt: @passedTasks/@completedTasks</td>
+                                <td>
+                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#info_@i">
+                                        Resultater
+                                    </button>
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Last ned alle", "DownloadAllZip", "Admin", new { userId = user.userId })
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Slett", "DeleteUser", "Admin", new { userId = user.userId }, new { onclick = "return confirm('Er du sikker på at du vil slette denne brukeren?');" })
+                                </td>
+                            </tr>
+
+                            @foreach (SingleTestResult singleTestResult in singleTestResults)
+                            {
+                                if (singleTestResult.userId == user.userId)
+                                {
+                                    <tr id="info_@i" class="collapse">
+                                        <td>Antall forsøk: @singleTestResult.tries</td>
+                                        <td>Tid brukt: @singleTestResult.timeSpent</td>
+                                        <td>Kategori: @categories[singleTestResult.testId]</td>
+                                        <td>Vanskelighetsgrad: @difficulties[singleTestResult.testId]/2</td>
+                                        <td>@singleTestResult.passed</td>
+
+                                        <td>
+                                            @Html.ActionLink("Last ned", "DownloadFile", "Admin", new
+                                            {
+                                               path = singleTestResult.codeLink,
+                                               category = categories[singleTestResult.testId],
+                                               userId = user.userId,
+                                               testId = singleTestResult.testId
+                                            })
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- End Admin Table -->
+        </div>
+    </div>
+    <!-- END ADMIN USERS-TASKS -->
+</body>
+
