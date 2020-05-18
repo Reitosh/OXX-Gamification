@@ -2,8 +2,92 @@
 @{
     ViewData["Title"] = "AdminPortal";
     Layout = null;
+    var email = ViewData["email"];
 }
 
-<h1>AdminPortal</h1>
-@Html.ActionLink("Administrer brukere", "UserAdmin","Admin");
-@Html.ActionLink("Administrer oppgaver", "TaskAdmin", "Admin");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>OXX Test - @ViewData["Title"]</title>
+
+    <!-- Linked Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/cb7428d12a.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Linked CSS Files -->
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <nav class="navbar navbar-default static">
+            <div class="container">
+                <!-- Logo -->
+                <div class="navbar-brand">
+                    <a href="#"><img src="~/images/brand/logo_hvit.png" alt="Logo" /></a>
+                </div>
+
+                <!-- Navbar Menu -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Login" asp-action="Index">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logg ut
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- END HEADER -->
+
+    <!-- ADMIN PORTAL -->
+    <div class="section section-admin-portal">
+        <div class="container container-admin-portal">
+            <h2>Admin Portal</h2>
+            <span class="underline"></span>
+
+            <div class="admin-portal-content">
+                <h3>Hei @email</h3>
+                <p>
+                    Velkommen til din nye <span class="italic">Admin Portal</span>. Her kan du enkelt administrere 
+                    registrerte brukere, samt vise brukernes testresultater og tiden de har brukt på å fullføre 
+                    testen. Du kan også redigere, slette eller lage nye testoppgaver gjennom portalens administrative
+                    lenker. I tillegg er det mulig å laste ned brukerens kode i filformat, enten alle sammen eller 
+                    hver enkel oppgaveløsning for seg.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Split Screen -->
+    <div class="page-background page-background-admin">
+        <div class="split-screen" id="split-screen-left">
+            <a asp-controller="Admin" asp-action="UserAdmin">
+                <img src="~/images/icons/icon_users.png" alt="icon-users" />
+                <h4>Administrer brukere</h4>
+            </a>
+        </div>
+        <div class="split-screen" id="split-screen-right">
+            <a asp-controller="Admin" asp-action="TaskAdmin">
+                <img src="~/images/icons/icon_tasks.png" alt="icon-tasks" />
+                <h4>Administrer oppgaver</h4>
+            </a>
+        </div>
+    </div>
+    <!-- ADMIN PORTAL -->
+</body>
+</html>
