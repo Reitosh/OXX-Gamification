@@ -25,6 +25,18 @@
 
     /**************** END TEST-INFO ***************/
 
+    /**************** ADMIN PORTAL ****************/
+
+    .page-background-admin {
+        height: calc(100% - 549.78px);
+    }
+
+    .admin-portal-content {
+        padding: 50px 0;
+    }
+
+    /************** END ADMIN PORTAL **************/
+    
 }
 
 /* Screens upto 991px width */
@@ -67,6 +79,14 @@
     }
 
     /**************** END TEST-VIEW ***************/
+
+    /**************** ADMIN PORTAL ****************/
+
+    .page-background-admin {
+        height: calc(100% - 575.78px);
+    }
+
+    /************** END ADMIN PORTAL **************/
 
 }
 
@@ -215,13 +235,25 @@
 
     /***************** TEST-INFO ******************/
 
+    .section-testinfo {
+        padding: 150px 0 65px;
+    }
+
+    .testinfo-wrapper {
+        padding: 30px 0 40px;
+    }
+
+    .testinfo-btn-wrapper {
+        margin-top: 55px;
+    }
+
     .btn-testinfo {
         width: 180px;
         font-size: 16px;
     }
 
     #testinfo-test-details {
-        padding: 40px 0;
+        padding: 30px 0;
     }
 
     .test-details-icon img {
@@ -275,6 +307,27 @@
     }
 
     /**************** END TEST-END ****************/
+
+    /**************** ADMIN PORTAL ****************/
+
+    .section-admin-portal {
+        padding-top: 65px;
+        padding-bottom: 25px;
+    }
+
+    .admin-portal-content {
+        padding: 30px 0 40px;
+    }
+
+    .page-background-admin {
+        height: calc(100% - 532.94px);
+    }
+
+    .split-screen img {
+        width: 100px;
+    }    
+
+    /************** END ADMIN PORTAL **************/
 
     /******************* FOOTER *******************/
 
@@ -367,11 +420,7 @@
     }
 
     .testinfo-wrapper {
-        padding: 34px 0;
-    }
-
-    #testinfo-intro {
-        padding-bottom: 40px;
+        padding: 15px 0 30px;
     }
 
     .test-details-icon {
@@ -381,7 +430,7 @@
 
         .test-details-icon img {
             width: 80px;
-            margin-top: 16px;
+            margin-top: 5px;
         }
 
     #testinfo-icon-1,
@@ -451,6 +500,37 @@
     }
 
     /**************** END TEST-END ****************/
+
+    /**************** ADMIN PORTAL ****************/
+
+    .admin-portal-content {
+        text-align: center;
+        padding: 15px 0 30px;
+    }
+
+    .page-background-admin {
+        height: calc(100% - 506.94px);
+    }
+
+    .split-screen img {
+        width: 80px;
+    }
+
+    .split-screen {
+        display: block;
+        width: 100%;
+        padding: 20px 10px;
+    }
+
+    .page-background-admin:hover .split-screen {
+        width: 100%;
+    }
+
+    .page-background-admin:hover .split-screen:hover {
+        width: 100%;
+    }
+
+    /************** END ADMIN PORTAL **************/
 
     /******************* FOOTER *******************/
 
