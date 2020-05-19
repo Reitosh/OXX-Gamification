@@ -145,13 +145,11 @@
     /* Buttons */
     .btn-success {
         font-size: 14px;
-        font-weight: 600;
     }
 
-        .btn-success:hover, .btn-success:active {
-            background-color: #FDD20E !important;
-            color: #2B2B2B !important;
-        }
+    .btn-info {
+        font-size: 14px;
+    }
 
     /* Forms */
     .form-control {
@@ -328,6 +326,45 @@
     }    
 
     /************** END ADMIN PORTAL **************/
+
+    /************** ADMIN USERS-TASKS *************/
+
+    .admin-table-wrapper {
+        margin-top: 50px;
+    }
+
+    .admin-table {
+        font-size: 14px;
+    }
+
+        .admin-table th {
+            padding: 16px 6px;
+        }
+
+        .admin-table td {
+            padding: 8px 6px;
+        }
+
+
+    .admin-table-head {
+        font-size: 16px;
+    }
+
+    .admin-table-body th {
+        padding: 12px 6px;
+    }
+
+    .redirection-btn-wrapper {
+        margin-top: 50px;
+    }
+
+    .redirection-btn {
+        width: 80%;
+        padding: 15px 30px;
+        font-size: 16px;
+    }
+
+    /************ END ADMIN USERS-TASKS ***********/
 
     /******************* FOOTER *******************/
 
@@ -531,6 +568,29 @@
     }
 
     /************** END ADMIN PORTAL **************/
+
+    /************** ADMIN USERS-TASKS *************/
+
+    .table-main-rows .big-text {
+        padding-right: 20px;
+    }
+
+    .redirection-btn-container {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .redirection-btn {
+        width: 100%;
+        padding: 20px 40px;
+        font-size: 16px;
+    }
+
+    #redirection-btn-left {
+        margin-bottom: 15px;
+    }
+
+    /************ END ADMIN USERS-TASKS ***********/
 
     /******************* FOOTER *******************/
 

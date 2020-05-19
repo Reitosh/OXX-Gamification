@@ -137,6 +137,21 @@ p {
         color: #2B2B2B !important;
     }
 
+.btn-info {
+    background-color: #237E90;
+    color: #FFFFFF;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+    .btn-info:hover, .btn-info:active {
+        background-color: #1C6473 !important;
+        color: #FFFFFF !important;
+    }
+
 /* Forms */
 .form-wrapper {
     display: table-cell;
@@ -784,34 +799,94 @@ input[type=password] {
 /*** Admin Table ***/
 
 .admin-table-wrapper {
-    padding: 70px 0;
+    width: 100%;
+    margin-top: 70px;
+    border: 1px solid #525252;
+    border-radius: 15px;
     overflow-x: auto;
 }
 
 .admin-table {
+    table-layout: auto;
     width: 100%;
     color: #FFFFFF;
     font-size: 16px;
+    white-space: nowrap;
 }
 
-.admin-table td {
-    padding: 8px;
+    .admin-table td {
+        padding: 10px 8px;
+    }
+
+    .admin-table td a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .admin-table td a:hover {
+        color: #FDEA0E;
+    }
+
+    .admin-table th:first-child,
+    .admin-table td:first-child 
+    {
+        padding-left: 20px;
+    }
+
+.table-main-rows {
+    border-top: 1px solid #3F3F3F;
 }
 
-.admin-table th {
-    padding: 4px 8px;
-}
+    .table-main-rows .big-text {
+        min-width: 200px;
+        max-width: 700px;
+        padding-right: 40px;
+        white-space: normal;
+    }
 
-.admin-table thead {
+.admin-table-head {
+    background-color: #525252;
     color: #FDEA0E;
+    font-size: 18px;
 }
 
-.admin-table tbody tr {
-    border-top: 1px solid #797979;
-    border-bottom: 1px solid #797979;
+    .admin-table-head th {
+        padding: 20px 8px;
+    }
+
+/* Table Collapse */
+.admin-table-body th {
+    background-color: #237E90;
+    padding: 16px 8px;
+}
+
+.admin-table-body .collapse {
+    background-color: #3F3F3F;
 }
 
 /*** End Admin Table ***/
+
+/* Admin Page Redirection */
+.redirection-btn-wrapper {
+    display: inline-flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 70px;
+}
+
+.redirection-btn-container {
+    width: 50%;
+    height: auto;
+    text-align: center;
+}
+
+.redirection-btn {
+    width: 70%;
+    padding: 25px 50px;
+    border-radius: 10px;
+    font-size: 18px;
+}
 
 /**********************************************/
 /************ END ADMIN USERS-TASKS ***********/
