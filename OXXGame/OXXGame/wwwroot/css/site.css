@@ -23,6 +23,7 @@ body {
 }
 
 .page-background {
+    background-color: #2B2B2B;
     display: table;
     width: 100%;
     height: 100%;
@@ -114,6 +115,14 @@ p {
 
 .italic {
     font-style: italic;
+}
+
+.oxx-yellow {
+    color: #FDEA0E;
+}
+
+.align-right {
+    text-align: right;
 }
 
 /* Buttons */
@@ -365,10 +374,6 @@ input[type=password] {
 /************* USER REGISTRATION **************/
 /**********************************************/
 
-.page-background-reg {
-    background: #2B2B2B;
-}
-
 .form-box-reg {
     width: 750px;
     padding: 60px 40px;
@@ -569,10 +574,6 @@ input[type=password] {
     width: 150px;
 }
 
-.align-right {
-    text-align: right;
-}
-
 /* Test Editors */
 .editors-wrapper {
     display: inline-block;
@@ -666,10 +667,6 @@ input[type=password] {
 /****************** TEST-END ******************/
 /**********************************************/
 
-.page-background-end {
-    background: #2B2B2B;
-}
-
 .test-end-wrapper {
     display: table-cell;
     vertical-align: middle;
@@ -729,7 +726,6 @@ input[type=password] {
 /* Split Screen */
 .page-background-admin {
     height: calc(100% - 563.78px);
-    background-color: #2B2B2B;
     max-height: 450px;
 }
 
@@ -845,7 +841,7 @@ input[type=password] {
     }
 
 .admin-table-head {
-    background-color: #525252;
+    background-color: #5c5c5c;
     color: #FDEA0E;
     font-size: 18px;
 }
@@ -890,6 +886,72 @@ input[type=password] {
 
 /**********************************************/
 /************ END ADMIN USERS-TASKS ***********/
+/**********************************************/
+
+/**********************************************/
+/*************** TASK MANAGEMENT **************/
+/**********************************************/
+
+.task-management-container {
+    width: 740px;
+    padding: 60px 15px;
+    margin: 0 auto;
+}
+
+    .task-management-container .underline {
+        margin-bottom: 70px;
+    }
+
+/*** Task Management Form ***/
+
+.task-management-container label {
+    color: #FDEA0E;
+}
+
+.task-management-container .form-control {
+    background-color: #151515;
+    color: #fff;
+    padding: 8px;
+    border: 1px solid #797979;
+    border-radius: 0;
+}
+
+.task-textarea {
+    padding: 16px;
+}
+
+.task-input::-webkit-input-placeholder {
+    color: #CCCCCC;
+    font-size: 15px;
+}
+
+.task-input::-moz-input-placeholder {
+    color: #CCCCCC;
+    font-size: 15px;
+}
+
+.task-input::-ms-input-placeholder {
+    color: #CCCCCC;
+    font-size: 15px;
+}
+
+#form-group-task-template {
+    margin-bottom: 5px;
+}
+
+.task-btn-wrapper {
+    margin-top: 30px;
+}
+
+.btn-task-management {
+    padding: 8px 16px;
+    width: 150px;
+}
+
+/*** End Task Management Form ***/
+
+/**********************************************/
+/************* END TASK MANAGEMENT ************/
 /**********************************************/
 
 /**********************************************/

@@ -366,6 +366,15 @@
 
     /************ END ADMIN USERS-TASKS ***********/
 
+    /*************** TASK MANAGEMENT **************/
+
+    .task-management-container {
+        width: 90%;
+        padding: 60px 0;
+    }
+
+    /************* END TASK MANAGEMENT ************/
+
     /******************* FOOTER *******************/
 
     .footer p {
@@ -591,6 +600,27 @@
     }
 
     /************ END ADMIN USERS-TASKS ***********/
+
+    /*************** TASK MANAGEMENT **************/
+
+    .task-management-container {
+        padding: 40px 0;
+    }
+
+        .task-management-container .underline {
+            margin-bottom: 60px;
+        }
+
+    .task-btn-wrapper {
+        margin-top: 25px;
+    }
+
+    .btn-task-management {
+        padding: 8px 16px;
+        width: 130px;
+    }
+
+    /************* END TASK MANAGEMENT ************/
 
     /******************* FOOTER *******************/
 
