@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OXXGame.Models
 {
-
     public class Users
     {
         public int id { get; set; }
