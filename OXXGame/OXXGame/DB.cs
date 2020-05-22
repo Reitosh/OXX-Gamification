@@ -146,32 +146,6 @@ namespace OXXGame
             }
         }
 
-        public bool addTotResult(Result result)
-        {
-            var resultRow = new Results()
-            {
-                UserId = result.userId,
-                TimeUsed = result.timeUsed,
-                TestsPassed = result.testsPassed,
-                TestsFailed = result.testsFailed,
-                Tests = result.tests
-            };
-            
-            try
-            {
-                db.Add(resultRow);
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.StackTrace);
-                Debug.WriteLine(e.Message);
-                return false;
-            }
-            
-        }
-
         /* ------------------------- List metoder ------------------------- */
         public List<User> allUsers()
         {
@@ -266,12 +240,6 @@ namespace OXXGame
             }
         }
 
-        public List<Result> allResults()
-        {
-            List<Result> results = db.Results.Select(result => getResultData(result)).ToList();
-            return results;
-        }
-
         // Henter ut bruker ved brukernavn. Metoden returnerer null hvis man ikke finner nøyaktig 1 bruker.
         // Denne er i utgangspunktet ment til innloggingsvalidering. 
         public User getUser(string email)
@@ -301,26 +269,6 @@ namespace OXXGame
                 return validUser;
             }
             catch (Exception e)
-            {
-                Debug.WriteLine(e.StackTrace);
-                Debug.WriteLine(e.Message);
-                return null;
-            }
-        }
-
-        // Henter totalresultat ved bruker-id. Har ikke brukeren noen oppføring i resultattabellen (bruker har ikke utført test) returneres null
-        public Result resultTot(int uid)
-        {
-            // Metode i TestController sender inn uid=-1 hvis ikke uid av en eller annen grunn ikke skulle finnes.
-            // Dette tilfellet bør behandles her(?) på et eller annet vis.
-            try
-            {
-                Results resultRow = db.Results.SingleOrDefault(r => r.UserId == uid);
-                Result result = getResultData(resultRow);
-
-                return result;
-            }
-            catch (InvalidOperationException e)
             {
                 Debug.WriteLine(e.StackTrace);
                 Debug.WriteLine(e.Message);
@@ -379,22 +327,7 @@ namespace OXXGame
                 return false;
             }
         }
-        /*
-        public bool updateSingleTestResult2(int userId, int taskId, SingleTestResult inSingleTestResult)
-        {
-            try
-            {
-                SingleTestResults result = db.SingleTestResults.Find(userId, taskId);
 
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.StackTrace);
-                Debug.WriteLine(e.Message);
-                return false;
-            }
-        }
-        */
         public bool updateSingleTestResult(int uId, int tId, SingleTestResult uSingleResult)
         {
             var singleResult = db.SingleTestResults.SingleOrDefault(t => (t.UserId == uId && t.TestId == tId));
@@ -404,7 +337,6 @@ namespace OXXGame
                 singleResult.Passed = uSingleResult.passed;
                 singleResult.Attempts = uSingleResult.tries;
                 singleResult.TimeUsed = uSingleResult.timeSpent;
-                //singleResult.Submitted = uSingleResult.submitted;
             }
             else
             {
@@ -413,9 +345,8 @@ namespace OXXGame
             
             try
             {
-                    //db.SingleTestResults.Update(singleResult);
-                    db.SaveChanges();
-                    return true;
+                db.SaveChanges();
+                return true;
             }
             catch (Exception e)
             {
@@ -434,16 +365,6 @@ namespace OXXGame
                     ResultsPerCategory result = db.ResultsPerCategory.Find(updateResult.userId, updateResult.category);
                     result.Lvl = updateResult.lvl;
                     result.Counter = updateResult.counter;
-
-                    /*
-                    db.Update(new ResultsPerCategory()
-                    {
-                        UserId = result.userId,
-                        Category = result.category,
-                        Lvl = result.lvl,
-                        Counter = result.counter
-                    });
-                    */
                 }
 
                 db.SaveChanges();
@@ -495,18 +416,6 @@ namespace OXXGame
             };
         }
 
-        private static Result getResultData(Results result)
-        {
-            return new Result()
-            {
-                userId = result.UserId,
-                timeUsed = result.TimeUsed,
-                testsPassed = result.TestsPassed,
-                testsFailed = result.TestsFailed,
-                tests = result.Tests
-            };
-        }
-
         private static SingleTestResult getSResultData(SingleTestResults sResult)
         {
             return new SingleTestResult()
@@ -536,7 +445,7 @@ namespace OXXGame
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
-                Debug.WriteLine("Detta gikk dårlig");
+                Debug.WriteLine(e.Message);
                 return false; 
             }
         }
@@ -554,7 +463,6 @@ namespace OXXGame
             catch (Exception e)
             {
                 Debug.WriteLine(e.StackTrace);
-                Debug.WriteLine("Detta gikk dårlig");
                 Debug.WriteLine(e.Message);
                 return false;
             }

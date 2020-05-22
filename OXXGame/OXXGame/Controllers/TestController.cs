@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using OXXGame.Controllers;
 using OXXGame.Models;
 
 namespace OXXGame.Controllers
@@ -24,6 +20,7 @@ namespace OXXGame.Controllers
         public readonly int MIN_LVL = 0;
         public readonly int MAX_TASK_COUNT = 3;
 
+        // Constructor; mottar DBContext gjennom dependency injection
         public TestController(OXXGameDBContext context)
         {
             dbContext = context;
@@ -31,6 +28,7 @@ namespace OXXGame.Controllers
 
         //-------------------------------------------------- ActionResults --------------------------------------------------//
 
+        // Entry point for TestController; returnerer TestInfo-siden
         public ActionResult TestInfo(object p)
         {
             if (loggedIn())
@@ -46,6 +44,7 @@ namespace OXXGame.Controllers
             }
         }
 
+        // Starter testen; henter populert TestModel og omdirigerer til ActionResult som velger view (basert på kategori)
         public ActionResult StartTest()
         {
             if (loggedIn())
@@ -66,23 +65,39 @@ namespace OXXGame.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        // Mottar TestModel inkludert brukerinput, kjører/tester inputkode og returnerer view.
+        // runCode og submitCode representerer submit-knappene i test-skjema
+        // Knappen som trykkes på vil passe sin verdi, mens den andre er null
+        // Returns:
+        //      runCode != null:    Forrige TestView returneres med output fra VM
+        //      submitCode != null: Besvarelse lagres og brukeren sendes videre til neste oppgave
+        //      default:            Omdirigeres til login. Dette vil ikke være et valg for brukeren, og burde ikke forekomme.
         [HttpPost]
-        public ActionResult SubmitCode(TestModel testModel, string submitBtn)
+        public ActionResult SubmitCode(TestModel testModel, string runCode, string submitCode)
         {
             RunCode(testModel);
             ModelState.Clear();
 
-            switch (submitBtn)
+            if (!string.IsNullOrEmpty(runCode))
             {
-                case "Kjør":
-                    return DecideView(testModel);
-                case "Neste":
-                    return Neste(testModel);
-                default:
-                    return RedirectToAction("Index", "Login");
+                return DecideView(testModel);
+            }
+            else if (!string.IsNullOrEmpty(submitCode))
+            {
+                return Neste(testModel);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
             }
         }
 
+        // Lagrer besvarelse og laster inn ny oppgave/avslutter testen.
+        // Returns:
+        //      getModel() == null -> getTask() == null -> ingen oppgaver igjen: returnerer TestEndView
+        //      Submit(testModel) == true && getTask() != null:                  returnerer neste TestView
+        //      Submit(testModel) == false -> kunne ikke lagre besvarelse:       returnerer forrige TestView
+        //      loggedIn() == false:                                             omdirigerer til login
         [HttpGet]
         public ActionResult Neste(TestModel testModel)
         {
@@ -103,12 +118,13 @@ namespace OXXGame.Controllers
                     return DecideView(newModel);
                 }
 
-                return View("TestView", testModel);
+                return DecideView(testModel);
             }
 
             return RedirectToAction("Index", "Login");
         }
 
+        // Returnerer riktig TestView basert på oppgavekategori
         [HttpGet]
         public ActionResult DecideView(TestModel dModel) 
         {
@@ -120,14 +136,6 @@ namespace OXXGame.Controllers
             else
                 return View("TestView", dModel);
         }
-
-        public ActionResult Avbryt()
-        {
-            HttpContext.Session.SetInt32(LoggedIn, FALSE);
-            Debug.WriteLine("Logger ut...");
-            return RedirectToAction("Index", "Login");
-        }
-
 
         //-------------------------------------------------- Andre metoder --------------------------------------------------//
 
@@ -354,6 +362,8 @@ namespace OXXGame.Controllers
             return true;
         }
 
+        // Metode som sjekker om en bruker er logget inn
+        // Metoden kalles i ActionResults for å sørge for at kun innloggede brukere kan aksessere testen
         public bool loggedIn()
         {
             bool loggetInn;
@@ -371,8 +381,10 @@ namespace OXXGame.Controllers
             return loggetInn;
         }
 
-
+        // Oppretter SSH-tilkobling til VM, sender gjennom testbesvarelsen til kompilering/testing og henter output
+        // Besvarelse vil vurderes fra output fra VM:
         // Besvarelse underkjennes ved feilmelding fra (en av følgende): C#-kompilator, C#-test, TS-kompilator
+        // C#-oppgaver vil godkjennes dersom testen kjører feilfritt
         public void RunCode(TestModel testModel)
         {
             if (testModel.code == null)
@@ -389,7 +401,7 @@ namespace OXXGame.Controllers
             {
                 testModel.singleTestResult.passed = SingleTestResult.NOT_PASSED;
             }
-            else if (!output.Contains("Not passed"))
+            else if (!output.Contains("Not passed") && testModel.task.category.Equals("C#"))
             {
                 testModel.singleTestResult.passed = SingleTestResult.PASSED;
             }
@@ -401,6 +413,11 @@ namespace OXXGame.Controllers
             ViewData["Output"] = output;
         }
 
+        // Oppdaterer progresjonsdata og utfører all nødvendig lagring av testdata:
+        //      -Lagrer besvarelsesfil til server
+        //      -Lagrer SingleTestResult til database
+        // Metoden vil også ta timestamp for innleveringstidspunkt og beregne tid brukt på oppgaven, samt
+        // opprette filnavn basert på bruker- og test-id
         private bool Submit(TestModel testModel)
         {
             if (updateTestValues(testModel.task.category,

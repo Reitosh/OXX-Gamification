@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations; 
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
 namespace OXXGame.Models
@@ -21,13 +19,13 @@ namespace OXXGame.Models
         public byte[] pwdHash {
             get 
             {
-                if (password == null)
+                if (password == null) // bruker er hentet fra databasen, og objektet inneholder kun hash
                 {
                     return _pwdHash;
                 }
                 else
                 {
-                    return createHash(password);
+                    return createHash(password); // bruker er opprettet fra input, og mangler hash
                 }
             }
             set 
@@ -51,6 +49,7 @@ namespace OXXGame.Models
 
         public List<CategoryLvl> categoryLvls { get; set; }
 
+        // Metode som lager hash til lagring av brukerpassord
         public static byte[] createHash(string s)
         {
             var alg = System.Security.Cryptography.SHA256.Create();
@@ -58,6 +57,7 @@ namespace OXXGame.Models
             return alg.ComputeHash(pwd);
         }
 
+        // Klasse som knytter nivå til kategori ved brukerregistrering. Lagres omsider til ResultsPerCategory
         public class CategoryLvl
         {
             public bool lvl { get; set; }

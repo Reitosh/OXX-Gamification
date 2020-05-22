@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
 namespace OXXGame.Models
 {
-
+    //--------------------------------- Databasetabeller ---------------------------------//
     public class Users
     {
         public int id { get; set; }
@@ -63,6 +60,7 @@ namespace OXXGame.Models
         public string CodeLink { get; set; }
     }
 
+    //--------------------------------- DBContext ---------------------------------//
     public class OXXGameDBContext : DbContext
     {
         // Konstruktør for opprettelse av context til bruk i tester
@@ -70,6 +68,7 @@ namespace OXXGame.Models
             : base(options)
         { }
 
+        // Konfigurerer nøkler for tabeller med composite keys
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SingleTestResults>()
@@ -83,6 +82,5 @@ namespace OXXGame.Models
         public DbSet<ResultsPerCategory> ResultsPerCategory { get; set; }
         public DbSet<Tasks> Tasks { get; set; }
         public DbSet<SingleTestResults> SingleTestResults { get; set; }
-        public DbSet<Results> Results { get; set; }
     }
 }

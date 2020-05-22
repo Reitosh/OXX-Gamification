@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using OXXGame.Controllers;
 using OXXGame.Models;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Web;
 using System.IO.Compression;
-using System.IO;
 
 namespace OXXGame.Controllers
 {
@@ -18,16 +12,19 @@ namespace OXXGame.Controllers
     {
         OXXGameDBContext dbContext;
 
+        // Keys og verdier til session-variabler
         public readonly string IsAdmin = "admin_key";
         public readonly string LoggedIn = "login_key";
         public readonly int TRUE = 1;
         public readonly int FALSE = 0;
 
+        // Constructor; mottar DBContext gjennom dependency injection
         public AdminController(OXXGameDBContext context)
         {
             dbContext = context;
         }
 
+        // Entry point for adminportalen
         public ActionResult AdminPortal()
         {
             if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
@@ -41,11 +38,13 @@ namespace OXXGame.Controllers
             }
         }
 
+        // Laster ned en spesifik fil fra server
         public FileResult DownloadFile(string path, string category, int userId, int testId)
         {
             return PhysicalFile(path, "text/plain", "u" + userId + "t" + testId + FileHandler.getFileExtension(category));
         }
 
+        // Laster ned en gitt brukers besvarelser som zip
         public FileResult DownloadAllZip(int userId)
         {
             string directoryPath = "/home/submission_files/" + userId;
@@ -60,13 +59,13 @@ namespace OXXGame.Controllers
             return PhysicalFile(zipPath, "application/zip", "User_" + userId + "_code.zip");
         }
 
+        // Returnerer brukeradministrasjonssiden med nødvendig data
         public ActionResult UserAdmin()
         {
             if (AdminLoggedIn()) 
             {
                 DB db = new DB(dbContext);
                 List<User> users = db.allUsers();
-                List<Result> results = db.allResults();
                 List<SingleTestResult> singleTestResults = db.allSingleTestResults();
                 List<Models.Task> tasks = db.allTasks();
 
@@ -81,7 +80,6 @@ namespace OXXGame.Controllers
                 }
 
                 ViewData["Users"] = users;
-                ViewData["Results"] = results;
                 ViewData["SingleTestResults"] = singleTestResults;
                 ViewData["category"] = category;
                 ViewData["difficulty"] = difficulty;
@@ -94,6 +92,7 @@ namespace OXXGame.Controllers
             }
         }
 
+        // Returnerer oppgaveadministrasjonssiden med nødvendig data
         public ActionResult TaskAdmin()
         {
             if (AdminLoggedIn())
@@ -111,25 +110,7 @@ namespace OXXGame.Controllers
             }
         }
 
-        
-
-        private bool AdminLoggedIn()
-        {
-            if (HttpContext.Session.GetInt32(LoggedIn) == TRUE && 
-                HttpContext.Session.GetInt32(IsAdmin) == TRUE)
-            {
-                return true;
-            } 
-            else
-            {
-                Debug.WriteLine("LoggedIn = " + HttpContext.Session.GetInt32(LoggedIn));
-                Debug.WriteLine("isAdmin = " + HttpContext.Session.GetInt32(IsAdmin));
-
-                return false;
-            }
-        }
-
-
+        // Sletter bruker og returnerer brukeradministrasjonsside
         public ActionResult DeleteUser(int userId)
         {
             var userDb = new DB(dbContext);
@@ -141,6 +122,7 @@ namespace OXXGame.Controllers
             return RedirectToAction("UserAdmin", "Admin");
         }
 
+        // Sletter oppgave (Task) og returnerer oppgaveadministrasjonsside
         public ActionResult DeleteTask(int testId)
         {
             var taskDb = new DB(dbContext);
@@ -152,6 +134,7 @@ namespace OXXGame.Controllers
             return RedirectToAction("TaskAdmin", "Admin");
         }
 
+        // Returnerer side for oppgaveopprettelse
         public ActionResult CreateTask()
         {
             if (AdminLoggedIn())
@@ -166,6 +149,8 @@ namespace OXXGame.Controllers
             }
         }
 
+        // Legger ny oppgave i database og returnerer side for oppgaveadministrasjon
+        // Går tilbake til oppgave-editor om databaselagring feiler
         [HttpPost]
         public ActionResult CreateTask(Models.Task task)
         {
@@ -176,9 +161,10 @@ namespace OXXGame.Controllers
             {
                 return RedirectToAction("TaskAdmin");
             }
-            return View();
+            return View(task);
         }
 
+        // Henter valgt oppgave fra database og returnerer oppgave-editor
         public ActionResult EditTask(int testId)
         {
             var db = new DB(dbContext);
@@ -187,6 +173,8 @@ namespace OXXGame.Controllers
             return View(aTask);   
         }
 
+        // Lagrer endret oppgave til database og returnerer side for oppgaveadministrasjon
+        // Skulle lagringen feile, returneres oppgave-editor
         [HttpPost]
         public ActionResult EditTask(int testId, Models.Task editTask)
         {
@@ -200,7 +188,26 @@ namespace OXXGame.Controllers
                     return RedirectToAction("TaskAdmin");
                 }
             }
-            return View();
+            return View(editTask);
+        }
+
+        // Metode som sjekker om bruker er innlogget, og om bruker har administratorrettigheter
+        // ActionResult-metoder i denne klassen vil kalle på denne metoden, og omdirigere til
+        // login hvis false returneres
+        private bool AdminLoggedIn()
+        {
+            if (HttpContext.Session.GetInt32(LoggedIn) == TRUE &&
+                HttpContext.Session.GetInt32(IsAdmin) == TRUE)
+            {
+                return true;
+            }
+            else
+            {
+                Debug.WriteLine("LoggedIn = " + HttpContext.Session.GetInt32(LoggedIn));
+                Debug.WriteLine("isAdmin = " + HttpContext.Session.GetInt32(IsAdmin));
+
+                return false;
+            }
         }
     }
 }
