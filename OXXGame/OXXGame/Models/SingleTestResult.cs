@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace OXXGame.Models
 {
     public class SingleTestResult
     {
+        // Strings til bruk til godkjenning av oppgaver (kan endres fra strings til Enum)
         public const string PASSED = "Godkjent";
         public const string NOT_PASSED = "Ikke godkjent";
         public const string UNDEFINED = "Til godkjenning";

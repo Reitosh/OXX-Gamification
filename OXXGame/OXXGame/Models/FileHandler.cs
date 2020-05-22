@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace OXXGame.Models
 {
     public class FileHandler
     {
-        private string path = "/home/submission_files";
-        //private string extension = ".txt";
-        private bool windows = false;
+        private string path = "/home/submission_files"; // Hardkodet default path for fillagring
+        private bool windows = false; // variabel for enkel konvertering til windows-path ( / -> \ )
 
+        //Default constructor
         public FileHandler() { }
 
-        // Primært for testing lokalt (kan være nyttig ...?)
+        // Constructor primært for testing lokalt
+        // Denne vil overskrive default path, og lar deg velge om path skal konverteres til windows-format
         public FileHandler(string overridePath, bool windows)
         {
             this.path = overridePath;
             this.windows = windows;
         }
 
+        // Tar inn relativ path ("/userId"), filnavn, filinnhold og fil-extension
+        // Oppretter og skriver innhold til fil. Returnerer absolute path til den nye filen.
         public string saveFile(string relativePath, string fileName, List<string> fileContent, string extension)
         {
             string absolutePath = path + relativePath;
@@ -46,23 +47,8 @@ namespace OXXGame.Models
 
             return fileAbsolutePath;
         }
-        /*
-        public List<string> getFile(string relativePath, string fileName)
-        {
-            string fileAbsolutePath = path + relativePath + "/" + fileName + extension;
-            List<string> fileContent = new List<string>();
 
-            using (StreamReader file = new StreamReader(fileAbsolutePath))
-            {
-                while (!file.EndOfStream)
-                {
-                    fileContent.Add(file.ReadLine());
-                }
-            }
-
-            return fileContent;
-        }
-        */
+        // Leser inn string linje for linje og legger til i liste som returneres.
         public static List<string> stringToList(string inputString)
         {
             List<string> codeLines = new List<string>();
@@ -87,6 +73,7 @@ namespace OXXGame.Models
             return codeLines;
         }
 
+        // Setter passende extension basert på oppgavekategori
         public static string getFileExtension(string category)
         {
             switch (category)
