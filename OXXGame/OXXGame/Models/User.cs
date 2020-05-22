@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations; 
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Diagnostics;
@@ -12,7 +12,7 @@ namespace OXXGame.Models
         public int userId { get; set; }
         public bool isAdmin { get; set; }
         public int loginCounter { get; set; }
-        public byte[] _pwdHash;   
+        public byte[] _pwdHash;
         public byte[] pwdHash
         {
             get
@@ -41,7 +41,7 @@ namespace OXXGame.Models
         }
 
         [Required(ErrorMessage = "Vennligst skriv inn et passord")]
-        [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,255}$", 
+        [RegularExpression(@"^(?=.*[A-ZÆØÅÉ])(?=.*\d)[a-zA-ZæøöåäéÆØÖÅÄÉ .,:;!?@#$£&%*+-=~^<>(){}\d]{8,255}$",
             ErrorMessage = "Passordet må bestå av minst 8 tegn, en stor bokstav og ett tall")]
         public string password { get; set; }
 
@@ -49,12 +49,12 @@ namespace OXXGame.Models
         public string passwordRepeat { get; set; }
 
         [Required(ErrorMessage = "Vennligst skriv inn ditt fornavn")]
-        [RegularExpression("^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð '-]{2,40}$",
+        [RegularExpression("^[a-zA-ZæøöåäéÆØÖÅÄÉ '-]{2,40}$",
             ErrorMessage = "Fornavnet må være mellom 2 og 40 tegn langt og kun inneholde bokstaver og mellomrom")]
         public string firstname { get; set; }
 
         [Required(ErrorMessage = "Vennligst skriv inn ditt etternavn")]
-        [RegularExpression("^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð '-]{2,40}$",
+        [RegularExpression("^[a-zA-ZæøöåäéÆØÖÅÄÉ '-]{2,40}$",
             ErrorMessage = "Etternavnet må være mellom 2 og 40 tegn langt og kun inneholde bokstaver og mellomrom")]
         public string lastname { get; set; }
 
@@ -62,7 +62,7 @@ namespace OXXGame.Models
         [EmailAddress(ErrorMessage = "Ugyldig e-postadresse")]
         [StringLength(255, ErrorMessage = "E-postaddressen du har angitt er altfor lang")]
         public string email { get; set; }
-        
+
         [Required(ErrorMessage = "Vennligst skriv inn ditt telefonnummer")]
         [RegularExpression(@"^((0047)?|(\+47)?)\d{8}$", ErrorMessage = "Ugyldig norsk telefonnummer")]
         public string tlf { get; set; }
