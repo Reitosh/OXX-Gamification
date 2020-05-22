@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OXXGame.Models;
@@ -21,6 +20,7 @@ namespace OXXGame.Controllers
         public readonly int TRUE = 1;
         public readonly int FALSE = 0;
 
+        // Constructor; mottar DBContext gjennom dependency injection
         public LoginController(ILogger<LoginController> logger, OXXGameDBContext context)
         {
             _logger = logger;
@@ -37,6 +37,12 @@ namespace OXXGame.Controllers
             return View();
         }
 
+        // Autentisering og autorisering av bruker.
+        // Returns:
+        //      admin: AdminPortal
+        //      user: TestInfo
+        //      ugyldig: Login
+        // Metoden vil matche input-epost med bruker i database, for så å sammenligne passord-hash
         [HttpPost]
         public ActionResult Login(User inUser)
         {
@@ -82,6 +88,7 @@ namespace OXXGame.Controllers
             return View("Index");
         }
 
+        // Henter nødvendig data og returnerer registreringsside
         [HttpGet]
         public ActionResult UserRegistration()
         {
@@ -104,6 +111,10 @@ namespace OXXGame.Controllers
             return View("UserRegistration",model);
         }
 
+        // Validerer brukerinput, lagrer brukerdata fra input til database (tabeller: User, ResultsPerCategory)
+        // Returns:
+        //      vellykket lagring: TestInfo
+        //      feilet lagring: UserRegistration (m/ ev. feilmelding)
         [HttpPost]
         public ActionResult UserRegistration(User user)
         {

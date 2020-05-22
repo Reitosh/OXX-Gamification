@@ -1,8 +1,6 @@
-﻿using System;
+ï»¿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations; 
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
 namespace OXXGame.Models
@@ -17,13 +15,13 @@ namespace OXXGame.Models
         {
             get
             {
-                if (password == null)
+                if (password == null) // bruker er hentet fra databasen, og objektet inneholder kun hash
                 {
                     return _pwdHash;
                 }
                 else
                 {
-                    return createHash(password);
+                    return createHash(password); // bruker er opprettet fra input, og mangler hash
                 }
             }
 
@@ -33,6 +31,7 @@ namespace OXXGame.Models
             }
         }
 
+        // Metode som lager hash til lagring av brukerpassord
         public static byte[] createHash(string s)
         {
             var alg = System.Security.Cryptography.SHA256.Create();
@@ -42,20 +41,20 @@ namespace OXXGame.Models
 
         [Required(ErrorMessage = "Vennligst skriv inn et passord")]
         [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,255}$", 
-            ErrorMessage = "Passordet må bestå av minst 8 tegn, en stor bokstav og ett tall")]
+            ErrorMessage = "Passordet mÃ¥ bestÃ¥ av minst 8 tegn, en stor bokstav og ett tall")]
         public string password { get; set; }
 
         [Compare("password", ErrorMessage = "Stemmer ikke overens med angitt passord")]
         public string passwordRepeat { get; set; }
 
         [Required(ErrorMessage = "Vennligst skriv inn ditt fornavn")]
-        [RegularExpression("^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð '-]{2,40}$",
-            ErrorMessage = "Fornavnet må være mellom 2 og 40 tegn langt og kun inneholde bokstaver og mellomrom")]
+        [RegularExpression("^[a-zA-ZÃ Ã¡Ã¢Ã¤Ã£Ã¥ÄÄÄÄÃ¨Ã©ÃªÃ«ÄÄ¯Ã¬Ã­Ã®Ã¯ÅÅÃ²Ã³Ã´Ã¶ÃµÃ¸Ã¹ÃºÃ»Ã¼Å³Å«Ã¿Ã½Å¼ÅºÃ±Ã§ÄÅ¡Å¾ÃÃÃÃÃÃÄÄÄÄÄÃÃÃÃÃÃÃÃÄ®ÅÅÃÃÃÃÃÃÃÃÃÃÅ²ÅªÅ¸ÃÅ»Å¹ÃÃÃÅÃÄÅ Å½âÃ° '-]{2,40}$",
+            ErrorMessage = "Fornavnet mÃ¥ vÃ¦re mellom 2 og 40 tegn langt og kun inneholde bokstaver og mellomrom")]
         public string firstname { get; set; }
 
         [Required(ErrorMessage = "Vennligst skriv inn ditt etternavn")]
-        [RegularExpression("^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð '-]{2,40}$",
-            ErrorMessage = "Etternavnet må være mellom 2 og 40 tegn langt og kun inneholde bokstaver og mellomrom")]
+        [RegularExpression("^[a-zA-ZÃ Ã¡Ã¢Ã¤Ã£Ã¥ÄÄÄÄÃ¨Ã©ÃªÃ«ÄÄ¯Ã¬Ã­Ã®Ã¯ÅÅÃ²Ã³Ã´Ã¶ÃµÃ¸Ã¹ÃºÃ»Ã¼Å³Å«Ã¿Ã½Å¼ÅºÃ±Ã§ÄÅ¡Å¾ÃÃÃÃÃÃÄÄÄÄÄÃÃÃÃÃÃÃÃÄ®ÅÅÃÃÃÃÃÃÃÃÃÃÅ²ÅªÅ¸ÃÅ»Å¹ÃÃÃÅÃÄÅ Å½âÃ° '-]{2,40}$",
+            ErrorMessage = "Etternavnet mÃ¥ vÃ¦re mellom 2 og 40 tegn langt og kun inneholde bokstaver og mellomrom")]
         public string lastname { get; set; }
 
         [Required(ErrorMessage = "Vennligst skriv inn din e-postadresse")]
@@ -69,6 +68,7 @@ namespace OXXGame.Models
 
         public List<CategoryLvl> categoryLvls { get; set; }
 
+        // Klasse som knytter nivå til kategori ved brukerregistrering. Lagres omsider til ResultsPerCategory
         public class CategoryLvl
         {
             public bool lvl { get; set; }

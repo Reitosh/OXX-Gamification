@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.IO;
 using System.Text;
 using Renci.SshNet;
 using System.Diagnostics;
-using Microsoft.Extensions.Logging;
 
 namespace OXXGame.Models
 {
@@ -87,7 +84,7 @@ namespace OXXGame.Models
 
                 client.Connect();
 
-                string command = string.Format("sudo sh /home/Markus/Testing/{0}.sh '{1}' '{2}' '{3}'",
+                string command = string.Format("sudo sh /home/Markus/Testing/{0}.sh '{1}' '{2}' \"{3}\"",
 
                        testModel.task.category,
                        testModel.singleTestResult.userId,
@@ -127,12 +124,28 @@ namespace OXXGame.Models
                 formattedCode = formattedCode.Remove(startIndex, count);
             }
 
-            // Legger til \ foran "
-            if (formattedCode.Contains("'"))
+            // Escape \ (backslash)
+            if (formattedCode.Contains(@"\"))
             {
-                formattedCode = formattedCode.Replace("'", @"\" + "'");
+                formattedCode = formattedCode.Replace(@"\", @"\\");
             }
 
+            // Escape " (double quote)
+            if (formattedCode.Contains("\""))
+            {
+                formattedCode = formattedCode.Replace("\"", @"\" + "\"");
+            }
+
+            /*
+            int doubleQuoteCounter = 0;
+            foreach (char c in formattedCode)
+            {
+                if (c.Equals('"'))
+                {
+
+                }
+            }
+            */
             return formattedCode;
         }
 
