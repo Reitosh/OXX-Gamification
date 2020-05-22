@@ -173,6 +173,7 @@ namespace OXXGame
         }
 
         /* ------------------------- List metoder ------------------------- */
+
         public List<User> allUsers()
         {
             List<User> users = db.Users.Select(user => getUserData(user)).ToList();
@@ -308,7 +309,8 @@ namespace OXXGame
             }
         }
 
-        // Henter totalresultat ved bruker-id. Har ikke brukeren noen oppføring i resultattabellen (bruker har ikke utført test) returneres null
+        // Henter totalresultat ved bruker-ID. Har ikke brukeren noen oppføring i resultattabellen 
+        // (bruker har ikke utført test) returneres null.
         public Result resultTot(int uid)
         {
             // Metode i TestController sender inn uid=-1 hvis ikke uid av en eller annen grunn ikke skulle finnes.

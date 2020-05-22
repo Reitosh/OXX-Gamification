@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Brukerinnlogging";
     Layout = null;
+
+    var loginErr = ViewData["LoginError"];
 }
 
 <!DOCTYPE html>
@@ -52,18 +54,24 @@
 
                 <!-- Login Form -->
                 @using (Html.BeginForm("Login", "Login", FormMethod.Post,
-                 new { name = "formLogin", id = "form-login", onsubmit = "return loginAll()", novalidate = "true" }))
+                    new { name = "formLogin", id = "form-login", onsubmit = "return loginAll()", novalidate = "true" }))
                 {
+
+                    <!-- Displays server-side validation error message for login input -->
+                    <div class="form-error form-error-login" id="loginErr">
+                        <span>@loginErr</span>
+                    </div>
+
                     <div class="form-group">
                         <input asp-for="email" type="text" name="email" class="form-control"
-                               id="form-login-email" onchange="loginEmail()" required />
+                            id="form-login-email" onchange="loginEmail()" required />
                         <label class="float-label" for="form-login-email">E-post</label>
                         <div class="form-error form-error-login" id="form-error-login-email"></div>
                     </div>
 
                     <div class="form-group">
                         <input asp-for="password" type="password" name="password" class="form-control"
-                               id="form-login-password" onchange="loginPasswd()" required />
+                            id="form-login-password" onchange="loginPasswd()" required />
                         <label class="float-label" for="form-login-email">Passord</label>
                         <span class="fas fa-eye passwd-toggle" toggle="#form-login-password"></span>
                         <div class="form-error form-error-login" id="form-error-login-password"></div>

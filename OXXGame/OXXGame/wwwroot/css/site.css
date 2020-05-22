@@ -339,6 +339,13 @@ input[type=password] {
     margin-top: 14px;
 }
 
+#loginErr {
+    margin: -15px 0 20px;
+    color: #FDD20E;
+    font-size: 18px;
+    text-align: center;
+}
+
 /* Login Form External Links */
 #login-links-forgot a {
     position: relative;
@@ -386,6 +393,13 @@ input[type=password] {
     }
 
 /*** Registration Form ***/
+
+#regErr {
+    color: #FDD20E;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 35px;
+}
 
 .btn-form-reg {
     width: 250px;

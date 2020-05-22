@@ -200,6 +200,11 @@
             margin-bottom: 30px;
         }
 
+    #loginErr {
+        margin: -10px 0 20px;
+        font-size: 16px;
+    }
+
     .btn-form-login {
         margin-top: 10px;
     }
@@ -215,6 +220,11 @@
     .btn-form-reg {
         width: 250px;
         margin-top: 20px;
+    }
+
+    #regErr {
+        font-size: 16px;
+        margin-bottom: 25px;
     }
 
     .form-content-reg {
@@ -419,6 +429,10 @@
             width: 65px;
         }
 
+    #loginErr {
+        margin: -10px 0 18px;
+    }
+
     .btn-form-login {
         margin-top: 6px;
     }
@@ -438,6 +452,11 @@
 
     .btn-form-reg {
         width: 160px;
+    }
+
+    #regErr {
+        font-size: 16px;
+        margin-bottom: 25px;
     }
 
     .form-content-reg h5 {
