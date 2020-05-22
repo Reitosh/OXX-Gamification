@@ -57,6 +57,7 @@ namespace OXXGame.Models
         [Required(ErrorMessage = "Vennligst skriv inn ditt etternavn")]
         [RegularExpression("^[a-zA-ZæøöåäéÆØÖÅÄÉ '-]{2,40}$",
             ErrorMessage = "Etternavnet må være mellom 2 og 40 tegn langt og kun inneholde bokstaver og mellomrom")]
+
         public string lastname { get; set; }
 
         [Required(ErrorMessage = "Vennligst skriv inn din e-postadresse")]
