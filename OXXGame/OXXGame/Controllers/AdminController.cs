@@ -30,6 +30,7 @@ namespace OXXGame.Controllers
             if (HttpContext.Session.GetInt32(LoggedIn) == TRUE)
             {
                 HttpContext.Session.SetInt32(IsAdmin, TRUE);
+                ViewData["email"] = HttpContext.Session.GetString("email");
                 return View("AdminPortal");
             }
             else

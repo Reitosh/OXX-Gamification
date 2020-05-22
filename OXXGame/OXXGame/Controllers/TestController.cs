@@ -55,7 +55,7 @@ namespace OXXGame.Controllers
 
                     if (model == null)
                     {
-                        return RedirectToAction("Index", "Login");
+                        return View("TestEndView");
                     }
 
                     return DecideView(model);
@@ -109,10 +109,11 @@ namespace OXXGame.Controllers
                     ViewData["Output"] = null;
                     TestModel newModel = getModel();
 
+                    // Dette burde tilsi at testen er ferdig
+                    // Kan også forårsakes av database-uthentingsfeil (aldri forekommet)
                     if (newModel == null)
                     {
-                        return View("TestEndView"); // Dette burde tilsi at testen er ferdig
-                                                    // Kan også forårsakes av database-uthentingsfeil (aldri forekommet)
+                        return View("TestEndView");
                     }
 
                     return DecideView(newModel);

@@ -7,7 +7,6 @@
  *                configurations of the CodeMirror C# editors
  */
 
-
 // C# Editor - View Configuration
 var editor = CodeMirror.fromTextArea(
     document.getElementById('input'), {

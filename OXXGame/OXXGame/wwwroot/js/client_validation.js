@@ -17,7 +17,7 @@ function loginEmail() {
     errorMessage = document.getElementById("form-error-login-email");
 
     if (inputEmail == null || inputEmail == "") {
-        errorMessage.innerHTML = "Vennligst oppgi e-post adresse";
+        errorMessage.innerHTML = "Vennligst skriv inn e-postaddresse";
         return false;
     } else {
         errorMessage.innerHTML = "";
@@ -31,7 +31,7 @@ function loginPasswd() {
     errorMessage = document.getElementById("form-error-login-password");
 
     if (inputPasswd == null || inputPasswd == "") {
-        errorMessage.innerHTML = "Vennligst oppgi passord";
+        errorMessage.innerHTML = "Vennligst skriv inn ditt passord";
         return false;
     } else {
         errorMessage.innerHTML = "";
@@ -56,10 +56,10 @@ function loginAll() {
   ======================================================================*/
 
 /* Regular Expression variables */
-var REGEX_NAME = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð '-]{2,20}$/;
-var REGEX_EMAIL = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+var REGEX_NAME = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð '-]{2,40}$/;
+var REGEX_EMAIL = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,8}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 var REGEX_TLF = /^((0047)?|(\+47)?)\d{8}$/
-var REGEX_PASSWD = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+var REGEX_PASSWD = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,255}$/;
 
 // Registration form - firstname validation
 function regFirstname() {
@@ -68,10 +68,10 @@ function regFirstname() {
     errorMessage = document.getElementById("form-error-reg-firstname");
 
     if (inputFirstname == null || inputFirstname == "") {
-        errorMessage.innerHTML = "Fornavn er påkrevd";
+        errorMessage.innerHTML = "Vennligst skriv inn ditt fornavn";
         return false;
     } else if (!accept) {
-        errorMessage.innerHTML = "Fornavnet må være mellom 2 og 20 tegn langt og kun inneholde bokstaver og mellomrom";
+        errorMessage.innerHTML = "Fornavnet må være mellom 2 og 40 tegn langt og kun inneholde bokstaver og mellomrom";
         return false;
     } else {
         errorMessage.innerHTML = "";
@@ -86,10 +86,10 @@ function regLastname() {
     errorMessage = document.getElementById("form-error-reg-lastname");
 
     if (inputLastname == null || inputLastname == "") {
-        errorMessage.innerHTML = "Etternavn er påkrevd";
+        errorMessage.innerHTML = "Vennligst skriv inn ditt etternavn";
         return false;
     } else if (!accept) {
-        errorMessage.innerHTML = "Etternavnet må være mellom 2 og 20 tegn langt og kun inneholde bokstaver og mellomrom";
+        errorMessage.innerHTML = "Etternavnet må være mellom 2 og 40 tegn langt og kun inneholde bokstaver og mellomrom";
         return false;
     } else {
         errorMessage.innerHTML = "";
@@ -103,11 +103,11 @@ function regEmail() {
     accept = REGEX_EMAIL.test(inputEmail);
     errorMessage = document.getElementById("form-error-reg-email");
 
-    if (inputEmail == null || inputEmail == "") {
-        errorMessage.innerHTML = "E-post adresse er påkrevd";
+    if (inputEmail == null || inputEmail == "Vennligst skriv inn din e-postadresse") {
+        errorMessage.innerHTML = errMsg;
         return false;
     } else if (!accept) {
-        errorMessage.innerHTML = "Ugyldig e-post adresse";
+        errorMessage.innerHTML = "Ugyldig e-postadresse";
         return false;
     } else {
         errorMessage.innerHTML = "";
@@ -122,7 +122,7 @@ function regTlf() {
     errorMessage = document.getElementById("form-error-reg-tlf");
 
     if (inputTlf == null || inputTlf == "") {
-        errorMessage.innerHTML = "Telefonnummeret er påkrevd";
+        errorMessage.innerHTML = "Vennligst skriv inn ditt telefonnummer";
         return false;
     } else if (!accept) {
         errorMessage.innerHTML = "Ugyldig norsk telefonnummer";
@@ -140,34 +140,14 @@ function regPasswd() {
     errorMessage = document.getElementById("form-error-reg-password");
 
     if (inputPasswd == null || inputPasswd == "") {
-        errorMessage.innerHTML = "Passord er påkrevd";
+        errorMessage.innerHTML = "Skriv inn et passord";
         return false;
     } else if (!accept) {
-        errorMessage.innerHTML = "Passordet må inneholde minst 8 tegn, minst en bokstav og ett tall";
+        errorMessage.innerHTML = "Passordet må bestå av minst 8 tegn, en stor bokstav og ett tall";
         return false;
     } else {
         errorMessage.innerHTML = "";
         return true;
-    }
-}
-
-// Registration form - password-repeat validation
-function regPasswdRepeat() {
-    inputPasswdRepeat = document.forms["formReg"]["passwordRepeat"].value;
-    inputPasswd = document.forms["formReg"]["password"].value;
-    errorMessage = document.getElementById("form-error-reg-passwordRepeat");
-    acceptPasswd = regPasswd();
-
-    if (acceptPasswd) {
-        if (inputPasswdRepeat == inputPasswd) {
-            errorMessage.innerHTML = "";
-            return true;
-        } else {
-            errorMessage.innerHTML = "Stemmer ikke overens med gjentatt passord";
-            return false;
-        }
-    } else {
-        return false;
     }
 }
 
@@ -178,9 +158,8 @@ function regAll() {
     acceptEmail = regEmail();
     acceptTlf = regTlf();
     acceptPasswd = regPasswd();
-    acceptPasswdRepeat = regPasswdRepeat();
 
-    if (acceptFirstname && acceptLastname && acceptEmail && acceptTlf && acceptPasswd && acceptPasswdRepeat) {
+    if (acceptFirstname && acceptLastname && acceptEmail && acceptTlf && acceptPasswd) {
         return true;
     } else {
         return false;

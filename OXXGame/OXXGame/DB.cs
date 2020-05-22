@@ -147,6 +147,7 @@ namespace OXXGame
         }
 
         /* ------------------------- List metoder ------------------------- */
+
         public List<User> allUsers()
         {
             List<User> users = db.Users.Select(user => getUserData(user)).ToList();

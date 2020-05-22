@@ -1,40 +1,66 @@
 ﻿@model OXXGame.Models.Task
-@{
-    ViewData["Title"] = "TaskAdmin";
-}
 
 @{
+    ViewData["Title"] = "Testoppgaver";
     var tasks = (List<OXXGame.Models.Task>)ViewData["Tasks"];
 }
 
-<table class="table" style="color:#ffffff">
-    <thread>
-        <tr>
-            <th scope="col">Exercise</th>
-            <th scope="col">Difficulty</th>
-            <th scope="col">Category</th>
-        </tr>
-    </thread>
-    <tbody>
-        @foreach (OXXGame.Models.Task task in tasks)
-        {
-            <tr>
-                <th>@task.test</th>
-                <th>@task.difficulty</th>
-                <th>@task.category</th>
-                <th>
-                    @Html.ActionLink("Endre", "EditTask", "Admin", new { testId = task.testId })
-                </th>
-                <th>
-                    @Html.ActionLink("Slett", "DeleteTask", "Admin", new { testId = task.testId }, new { onclick = "return confirm('Er du sikker på at du vil slette denne oppgaven?');" })
-                </th>
-            </tr>
-        }
-    </tbody>
+<body>
+    <!-- ADMIN USERS-TASKS -->
+    <div class="section section-admin-users">
+        <div class="container container-admin-users">
+            <h2>Testoppgaver</h2>
+            <span class="underline"></span>
 
-</table>
+            <!-- Admin Table -->
+            <div class="wrapper admin-table-wrapper">
+                <table class="admin-table">
+                    <thead class="admin-table-head">
+                        <tr>
+                            <th scope="col">Oppgave</th>
+                            <th scope="col">Kategori</th>
+                            <th scope="col">Nivå</th>
+                            <th scope="col" colspan="2"></th>
+                        </tr>
+                    </thead>
 
-@using (Html.BeginForm("CreateTask", "Admin", FormMethod.Get))
-{
-    <input id="btn-login" type="submit" name="ny oppgave" value="Ny oppgave" />
-}
+                    <tbody class="admin-table-body">
+                        @foreach (OXXGame.Models.Task task in tasks)
+                        {
+                            <tr class="table-main-rows">
+                                <td class="big-text">@task.test</td>
+                                <td>@task.difficulty</td>
+                                <td>@task.category</td>
+                                <td>
+                                    @Html.ActionLink("Endre", "EditTask", "Admin", new { testId = task.testId })
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Slett", "DeleteTask", "Admin", new { testId = task.testId },
+                                        new { onclick = "return confirm('Er du sikker på at du vil slette denne oppgaven?');" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- End Admin Table -->
+
+            <!--  Admin Page Redirection -->
+            <div class="wrapper redirection-btn-wrapper">
+                <div class="redirection-btn-container" id="redirection-btn-left">
+                    <!-- Knappen fører til CreateTask view -->
+                    @using (Html.BeginForm("CreateTask", "Admin", FormMethod.Get))
+                    {
+                        <input type="submit" name="newTask" value="Ny oppgave" class="btn btn-success redirection-btn"  />
+                    }
+                </div>
+                <div class="redirection-btn-container" id="redirection-btn-right">
+                    <a asp-controller="Admin" asp-action="AdminPortal" role="button"
+                       class="btn btn-success redirection-btn">Admin Portal</a>
+                </div>
+            </div>
+              
+        </div>
+    </div>
+</body>
+
