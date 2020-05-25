@@ -103,8 +103,8 @@ function regEmail() {
     accept = REGEX_EMAIL.test(inputEmail);
     errorMessage = document.getElementById("form-error-reg-email");
 
-    if (inputEmail == null || inputEmail == "Vennligst skriv inn din e-postadresse") {
-        errorMessage.innerHTML = errMsg;
+    if (inputEmail == null || inputEmail == "") {
+        errorMessage.innerHTML = "Vennligst skriv inn din e-postadresse";
         return false;
     } else if (!accept) {
         errorMessage.innerHTML = "Ugyldig e-postadresse";
