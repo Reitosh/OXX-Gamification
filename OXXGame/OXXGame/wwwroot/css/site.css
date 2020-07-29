@@ -1,71 +1,988 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿/**
+ * Document info: OXX Test CSS File
+ *     File name: site.css
+ *        Author: Vladimir Maric
+ *   
+ *   Description: General site CSS stylesheet
+ */
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
-
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    background: #2B2B2B;
+    color: #FFFFFF;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
 }
+
+.page-background {
+    background-color: #2B2B2B;
+    display: table;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.section {
+    padding-top: 180px;
+    padding-bottom: 100px;
+}
+
+.underline {
+    background: #FDEA0E;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 25px;
+    width: 80px;
+    height: 3px;
+    border: 0;
+}
+
+.divider {
+    display: block;
+    width: 100%;
+    margin: 1.5rem auto;
+    border: 0;
+    border-top: 1px solid rgba(201, 201, 201, .1);
+}
+
+/* Headings and fonts */
+h1, h2, h4 {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 400;
+}
+
+h1 {
+    font-size: 38px;
+    line-height: 46px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 32px;
+    line-height: 42px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+h3 {
+    font-size: 28px;
+    line-height: 36px;
+    font-weight: 500;
+}
+
+h4 {
+    font-size: 24px;
+    line-height: 32px;
+}
+
+h5 {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 28px;
+}
+
+h6 {
+    color: #FDEA0E;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 28px;
+    margin: 0;
+}
+
+p {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 26px;
+}
+
+.p-small {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.oxx-yellow {
+    color: #FDEA0E;
+}
+
+.align-right {
+    text-align: right;
+}
+
+/* Buttons */
+.btn, .btn:active, .btn:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.btn-success {
+    background-color: #FDEA0E;
+    color: #2B2B2B;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+    .btn-success:hover, .btn-success:active {
+        background-color: #FDD20E !important;
+        color: #2B2B2B !important;
+    }
+
+.btn-info {
+    background-color: #237E90;
+    color: #FFFFFF;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+    .btn-info:hover, .btn-info:active {
+        background-color: #1C6473 !important;
+        color: #FFFFFF !important;
+    }
+
+/* Forms */
+.form-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 22px;
+}
+
+.form-control {
+    color: #000000;
+    padding: 26px 12px 18px 12px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 3px 3px 0 0rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+    .form-control:focus {
+        color: #000000;
+        box-shadow: none;
+    }
+
+    /* Browser Input-Autofill Options */
+    .form-control:-webkit-autofill {
+        -webkit-animation-name: autofill;
+        -webkit-animation-fill-mode: both;
+    }
+
+@-webkit-keyframes autofill {
+    to {
+        color: #000;
+        background: #FFFFFF;
+    }
+}
+
+.float-label {
+    float: left;
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    color: #2B2B2B;
+    font-size: 16px;
+    pointer-events: none;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+
+input:focus ~ .float-label,
+input:valid ~ .float-label {
+    top: 2px;
+    opacity: 0.85;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* Activates floating label when autofill input */
+input:-webkit-autofill ~ .float-label {
+    top: 2px;
+    opacity: 0.85;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+input[type=password] {
+    padding-right: 50px;
+}
+
+.form-error {
+    margin-top: 4px;
+    color: #FDEA0E;
+    font-size: 14px;
+    text-align: left;
+}
+
+/* Password Toggle */
+.passwd-toggle {
+    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 44px;
+    height: 44px;
+    padding: 18px 0;
+    border-left: 1px solid #707070;
+    text-align: center;
+    cursor: pointer;
+}
+
+.fa-eye, .fa-eye-slash {
+    color: #2B2B2B;
+    font-size: 12px;
+}
+
+/**********************************************/
+/******************* NAVBAR *******************/
+/**********************************************/
+
+.navbar {
+    background-color: transparent;
+    position: fixed;
+    top: 0;
+    padding: 10px 0;
+    width: 100%;
+    z-index: 10000;
+}
+
+.static {
+    position: static;
+}
+
+.navbar-scroll {
+    background-color: #FDEA0E;
+    padding: 8px 0;
+    z-index: 10000;
+    -moz-box-shadow: 0px 0px 5px 0px #000;
+    -webkit-box-shadow: 0px 0px 5px 0px #000;
+    box-shadow: 0px 0px 5px 0px #000;
+}
+
+/* Logo */
+.navbar-brand {
+    margin: 0;
+    padding: 0;
+}
+
+    .navbar-brand img {
+        width: 44px;
+        height: auto;
+    }
+
+.navbar-nav li a {
+    color: #FFFFFF;
+    font-size: 18px;
+}
+
+/**********************************************/
+/***************** END NAVBAR *****************/
+/**********************************************/
+
+/**********************************************/
+/******************* LOGIN ********************/
+/**********************************************/
+
+.page-background-login {
+    background: linear-gradient( /* Denne kan justeres senere */
+    rgba(40, 40, 40, 0.1), rgba(40, 40, 40, 0.5) ), url("../images/background_login.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.form-box-login {
+    background-color: rgba(16, 16, 16, .85);
+    width: 350px;
+    padding: 40px 30px;
+    margin: 0 auto;
+    border: 1px solid #323232;
+    border-radius: 12px;
+    text-align: center;
+}
+
+    .form-box-login img {
+        width: 80px;
+        height: auto;
+        margin-bottom: 40px;
+    }
+
+/*** Login Form ***/
+
+.btn-form-login {
+    width: 100%;
+    margin-top: 14px;
+}
+
+#loginErr {
+    margin: -15px 0 20px;
+    color: #FDD20E;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* Login Form External Links */
+#login-links-forgot a {
+    position: relative;
+    color: #FFFFFF;
+}
+
+    #login-links-forgot .onclick-infobox {
+        display: none;
+        width: 80%;
+        padding: 8px 5px;
+        margin: 8px auto;
+        border: 1px solid #FDEA0E;
+        border-radius: 5px;
+        color: #FDEA0E;
+        font-weight: 600;
+    }    
+
+#login-links-reg {
+    margin-top: 4px;
+}
+
+    #login-links-reg a {
+        color: #FDEA0E;
+    }
+
+/*** End Login Form ***/
+
+/**********************************************/
+/***************** END LOGIN ******************/
+/**********************************************/
+
+/**********************************************/
+/************* USER REGISTRATION **************/
+/**********************************************/
+
+.form-box-reg {
+    width: 750px;
+    padding: 60px 40px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+    .form-box-reg .underline {
+        margin-bottom: 50px;
+    }
+
+/*** Registration Form ***/
+
+#regErr {
+    color: #FDD20E;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.btn-form-reg {
+    width: 250px;
+    margin-top: 20px;
+}
+
+/* Registration Form Checkbox Input */
+.form-content-reg {
+    padding: 12px 0;
+}
+
+    .form-content-reg h5 {
+        text-align: center;
+        margin: 0 0 16px;
+    }
+
+    .form-content-reg .form-group {
+        display: inline-block;
+        width: 23%;
+        margin: 5px;
+    }
+
+.form-reg-checkbox {
+    background-color: #FFFFFF;
+    display: inline-flex;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .form-reg-checkbox span {
+        padding: 6px 0 0 8px;
+        color: #2B2B2B;
+        font-size: 15px;
+    }
+
+    .form-reg-checkbox input {
+        height: 32px;
+        width: 32px;
+        border: 1px solid #A3A3A3;
+        border-radius: 5px 0 0 5px;
+        outline: none;
+        background-color: #C9C9C9;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        -o-appearance: none;
+        appearance: none;
+    }
+
+    .form-reg-checkbox input:hover,
+    .form-reg-checkbox input:checked {
+        background-color: #FDEA0E;
+        border: 1px solid #bdae02;
+    }
+
+    .form-reg-checkbox input:checked + span::before {
+        display: block;
+        content: '\2713';
+        text-align: center;
+        color: #2B2B2B;
+        font-weight: 600;
+        position: absolute;
+        left: 0.65rem;
+        top: 0.3rem;
+    }
+
+/* Registration Form External Links */
+.reg-link {
+    margin-top: 38px;
+}
+
+    .reg-link a {
+        color: #FDEA0E;
+    }
+
+/*** End Registration Form ***/
+
+/**********************************************/
+/*********** END USER REGISTRATION ************/
+/**********************************************/
+
+/**********************************************/
+/****************** TEST-INFO *****************/
+/**********************************************/
+
+.container-testinfo {
+    padding: 0;
+    margin: 0;
+}
+
+.testinfo-wrapper {
+    padding: 70px 0;
+}
+
+.testinfo-btn-wrapper {
+    margin-top: 70px;
+    text-align: center;
+}
+
+.btn-testinfo {
+    width: 250px;
+    font-size: 18px;
+}
+
+/* Test Introduction Content */
+#testinfo-intro h3 {
+    margin-bottom: 20px;
+}
+
+.testinfo-wrapper p {
+    margin-bottom: 0;
+}
+
+/* Test Details Content */
+.test-details-infobox {
+    width: 100%;
+    display: inline-flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-bottom: 150px;
+}
+
+#test-details-infobox-3 {
+    margin-bottom: 0;
+}
+
+.test-details-icon {
+    width: 25%;
+    height: auto;
+}
+
+    .test-details-icon img {
+        width: 120px;
+        height: auto;
+    }
+
+#testinfo-icon-1,
+#testinfo-icon-3 {
+    text-align: left;
+}
+
+#testinfo-icon-2 {
+    text-align: right;
+}
+
+.test-details-content {
+    width: 75%;
+    height: auto;
+    margin-top: 12px;
+}
+
+.test-details-content h4 {
+    color: #FDEA0E;
+    margin-bottom: 8px;
+}
+
+/**********************************************/
+/**************** END TEST-INFO ***************/
+/**********************************************/
+
+/**********************************************/
+/****************** TEST-VIEW *****************/
+/**********************************************/
+
+.section-testview {
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+
+/*** Test Content ***/
+
+.testview-wrapper {
+    padding: 40px 0;
+}
+
+/* Test Buttons */
+.testview-btn-wrapper {
+    margin-top: 15px;
+}
+
+.btn-testview {
+    padding: 8px 16px;
+    width: 150px;
+}
+
+/* Test Editors */
+.editors-wrapper {
+    display: inline-block;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+
+.editor-container {
+    border: 1px solid #797979;
+}
+
+/* TestView.cshtml */
+#editor-csharp-1 {
+    width: 100%;
+    margin-top: 5px;
+}
+
+#editor-csharp-2 {
+    width: 100%;
+    margin-top: 25px;
+}
+
+/* TestViewHTMLCSS.cshtml */
+#editor-html {
+    float: left;
+    width: 60%;
+}
+
+#editor-css {
+    float: right;
+    width: 38%;
+}
+
+#editor-js {
+    float: left;
+    width: 60%;
+    margin-top: 20px;
+}
+
+#editor-html-iframe {
+    float: right;
+    width: 38%;
+    margin-top: 20px;
+}
+
+#htmlFrame {
+    background-color: #fff;
+    width: 100%;
+    height: 400px;
+    border: 1px solid #797979;
+}
+
+#iframeContainer {
+    border: none;
+}
+
+#codeOutput {
+    display: none;
+}
+
+/* TypeScriptView.cshtml */
+#editor-ts {
+    width: 100%;
+    margin-top: 5px;
+}
+
+#editor-ts-output {
+    float: left;
+    width: 49%;
+    margin-top: 20px;
+}
+
+#editor-ts-error {
+    float: right;
+    width: 49%;
+    margin-top: 20px;
+}
+
+#tsFrame {
+    display: none;
+}
+
+/*** End Test Content ***/
+
+/**********************************************/
+/**************** END TEST-VIEW ***************/
+/**********************************************/
+
+/**********************************************/
+/****************** TEST-END ******************/
+/**********************************************/
+
+.test-end-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.test-end-container {
+    text-align: center;
+    margin-top: -40px;
+}
+
+    .test-end-container img {
+        width: 180px;
+        height: auto;
+        margin-bottom: 30px;
+    }
+
+    .test-end-container h1 {
+        margin-bottom: 20px;
+    }
+
+    .test-end-container p {
+        font-size: 22px;
+        line-height: 28px;
+    }
+
+.btn-test-end {
+    width: 250px;
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+/**********************************************/
+/**************** END TEST-END ****************/
+/**********************************************/
+
+/**********************************************/
+/**************** ADMIN PORTAL ****************/
+/**********************************************/
+
+.section-admin-portal {
+    padding-top: 95px;
+    padding-bottom: 25px;
+}
+
+.admin-portal-content {
+    padding: 70px 0;
+}
+
+    .admin-portal-content h3 {
+        margin-bottom: 20px;
+    }
+
+    .admin-portal-content p {
+        margin-bottom: 0;
+    }
+
+/* Split Screen */
+.page-background-admin {
+    height: calc(100% - 563.78px);
+    max-height: 450px;
+}
+
+.split-screen {
+    display: table-cell;
+    vertical-align: middle;
+    width: 50%;
+    padding: 40px 20px;
+    text-align: center;
+    -webkit-transition: width 500ms;
+    -moz-transition: width 500ms;
+    transition: width 500ms;
+}
+    
+    .split-screen img {
+        width: 120px;
+        height: auto;
+        margin-bottom: 5px;
+    }
+
+    .split-screen h4 {
+        line-height: 25px;
+    }
+
+    .split-screen a:hover {
+        text-decoration: none;
+    }
+
+#split-screen-left {
+    background-color: #FDEA0E;
+}
+
+    #split-screen-left a {
+        color: #2B2B2B;
+        font-weight: 600;
+    }
+
+#split-screen-right {
+    background-color: #237E90;
+}
+
+    #split-screen-right a {
+        color: #FFFFFF;
+        font-weight: 600;
+    }
+
+.page-background-admin:hover .split-screen {
+    width: 20%;
+}
+
+.page-background-admin:hover .split-screen:hover {
+    width: 40%;
+}
+
+/**********************************************/
+/************** END ADMIN PORTAL **************/
+/**********************************************/
+
+/**********************************************/
+/************** ADMIN USERS-TASKS *************/
+/**********************************************/
+
+.container-admin-users {
+    padding: 0;
+}
+
+/*** Admin Table ***/
+
+.admin-table-wrapper {
+    width: 100%;
+    margin-top: 70px;
+    border: 1px solid #525252;
+    border-radius: 15px;
+    overflow-x: auto;
+}
+
+.admin-table {
+    table-layout: auto;
+    width: 100%;
+    color: #FFFFFF;
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+    .admin-table td {
+        padding: 10px 8px;
+    }
+
+    .admin-table td a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .admin-table td a:hover {
+        color: #FDEA0E;
+    }
+
+    .admin-table th:first-child,
+    .admin-table td:first-child 
+    {
+        padding-left: 20px;
+    }
+
+.table-main-rows {
+    border-top: 1px solid #3F3F3F;
+}
+
+    .table-main-rows .big-text {
+        min-width: 200px;
+        max-width: 700px;
+        padding-right: 40px;
+        white-space: normal;
+    }
+
+.admin-table-head {
+    background-color: #5c5c5c;
+    color: #FDEA0E;
+    font-size: 18px;
+}
+
+    .admin-table-head th {
+        padding: 20px 8px;
+    }
+
+/* Table Collapse */
+.admin-table-body th {
+    background-color: #237E90;
+    padding: 16px 8px;
+}
+
+.admin-table-body .collapse {
+    background-color: #3F3F3F;
+}
+
+/*** End Admin Table ***/
+
+/* Admin Page Redirection */
+.redirection-btn-wrapper {
+    display: inline-flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 70px;
+}
+
+.redirection-btn-container {
+    width: 50%;
+    height: auto;
+    text-align: center;
+}
+
+.redirection-btn {
+    width: 70%;
+    padding: 25px 50px;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+/**********************************************/
+/************ END ADMIN USERS-TASKS ***********/
+/**********************************************/
+
+/**********************************************/
+/*************** TASK MANAGEMENT **************/
+/**********************************************/
+
+.task-management-container {
+    width: 740px;
+    padding: 60px 15px;
+    margin: 0 auto;
+}
+
+    .task-management-container .underline {
+        margin-bottom: 70px;
+    }
+
+/*** Task Management Form ***/
+
+.task-management-container label {
+    color: #FDEA0E;
+}
+
+.task-management-container .form-control {
+    background-color: #151515;
+    color: #fff;
+    padding: 8px;
+    border: 1px solid #797979;
+    border-radius: 0;
+}
+
+.task-textarea {
+    padding: 16px;
+}
+
+.task-input::-webkit-input-placeholder {
+    color: #CCCCCC;
+    font-size: 15px;
+}
+
+.task-input::-moz-input-placeholder {
+    color: #CCCCCC;
+    font-size: 15px;
+}
+
+.task-input::-ms-input-placeholder {
+    color: #CCCCCC;
+    font-size: 15px;
+}
+
+#form-group-task-template {
+    margin-bottom: 5px;
+}
+
+.task-btn-wrapper {
+    margin-top: 30px;
+}
+
+.btn-task-management {
+    padding: 8px 16px;
+    width: 150px;
+}
+
+/*** End Task Management Form ***/
+
+/**********************************************/
+/************* END TASK MANAGEMENT ************/
+/**********************************************/
+
+/**********************************************/
+/****************** FOOTER ********************/
+/**********************************************/
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    background-color: #000000;
+    padding: 30px 0;
 }
+
+    .footer p {
+        margin: 0;
+        text-align: center;
+        font-size: 14px;
+    }
+
+/**********************************************/
+/**************** END FOOTER ******************/
+/**********************************************/

@@ -1,0 +1,154 @@
+﻿@model TestModel
+
+@{
+    ViewData["Title"] = "Evnetest";
+    Layout = null;
+
+    var output = ViewData["Output"];
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>OXX Test - @ViewData["Title"]</title>
+
+    <!-- Linked Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/cb7428d12a.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Linked CSS Files -->
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
+
+    <!-- Codemirror CSS Files -->
+    <link href="~/codemirror/lib/codemirror.css" rel="stylesheet" />
+    <link href="~/codemirror/theme/dracula.css" rel="stylesheet" />
+    <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
+    <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <nav class="navbar navbar-default static">
+            <div class="container">
+                <!-- Logo -->
+                <div class="navbar-brand">
+                    <a href="#"><img src="~/images/brand/logo_hvit.png" alt="Logo" /></a>
+                </div>
+
+                <!-- Navbar Menu -->
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Login" asp-action="Index">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logg ut
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- END HEADER -->
+
+    <!-- TEST-VIEW -->
+    <div class="section section-testview">
+        <div class="container container-testview">
+            <!-- Test Content -->
+            <div class="wrapper testview-wrapper">
+                @using (Html.BeginForm("SubmitCode", "Test", FormMethod.Post))
+                {
+                    <!-- Values sent to backhand -->
+                    @Html.HiddenFor(model => model.singleTestResult.userId)
+                    @Html.HiddenFor(model => model.singleTestResult.testId)
+                    @Html.HiddenFor(model => model.task.testId)
+                    @Html.HiddenFor(model => model.task.category)
+                    @Html.HiddenFor(model => model.task.difficulty)
+                    @Html.HiddenFor(model => model.task.test)
+                    @Html.HiddenFor(model => model.singleTestResult.tries)
+                    @Html.HiddenFor(model => model.singleTestResult.passed)
+                    @Html.HiddenFor(model => model.startTime)
+                    @Html.HiddenFor(model => model.endTime)
+
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <h6>Kategori:</h6>
+                                <label class="test-text">@Model.task.category</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <h6>Vanskelighetsgrad:</h6>
+                                <label class="test-text">@Model.task.difficulty / 2</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6>Oppgavetekst:</h6>
+                            <label class="test-text">@Model.task.test</label>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Test Editors -->
+                    <div class="wrapper editors-wrapper">
+                        <div class="editor-box" id="editor-csharp-1">
+                            <div class="editor-container">
+                                <textarea class="editor" asp-for="code" id="input" name="code">@Model.code</textarea>
+                            </div>
+                        </div>
+                        <div class="editor-box" id="editor-csharp-2">
+                            <h6>Output:</h6>
+                            <div class="editor-container">
+                                <textarea readonly class="output" id="output">@output</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Test Buttons -->
+                    <div class="row testview-btn-wrapper">
+                        <div class="col-6">
+                            <input type="submit" name="runCode" value="Kjør" class="btn btn-success btn-testview" id="codeBtn" />
+                        </div>
+                        <div class="col-6 align-right">
+                            <input type="submit" name="submitCode" value="Neste" class="btn btn-success btn-testview" />
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- End Test Content -->
+        </div>
+    </div>
+    <!-- END TEST-VIEW -->
+
+    <!-- Bootstrap Script Files -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Codemirror Script Files -->
+    <script src="~/codemirror/lib/codemirror.js"></script>
+    <script src="~/codemirror/mode/javascript/javascript.js"></script>
+    <script src="~/codemirror/mode/xml/xml.js"></script>
+    <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+    <script src="~/codemirror/mode/clike/clike.js"></script>
+    <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
+
+    <!-- Linked Script Files -->
+    <script src="~/js/csharp_view_config.js"></script>
+</body>
+</html>

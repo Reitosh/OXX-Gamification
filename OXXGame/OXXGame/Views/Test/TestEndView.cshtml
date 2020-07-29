@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewData["Title"] = "Testslutt";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>OXX Test - @ViewData["Title"]</title>
+
+    <!-- Linked Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/cb7428d12a.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Linked CSS Files -->
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
+</head>
+<body>
+    <!-- TEST-END -->
+    <div class="page-background page-background-end">
+        <div class="wrapper test-end-wrapper">
+            <div class="container">
+                <div class="test-end-container">
+                    <img src="~/images/icons/icon_done.png" alt="test-done" />
+
+                    <h1>Du har fullført evnetesten!</h1>
+                    <p>
+                        Vi kommer nå til å gå gjennom besvarelsene dine og ta
+                        kontakt med deg for en ny samtale så snart som mulig.
+                    </p>
+
+                    <div class="test-end-link">
+                        <a asp-controller="Login" asp-action="Index" type="button" class="btn btn-success btn-test-end">Logg ut</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END TEST-END -->
+</body>
+</html>

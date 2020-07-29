@@ -1,0 +1,129 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Brukeradministrasjon";
+
+    var users = (List<User>)ViewData["Users"];
+    var singleTestResults = (List<SingleTestResult>)ViewData["SingleTestResults"];
+    var categories = (Dictionary<int, string>)ViewData["category"];
+    var difficulties = (Dictionary<int, int>)ViewData["difficulty"];
+}
+
+<body>
+    <!-- ADMIN USERS-TASKS -->
+    <div class="section section-admin-users">
+        <div class="container container-admin-users">
+            <h2>Brukeradministrasjon</h2>
+            <span class="underline"></span>
+
+            <!-- Admin Table -->
+            <div class="wrapper admin-table-wrapper">
+                <table class="admin-table">
+                    <thead class="admin-table-head">
+                        <tr>
+                            <th scope="col">Fornavn</th>
+                            <th scope="col">Etternavn</th>
+                            <th scope="col">Epost</th>
+                            <th scope="col">Total tid</th>
+                            <th scope="col">Bestått</th>
+                            <th scope="col" colspan="3"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="admin-table-body">
+                        @{ int i = 0;}
+                        @foreach (User user in users)
+                        {
+                            TimeSpan totalTime = new TimeSpan();
+                            int passedTasks = 0;
+                            int completedTasks = 0;
+
+                            foreach (SingleTestResult test in singleTestResults)
+                            {
+                                if (user.userId == test.userId)
+                                {
+                                    totalTime = totalTime + TimeSpan.Parse(test.timeSpent);
+                                    completedTasks++;
+
+                                    if (test.passed == SingleTestResult.PASSED)
+                                    {
+                                        passedTasks++;
+                                    }
+                                }
+                            }
+
+                            <tr class="table-main-rows">
+                                <td>@user.firstname</td>
+                                <td>@user.lastname</td>
+                                <td>@user.email</td>
+                                <td>@totalTime</td>
+                                <td>@passedTasks/@completedTasks</td>
+                                <td>
+                                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#info_@i">
+                                        Resultat
+                                    </button>
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Last ned alle", "DownloadAllZip", "Admin", new { userId = user.userId })
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Slett", "DeleteUser", "Admin", new { userId = user.userId }, new { onclick = "return confirm('Er du sikker på at du vil slette denne brukeren?');" })
+                                </td>
+                            </tr>
+
+                            <!-- Table Collapse -->
+                            <tr id="info_@i" class="collapse">
+                                <th>Forsøk</th>
+                                <th>Tid brukt</th>
+                                <th>Kategori</th>
+                                <th>Nivå</th>
+                                <th>Status</th>
+                                <th colspan="3"></th>
+                            </tr>
+
+                            @foreach (SingleTestResult singleTestResult in singleTestResults)
+                            {
+                                if (singleTestResult.userId == user.userId)
+                                {
+                                    <tr id="info_@i" class="collapse">
+                                        <td>@singleTestResult.tries</td>
+                                        <td>@singleTestResult.timeSpent</td>
+                                        <td>@categories[singleTestResult.testId]</td>
+                                        <td>@difficulties[singleTestResult.testId]/2</td>
+                                        <td colspan="2">@singleTestResult.passed</td>
+
+                                        <td colspan="2">
+                                            @Html.ActionLink("Last ned", "DownloadFile", "Admin", new
+                                            {
+                                               path = singleTestResult.codeLink,
+                                               category = categories[singleTestResult.testId],
+                                               userId = user.userId,
+                                               testId = singleTestResult.testId
+                                            })
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- End Admin Table -->
+
+            <!--  Admin Page Redirection -->
+            <div class="wrapper redirection-btn-wrapper">
+                <div class="redirection-btn-container" id="redirection-btn-left">
+                    <a asp-controller="Admin" asp-action="AdminPortal" role="button" 
+                       class="btn btn-success redirection-btn">Admin Portal</a>
+                </div>
+                <div class="redirection-btn-container" id="redirection-btn-right">
+                    <a asp-controller="Admin" asp-action="TaskAdmin" role="button"
+                       class="btn btn-success redirection-btn">Testoppgaver</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END ADMIN USERS-TASKS -->
+</body>

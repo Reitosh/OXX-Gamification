@@ -1,0 +1,141 @@
+﻿@model OXXGame.Models.Task
+
+@{
+    ViewData["Title"] = "Endre oppgave";
+    Layout = null;
+
+    List<Category> categories = (List<Category>) ViewData["Categories"];
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>OXXGame - @ViewData["Title"]</title>
+
+    <!-- Linked Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="~/images/brand/favicon.png">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/cb7428d12a.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Linked CSS Files -->
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/mobile.css" />
+
+    <!-- Codemirror CSS Files -->
+    <link rel="stylesheet" type="text/css" href="~/codemirror/lib/codemirror.css" />
+    <link href="~/codemirror/theme/base16-dark.css" rel="stylesheet" />
+    <link href="~/codemirror/addon/scroll/simplescrollbars.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- TASK MANAGEMENT -->
+    <div class="page-background page-background-tasks">
+        <div class="wrapper form-wrapper">
+            <div class="task-management-container">
+                <h2>Endre oppgave</h2>
+                <span class="underline"></span>
+
+                <!-- Task Management Form -->
+                @using (Html.BeginForm("EditTask", "Admin", FormMethod.Post,
+                   new { name = "formEditTask", id = "form-edit-task" }))
+                {
+                    <!-- Value sent to backhand -->
+                    @Html.HiddenFor(model => model.testId)
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="form-edit-task-category">Kategori:</label><br />
+                                <select asp-for="category" size="1" class="form-control" id="form-edit-task-category">
+                                    @foreach (var category in categories)
+                                    {
+                                        <option value="@category.category">@category.category</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="form-edit-task-difficulty">Vanskelighetsgrad:</label><br />
+                                <select asp-for="difficulty" size="1" class="form-control" id="form-edit-task-difficulty">
+                                    <option>0</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="form-edit-task-text">Oppgavetekst:</label><br />
+                                <textarea asp-for="test" name="test" placeholder="Skriv oppgaveteksten her..."
+                                    type="text" class="form-control task-textarea task-input" id="form-edit-task-text"
+                                    oninvalid="this.setCustomValidity('Dette feltet skal ikke stå tomt')"
+                                    oninput="this.setCustomValidity('')" rows="3" required>
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" id="form-group-task-template">
+                                <label for="taskTemplate">Template:</label><br />
+                                <div class="editor-container">
+                                    <textarea asp-for="template" name="template" type="text"
+                                              class="form-control task-textarea" id="taskTemplate">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <p class="p-small">
+                                OBS! Templates til HTML, CSS og JS må være på formatet:
+                                <span class="oxx-yellow">HTML&&&&CSS&&&&JavaScript</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row task-btn-wrapper">
+                        <div class="col-6">
+                            <input type="submit" name="register" value="Lagre" class="btn btn-success btn-task-management">
+                        </div>
+                        <div class="col-6 align-right">
+                            <a asp-controller="Admin" asp-action="TaskAdmin" role="button"
+                               class="btn btn-success btn-task-management">Avbryt</a>
+                        </div>
+                    </div>
+                }
+                <!-- End Task Management Form -->
+            </div>
+        </div>
+    </div>
+    <!-- END TASK REGISTRATION -->
+
+    <!-- Bootstrap Script Files -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Linked Script Files -->
+    <script src="~/js/nav_scroll.js"></script>
+    <script src="~/js/toggle_passwd.js"></script>
+    <script src="~/js/client_validation.js"></script>
+    <script src="~/codemirror/lib/codemirror.js"></script>
+    <script src="~/codemirror/mode/xml/xml.js"></script>
+    <script src="~/codemirror/addon/edit/closebrackets.js"></script>
+    <script src="~/codemirror/addon/scroll/simplescrollbars.js"></script>
+    <script src="~/codemirror/addon/edit/matchtags.js"></script>
+    <script src="~/codemirror/addon/edit/closetag.js"></script>
+    <script src="~/codemirror/addon/display/placeholder.js"></script>
+
+    <!-- Linked Script Files -->
+    <script src="~/js/admin_template.js"></script>
+</body>
